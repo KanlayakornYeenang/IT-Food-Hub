@@ -40,7 +40,7 @@
   transform: scale(0.7);
 }
 </style>
-<script lang="ts">
+<script>
 export default {
   data: () => ({
     categories: [
@@ -67,7 +67,7 @@ export default {
     ],
   }),
   methods: {
-    showCategoryName(categoryName: any) {
+    showCategoryName(categoryName) {
       this.$emit("clicked-show-category-name", categoryName);
     },
   },

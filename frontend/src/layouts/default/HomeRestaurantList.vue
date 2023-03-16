@@ -21,7 +21,7 @@
           <v-card
             rounded="xl"
             color="#2255A4"
-            class="elevation-0 restaurant-content pt-16 pb-2"
+            class="restaurant-content pt-16 pb-2"
           >
             <v-card-item>
               <v-card-title class="py-1 d-flex justify-space-between" style="color: #e3b54c">
@@ -61,7 +61,7 @@
 }
 </style>
 
-<script lang="ts">
+<script>
 export default {
   data: () => ({
     Restaurants: [

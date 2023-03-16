@@ -14,7 +14,8 @@ import { createVuetify } from 'vuetify'
 const it = {
   dark: false,
   colors: {
-    it: '#2255A4'
+    it: '#2255A4',
+    foodhub: '#FE6612'
   }
 }
 
@@ -23,7 +24,7 @@ export default createVuetify({
   theme: {
     defaultTheme: 'it',
     themes: {
-      it,
+      it
     }
   }
 })
