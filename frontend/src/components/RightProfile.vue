@@ -15,6 +15,7 @@
       </div>
       <v-divider class="my-5"></v-divider>
       <v-btn class="text-it w-100 my-1" rounded="pill" size="small"
+          @click="showRegisRes = !showRegisRes"
         >Sign up as a restaurant</v-btn
       >
       <v-btn class="text-foodhub w-100 my-1" rounded="pill" size="small"
@@ -22,9 +23,22 @@
       >
     </div>
   </v-navigation-drawer>
+  <v-overlay v-model="showRegisRes" class="d-flex justify-center align-center">
+    <RegisterRestuatrant />
+  </v-overlay>
 </template>
-
+<script setup>
+  import RegisterRestuatrant from "./RegisterRestuarant.vue"
+</script>
 <script>
+  
+  export default {
+    data() {
+      return {
+        showRegisRes: false,
+      };
+    },
+  }
 </script>
 
 <style scoped>

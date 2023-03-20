@@ -79,6 +79,7 @@
   </v-sheet>
 </template>
 <script>
+  import axios from "axios"
   export default {
     data : ()=> ({
       valid: true,
@@ -117,7 +118,7 @@
       if(valid){
         console.log("pass")
       }
-      },
+      },  
   }
 }
 

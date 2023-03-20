@@ -19,10 +19,12 @@ const users = [
     }
 ]
 
-router.post("/api/refresh", (req, res)=>{
+router.use(express.json())
+
+router.post("/refresh", (req, res)=>{
     // take the refresh token from the user
     const refreshToken = req.body.token
-    console.log(refreshTokens)
+    console.log("test"+ refreshTokens)
 
     //send error if there is no token or it's invalid
     if(!refreshToken) return res.status(404).json("You are not authenticated")
@@ -95,18 +97,29 @@ const verify = (req, res, next) =>{
         res.status(401).json("You are not authorized to access this")
     }
 }
-router.delete("/api/users/:userId", verify,(req, res)=>{
+router.delete("/users/:userId", verify,(req, res)=>{
     if(req.user.id === req.params.userId || req.user.isAdmin){
         res.status(200).json("User has been delete")
     }else{
         res.status(403).json("You are not allowed to")
     }
 })
-router.post("/api/logout", verify, (req, res) => {
+router.post("/logout", verify, (req, res) => {
+    
     const refreshToken = req.body.token
     refreshTokens = refreshTokens.filter(token => token !== refreshToken)
     res.status(200).json("You logged out successfully")
 
+})
+
+router.post("/registerTest", (req,res)=>{
+    // ชื่อ นามสกุล อีเมล และ พาสเวริด จะส่งผ่านยัง req.body
+    const {first_name, last_name, email, password} = req.body
+    res.json({ 
+        fistName: req.body.first_name, 
+        lastName: req.body.last_name, 
+        email: req.body.email, 
+        password: req.body.password})
 })
 
 module.exports = router

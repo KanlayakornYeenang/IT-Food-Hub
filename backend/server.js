@@ -8,6 +8,6 @@ app.use(express.json())
 app.use('/api',user)
 
 
-app.listen(3000, ()=>{
+app.listen(5000, ()=>{
     console.log('listening on port 3000')
 })
