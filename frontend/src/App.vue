@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-layout v-show="$route.path == '/'">
+    <v-layout v-show="$route.path == '/login'">
 
       <router-view />
     </v-layout>

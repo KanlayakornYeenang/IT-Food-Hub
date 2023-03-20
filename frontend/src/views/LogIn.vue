@@ -29,6 +29,7 @@
               color="primary"
               label="First name"
               variant="underlined"
+              placeholder="Enter your first name"
               :rules="[rules.required, rules.counter]"
             ></v-text-field>
       
@@ -37,6 +38,7 @@
               color="primary"
               label="Last name"
               variant="underlined"
+              placeholder="Enter your lastname"
               :rules="[rules.required, rules.counter]"
             ></v-text-field>
     
@@ -45,6 +47,7 @@
               :rules="[rules.required, rules.email]"
               color="primary"
               label="Email"
+              placeholder="Enter your email address"
               variant="underlined"
             ></v-text-field>
       
