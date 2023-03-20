@@ -19,6 +19,7 @@
         >Sign up as a restaurant</v-btn
       >
       <v-btn class="text-foodhub w-100 my-1" rounded="pill" size="small"
+      @click="showRegisRider = !showRegisRider"
         >Sign up as a deliver</v-btn
       >
     </div>
@@ -26,9 +27,14 @@
   <v-overlay v-model="showRegisRes" class="d-flex justify-center align-center">
     <RegisterRestuatrant />
   </v-overlay>
+  <v-overlay v-model="showRegisRider" class="d-flex justify-center align-center">
+    <RegisterRider />
+  </v-overlay>
+  
 </template>
 <script setup>
   import RegisterRestuatrant from "./RegisterRestuarant.vue"
+  import RegisterRider from "./RegisterRider.vue";
 </script>
 <script>
   
@@ -36,6 +42,7 @@
     data() {
       return {
         showRegisRes: false,
+        showRegisRider: false
       };
     },
   }

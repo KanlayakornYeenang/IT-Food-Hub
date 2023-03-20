@@ -1,9 +1,8 @@
 <script>
  export default {
     data : ()=> ({
-      Restuarant_name: '',
-      Restuarant_Location: '',
-      Phone: '',
+      Location: '',
+      Phone : '',
       formHasErrors: false,
       isRegistering: false,
       isRegistered : false,
@@ -48,7 +47,7 @@
     >
     <!-- Header -->
         <v-sheet class="header text-center w-100" rounded="xl">
-        <p class="ma-5" style="font-weight: 700">Form Register</p>
+        <p class="ma-5" style="font-weight: 700">ขับขี่กับเรา ITFOODHUB</p>
         <v-divider></v-divider>
         </v-sheet>
         <v-sheet   
@@ -59,34 +58,26 @@
             <v-form fast-fail @submit.prevent >
                 <v-text-field
                     class="justify-center align-center "
-                    v-model="Restuarant_name"
+                    v-model="Location"
                     color="primary"
-                    label="Restuarant name"
+                    label="Location"
                     variant="underlined"
-                    placeholder="Enter your Restuarant "
+                    placeholder="Enter your Location "
                     :rules="[rules.required, rules.counter]"
                 ></v-text-field>
                 <v-text-field
-                    v-model="Restuarant_Location"
+                    v-model="Phone"
                     color="primary"
-                    label="Restuarant Location"
+                    label="Phone"
                     variant="underlined"
-                    placeholder="Enter your Restuarant Location "
+                    placeholder="Enter your Phone "
                     :rules="[rules.required, rules.counter]"
-                ></v-text-field>
-                <v-text-field
-                v-model="Phone"
-                color="primary"
-                label="Phone"
-                variant="underlined"
-                placeholder="Enter your Phone "
-                :rules="[rules.required, rules.counter]"
                 ></v-text-field>
                 <v-file-input
                     prepend-icon="mdi-camera"
                     accept="image/png, image/jpeg, image/bmp"
-                    placeholder="Pick an image of your restuarant"
-                    label="Your Restuarant image"
+                    placeholder="Pick an image of your "
+                    label="Your Profile"
                 >
                 </v-file-input>
                 <v-col>
