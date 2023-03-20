@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const jwt = require('jsonwebtoken')
+const userLogin = require('./routes/login')
 app.use(express.json())
 
 const users = [
@@ -49,37 +50,10 @@ app.post("/api/refresh", (req, res)=>{
 
     //if everything is ok, create a new token, refresh abd sebd tijeb
 })
-const generateAccessToken = (user) =>{
-    return jwt.sign({id: user.id, isAdmin : user.isAdmin}, 
-        "mySecretKey",
-        {expiresIn :"15m"}
-        )}
-const generateRefreshToken = (user) =>{
-    return jwt.sign({id: user.id, isAdmin : user.isAdmin}, 
-        "myRefreshSecretKey"
-        )}
-// Login
-app.post("/api/login", (req, res)=>{
-    const {email, password} = req.body;
-    const user = users.find(u=>{
-        console.log(email,password)
-        return u.email === email && u.password === password
-    })
-    if(user){
-        //Generate an access token
-        const accessToken = generateAccessToken(user)
-        const refreshToken = generateRefreshToken(user)
-        refreshTokens.push(refreshToken)
-        res.json({
-            email : user.email,
-            isAdmin : user.isAdmin,
-            accessToken,
-            refreshToken
-        })
-    }else{
-        res.status(400).json("username or password is incorrect") 
-    }
-})
+
+//login
+app.use('/api',userLogin)
+
 
 const verify = (req, res, next) =>{
     // send Token in req Headers
