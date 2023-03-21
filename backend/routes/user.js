@@ -1,6 +1,7 @@
 const express = require('express');
 const router =  express.Router()
 const jwt = require('jsonwebtoken')
+const pool = require('../config/config')
 let refreshTokens = []
 const users = [
     {
@@ -59,28 +60,37 @@ const generateRefreshToken = (user) =>{
         "myRefreshSecretKey"
         )}
 
-router.post('/login', (req,res)=>{
+router.post('/login',  async (req,res)=>{
+    // query email and password for login
+    const [rows, field] =  await pool.query('SELECT Customer_email , Customer_password, Customer_isDelivery, Customer_isOwner FROM customer')
     const {email, password} = req.body;
-    const user = users.find(u=>{
-        console.log(email,password)
-        return u.email === email && u.password === password
+    const user = rows.find(u=>{
+        return u.Customer_email === email && u.Customer_password === password
     })
     if(user){
+    
         //Generate an access token
         const accessToken = generateAccessToken(user)
         const refreshToken = generateRefreshToken(user)
         refreshTokens.push(refreshToken)
         res.json({
-            email : user.email,
-            isAdmin : user.isAdmin,
+            Customer_email : user.Customer_email,
+            Customer_password : user.Customer_password,
+            isOwner : user.Customer_isOwner,
+            isDelivery : user.Customer_isDelivery,
             accessToken,
-            refreshToken
+            refreshToken,
+            rows
         })
+        
     }else{
         res.status(400).json("username or password is incorrect") 
     }
 
+
 })
+
+
 const verify = (req, res, next) =>{
     // send Token in req Headers
     const authnHeader = req.headers.authorization
@@ -122,4 +132,8 @@ router.post("/registerTest", (req,res)=>{
         password: req.body.password})
 })
 
-module.exports = router
+router.get('/', (req, res)=>{
+    res.send('hello')
+})
+
+module.exports = router 
