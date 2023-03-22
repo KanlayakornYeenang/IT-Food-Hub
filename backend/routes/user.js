@@ -51,7 +51,8 @@ router.post("/refresh", (req, res)=>{
 })
 
 const generateAccessToken = (user) =>{
-    return jwt.sign({id: user.id, isAdmin : user.isAdmin}, 
+    // ตอนสร้าง token ต้องใส่ รายละเอียดเกี่ยวกับ user ที่ login เข้าไปด้วย ตอน verify จะได้ข้อมูลพวกนั้นมา
+    return jwt.sign({id: user.id, isAdmin : user.isAdmin, Customer_email : user.Customer_email}, 
         "mySecretKey",
         {expiresIn :"15m"}
         )}
@@ -64,11 +65,12 @@ router.post('/login',  async (req,res)=>{
     // query email and password for login
     const [rows, field] =  await pool.query('SELECT Customer_email , Customer_password, Customer_isDelivery, Customer_isOwner FROM customer')
     const {email, password} = req.body;
+    console.log(email ,"is trying to Login")
     const user = rows.find(u=>{
         return u.Customer_email === email && u.Customer_password === password
     })
     if(user){
-    
+        console.log(user.Customer_password, "is login successful")
         //Generate an access token
         const accessToken = generateAccessToken(user)
         const refreshToken = generateRefreshToken(user)
@@ -129,11 +131,16 @@ router.post("/registerTest", (req,res)=>{
         fistName: req.body.first_name, 
         lastName: req.body.last_name, 
         email: req.body.email, 
-        password: req.body.password})
+        password: req.body.password}
+    )
 })
 
-router.get('/', (req, res)=>{
-    res.send('hello')
+router.get('/Home', verify, async (req, res)=>{
+    // req.user ที่ได้จะเป็นข้อมูลที่เราเอา token ไป decode แล้ว เราจะเอาข้อมูลนั้นมา query เผื่อ แสดงผล
+    var Customer_email = req.user.Customer_email
+    const  [query_UserDetail, field] =   await pool.query('SELECT *  FROM customer where Customer_Email = ' + Customer_email)
+    res.json(Customer_email)
+
 })
 
 module.exports = router 

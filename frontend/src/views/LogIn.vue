@@ -90,6 +90,7 @@
       formHasErrors: false,
       password : '',
       response : '',
+      userDetail :{},
       
       rules: {
           // requried เช็คว่า value มีมั้ย
@@ -131,7 +132,10 @@
             if(res.data)
               {
                 console.log(res.data)
-                this.$router.push('/Home')
+                this.userDetail = res.data
+                window.localStorage.setItem("access_token", res.data.accessToken)
+                window.localStorage.setItem("refresh_token", res.data. refreshToken)
+                this.$router.push("/Home")
               }
           },
           (res)=>{
