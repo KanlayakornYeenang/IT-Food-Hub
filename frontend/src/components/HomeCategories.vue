@@ -13,7 +13,6 @@
         v-for="(category, i) in categories"
         :key="i"
         :value="category.name"
-        :ripple="{ class: 'text-it' }"
       >
         <v-avatar color="#D7E1F1">
           <v-img class="icon-category" :src="category.icon" />

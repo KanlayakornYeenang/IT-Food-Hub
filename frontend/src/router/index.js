@@ -1,5 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home'
+import FoodHub from '../views/FoodHub'
 
 const routes = [
   {
@@ -8,8 +10,17 @@ const routes = [
   },
   {
     path: '/Home',
-    component: () => import('@/views/Home.vue'),
+    component:  Home,
+    children:[
+     {
+      path: '',
+      component: FoodHub
+     }
+
+    ]
+    
   },
+
 ]
 
 const router = createRouter({

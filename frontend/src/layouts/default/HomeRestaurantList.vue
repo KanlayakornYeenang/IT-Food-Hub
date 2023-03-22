@@ -8,7 +8,7 @@
         cols="3"
       >
         <!-- <router-link to="/inRestaurant"> -->
-        <v-card style="background: none" class="elevation-0" rounded="xl" to="/inRestaurant">
+        <v-card style="background: none" class="elevation-0" rounded="xl" >
           <v-card class="restaurant-img ma-auto">
             <v-img
               cover

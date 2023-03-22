@@ -13,7 +13,6 @@
           v-model="select"
         >
           <v-btn
-            :ripple="{ class: 'text-it' }"
             class="mb-4"
             rounded="pill"
             value="home"
@@ -23,12 +22,11 @@
             <div style="font-weight: 600">Home</div>
           </v-btn>
         </v-btn-toggle>
-
+        
         <v-btn
           class="elevation-0 mb-4"
           rounded="pill"
           value="cart"
-          :ripple="{ class: 'text-it' }"
           @click="showCart = !showCart"
         >
           <v-icon> mdi-shopping-outline </v-icon>
@@ -42,22 +40,36 @@
           color="it"
           v-model="select"
         >
-          <v-btn
-            :ripple="{ class: 'text-it' }"
+        <v-btn
             class="mb-4"
             rounded="pill"
             value="orders"
-          >
+        >
             <v-icon> mdi-update </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Orders</div>
-          </v-btn>
+        </v-btn>
+           
+        <v-btn
+          class="mb-4"
+          rounded="pill"
+          value="Restuarant"
+          v-if="userDetail.Customer_isOwner == 0"
+        >
+          <v-icon> mdi-silverware </v-icon>
+          <div class="px-2"></div>
+          <div style="font-weight: 600">My Restaurabt</div>
+        </v-btn>
 
-          <v-btn :ripple="{ class: 'text-it' }" rounded="pill" value="message">
-            <v-icon> mdi-message-processing-outline </v-icon>
+          <v-btn rounded="pill" value="Delivery"
+            v-if="userDetail.Customer_isDelivery == 0"
+          >
+
+            <v-icon> mdi-moped  </v-icon>
             <div class="px-2"></div>
-            <div style="font-weight: 600">Messages</div>
+            <div style="font-weight: 600">Delivery</div>
           </v-btn>
+        
         </v-btn-toggle>
       </div>
     </v-navigation-drawer>
@@ -102,5 +114,13 @@ export default {
       }
     },
   },
+  props:{
+      userDetail:{
+        type: Object,
+      }
+  },
+  beforeCreate(){
+    console.log("left")
+  }
 };
 </script>

@@ -136,10 +136,12 @@ router.post("/registerTest", (req,res)=>{
 })
 
 router.get('/Home', verify, async (req, res)=>{
+    console.log("try to connect to Home page")
     // req.user ที่ได้จะเป็นข้อมูลที่เราเอา token ไป decode แล้ว เราจะเอาข้อมูลนั้นมา query เผื่อ แสดงผล
     var Customer_email = req.user.Customer_email
-    const  [query_UserDetail, field] =   await pool.query('SELECT *  FROM customer where Customer_Email = ' + Customer_email)
-    res.json(Customer_email)
+    const  [query_UserDetail, field] =   await pool.query('SELECT *  FROM customer where Customer_Email = ?', Customer_email) 
+    res.send(query_UserDetail[0]) 
+
 
 })
 

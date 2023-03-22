@@ -10,16 +10,18 @@
           <span class="text-h5" style="color: white">KY</span>
         </v-avatar>
         <p class="pt-2">
-          Kanlayakorn Yeenang
+          {{userDetail.Customer_Fname +" "+userDetail.Customer_Lname}}
         </p>
       </div>
       <v-divider class="my-5"></v-divider>
       <v-btn class="text-it w-100 my-1" rounded="pill" size="small"
           @click="showRegisRes = !showRegisRes"
+          v-if='userDetail.Customer_isOwner == 0'
         >Sign up as a restaurant</v-btn
       >
       <v-btn class="text-foodhub w-100 my-1" rounded="pill" size="small"
       @click="showRegisRider = !showRegisRider"
+          v-if='userDetail.Customer_isDelivery == 0'
         >Sign up as a deliver</v-btn
       >
     </div>
@@ -42,9 +44,16 @@
     data() {
       return {
         showRegisRes: false,
-        showRegisRider: false
+        showRegisRider: false,
+        isOwner :'0'
       };
     },
+    props:{
+      userDetail: {
+        type : Object
+      }
+    }
+     
   }
 </script>
 

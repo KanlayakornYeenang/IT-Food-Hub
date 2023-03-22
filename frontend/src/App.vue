@@ -1,12 +1,6 @@
 <template>
   <v-card>
-    <v-layout v-show="$route.path == '/'">
-      <router-view />
-    </v-layout>
-
-    <v-layout v-show="$route.path != '/'">
-      <LeftNavigation />
-      <RightProfile />
+    <v-layout >
       <router-view />
     </v-layout>
   </v-card>
