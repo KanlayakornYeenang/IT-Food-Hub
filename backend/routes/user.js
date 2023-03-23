@@ -3,22 +3,8 @@ const router =  express.Router()
 const jwt = require('jsonwebtoken')
 const pool = require('../config/config')
 let refreshTokens = []
-const users = [
-    {
-        id : "1",
-        email : "vorawee@gmail.com",
-        password : "vorawee",
-        isOwnner : true,
-        isDeliver : true,
-    },
-    {
-        id : "2",
-        email : "mukrob@gmail.com",
-        password : "mukrob",
-        isAdmin : false,
-        isOwner : true,
-    }
-]
+
+    
 
 router.use(express.json())
 
