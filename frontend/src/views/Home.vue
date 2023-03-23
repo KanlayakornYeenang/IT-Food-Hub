@@ -1,6 +1,6 @@
 <template>
     <LeftNavigation  :userDetail='userDetail'></LeftNavigation>
-    <router-view ></router-view>
+    <router-view :data='dynamicData'></router-view>
     <RightProfile   :userDetail='userDetail'></RightProfile>
 </template>
 
@@ -22,7 +22,8 @@ import RightProfile from "@/components/RightProfile.vue";
        access_token : '',
        nameUser: '',
        userDetail : {},
-       name : ''
+       name : '',
+       dynamicData :[]
      }),
      beforeCreate(){
        // get refresh token and access toke
@@ -35,7 +36,11 @@ import RightProfile from "@/components/RightProfile.vue";
          }
        }).then(
          (res) =>{
-            this.userDetail = res.data
+            this.userDetail = res.data.users[0]
+            this.dynamicData = res.data.restuarants
+            this.dynamicData = JSON.parse(JSON.stringify(this.dynamicData  ))
+            console.log(this.dynamicData)
+            
             
         },
         (res) =>{

@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col
-        v-for="(restaurant, i) in Restaurants"
+        v-for="(restaurant, i) in restuarant_list"
         :key="i"
         class="d-flex flex-column justify-center my-4"
         cols="3"
@@ -25,7 +25,7 @@
           >
             <v-card-item>
               <v-card-title class="py-1 d-flex justify-space-between" style="color: #e3b54c">
-                <p class="h2">{{restaurant.name}}</p>
+                <p class="h2">{{restaurant.Restuarant_name}}</p>
                 <p class="px-2 elevation-5" style="font-size:1rem; color:white; background:#36C144; border-radius:1rem">{{restaurant.status}}</p>
                 </v-card-title>
               <v-card-subtitle
@@ -117,6 +117,14 @@ export default {
         category: ["a la carte"],
       },
     ],
+    test: 'gear'
   }),
+  props:{
+    restuarant_list:{
+                type: Array,
+  }},
+  created(){
+    console.log(this.restuarant_list)
+  }
 };
 </script>

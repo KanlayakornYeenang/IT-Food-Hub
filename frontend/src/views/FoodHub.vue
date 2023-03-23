@@ -4,7 +4,7 @@
             <HeaderSearchBar ></HeaderSearchBar>
             <HomeBanner></HomeBanner>
             <HomeCategories></HomeCategories>
-            <HomeRestaurantList></HomeRestaurantList>
+            <HomeRestaurantList :restuarant_list="data"></HomeRestaurantList>
         </div>
     </v-main>
 </template>
@@ -16,11 +16,17 @@
 </script>
 <script>
     export default {
-     data: ()=>({
-       refresh_token: '',
-       access_token : '',
-       nameUser: '',
-       userDetail : ''
-     }),
+        data: ()=>({
+            refresh_token: '',
+            access_token : '',
+            nameUser: ''
+        }),
+        props:{
+            data:{
+                type: Array,
+        }},
+        beforeCreate(){
+            console.log(this.data)
+        }
     }
 </script>
