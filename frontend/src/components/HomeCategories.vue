@@ -13,6 +13,7 @@
         v-for="(category, i) in categories"
         :key="i"
         :value="category.name"
+        @click="showCategoryName(category.name)"
       >
         <v-avatar color="#D7E1F1">
           <v-img class="icon-category" :src="category.icon" />
@@ -48,11 +49,11 @@ export default {
         icon: "/src/assets/a la carte.png",
       },
       {
-        name: "noodles",
+        name: "noodle",
         icon: "/src/assets/noodles.png",
       },
       {
-        name: "drinks",
+        name: "drink",
         icon: "/src/assets/drinks.png",
       },
       {
@@ -60,7 +61,7 @@ export default {
         icon: "/src/assets/bakery.png",
       },
       {
-        name: "snacks",
+        name: "snack",
         icon: "/src/assets/snacks.png",
       },
     ],
