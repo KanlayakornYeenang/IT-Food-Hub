@@ -95,7 +95,7 @@ export default {
       });
       if (restaurants_list != "") {
         return restaurants_list;
-      } else {
+      } else if (restaurants_list != "" || this.category == "") {
         return this.restaurants;
       }
     },
