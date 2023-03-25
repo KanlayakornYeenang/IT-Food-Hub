@@ -12,7 +12,7 @@
           v-model="select"
         >
           <v-btn class="mb-4" rounded="pill" value="home">
-            <v-icon> <font-awesome-icon :icon="['fas', 'house']" size="2xs" /> </v-icon>
+            <v-icon> <font-awesome-icon :icon="['fas', 'house']" size="xs" /> </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Home</div>
           </v-btn>
