@@ -17,8 +17,25 @@ import RestaurantBanner from "@/components/RestaurantBanner.vue";
 
 <script>
 export default {
+  data: () => ({}),
+  props: {
+    //
+  },
   beforeCreate() {
-    console.log("test", this.data);
+    //   axios
+    //     .get("http://localhost:5000/api/itfoodhub/" + restaurant.Restaurant_name)
+    //     .then(
+    //       (res) => {
+    //         if (res.data) {
+    //           this.$router.push("/itfoodhub/" + restaurant.Restaurant_name);
+    //         }
+    //       },
+    //       (res) => {
+    //         if (res.response.data != undefined) {
+    //           //
+    //         }
+    //       }
+    //     );
   },
 };
 </script>

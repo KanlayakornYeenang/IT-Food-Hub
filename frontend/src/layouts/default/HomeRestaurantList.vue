@@ -12,9 +12,8 @@
           class="elevation-0"
           rounded="xl"
           v-ripple
-          @click="getRestaurant(restaurant)"
         >
-          <!-- <router-link :to="'/itfoodhub/' + restaurant.Restaurant_name"> -->
+          <router-link :to="'/itfoodhub/' + restaurant.Restaurant_name">
           <v-card class="restaurant-img ma-auto">
             <v-img
               cover
@@ -54,7 +53,7 @@
               >
             </v-card-item>
           </v-card>
-          <!-- </router-link> -->
+          </router-link>
         </v-card>
       </v-col>
     </v-row>
@@ -91,24 +90,7 @@ export default {
     },
   },
   methods: {
-    getRestaurant(restaurant) {
-      axios
-        .get(
-          "http://localhost:5000/api/itfoodhub/" + restaurant.Restaurant_name
-        )
-        .then(
-          (res) => {
-            if (res.data) {
-              this.$router.push("/itfoodhub/" + restaurant.Restaurant_name);
-            }
-          },
-          (res) => {
-            if (res.response.data != undefined) {
-              //
-            }
-          }
-        );
-    },
+    //
   },
   computed: {
     filterRestaurants() {
