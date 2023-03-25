@@ -9,7 +9,7 @@
     <div class="bannertitle d-flex flex-column">
       <div class="d-flex">
         <p style="font-weight: 600; font-size: 2.75rem" class="pb-4">
-          พี่ช้าง - คณะไอที
+          {{restaurant.Restaurant_name}} - {{restaurant.Restuarant_Location}}
         </p>
         <div class="px-3"></div>
         <v-switch
@@ -30,6 +30,11 @@ export default {
   data: () => ({
     status: true,
   }),
+  props: {
+    restaurant : {
+      type : Object
+    }
+  }
 };
 </script>
 

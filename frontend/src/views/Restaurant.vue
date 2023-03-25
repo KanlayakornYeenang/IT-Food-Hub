@@ -6,7 +6,7 @@
       cover
     ></v-img>
     <div class="pa-12">
-      <RestaurantBanner />
+      <RestaurantBanner :restaurant="dynamicData" />
     </div>
   </v-main>
 </template>
@@ -16,26 +16,32 @@ import RestaurantBanner from "@/components/RestaurantBanner.vue";
 </script>
 
 <script>
+import axios from "axios";
 export default {
-  data: () => ({}),
+  data: () => ({
+    dynamicData: {},
+  }),
   props: {
     //
   },
   beforeCreate() {
-    //   axios
-    //     .get("http://localhost:5000/api/itfoodhub/" + restaurant.Restaurant_name)
-    //     .then(
-    //       (res) => {
-    //         if (res.data) {
-    //           this.$router.push("/itfoodhub/" + restaurant.Restaurant_name);
-    //         }
-    //       },
-    //       (res) => {
-    //         if (res.response.data != undefined) {
-    //           //
-    //         }
-    //       }
-    //     );
+    axios
+      .get(
+        "http://localhost:5000/api/itfoodhub/" +
+          decodeURIComponent(this.$route.path.split("/")[2])
+      )
+      .then(
+        (res) => {
+          if (res.data) {
+            this.dynamicData = res.data;
+          }
+        },
+        (res) => {
+          if (res.response.data != undefined) {
+            //
+          }
+        }
+      );
   },
 };
 </script>
