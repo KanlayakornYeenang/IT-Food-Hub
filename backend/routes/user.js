@@ -121,7 +121,7 @@ router.post("/registerTest", (req,res)=>{
     )
 })
 
-router.get('/Home', verify, async (req, res)=>{
+router.get('/itfoodhub', verify, async (req, res)=>{
     console.log("try to connect to Home page")
     // req.user ที่ได้จะเป็นข้อมูลที่เราเอา token ไป decode แล้ว เราจะเอาข้อมูลนั้นมา query เผื่อ แสดงผล
     var Customer_email = req.user.Customer_email

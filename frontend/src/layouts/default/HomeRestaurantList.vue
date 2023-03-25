@@ -12,7 +12,7 @@
           class="elevation-0"
           rounded="xl"
           v-ripple
-          ><router-link :to="'/Restaurant' + restaurant.Restuarant_id">
+          ><router-link :to="'/itfoodhub/' + restaurant.Restuarant_id">
             <v-card class="restaurant-img ma-auto">
               <v-img
                 cover

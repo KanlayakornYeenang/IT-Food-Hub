@@ -189,7 +189,7 @@ export default {
                 "refresh_token",
                 res.data.refreshToken
               );
-              this.$router.push("/Home");
+              this.$router.push("/itfoodhub");
             }
           },
           (res) => {
