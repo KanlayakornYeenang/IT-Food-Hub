@@ -4,7 +4,6 @@
       <template v-slot:prepend>
         <v-img class="mt-12" contain width="180" src="@/assets/logo.svg" />
       </template>
-
       <div class="py-16">
         <v-btn-toggle
           class="d-flex flex-column"
@@ -12,24 +11,20 @@
           color="it"
           v-model="select"
         >
-          <v-btn
-            class="mb-4"
-            rounded="pill"
-            value="home"
-          >
-            <v-icon> mdi-home-outline </v-icon>
+          <v-btn class="mb-4" rounded="pill" value="home">
+            <v-icon> <font-awesome-icon :icon="['fas', 'house']" size="2xs" /> </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Home</div>
           </v-btn>
         </v-btn-toggle>
-        
+
         <v-btn
           class="elevation-0 mb-4"
           rounded="pill"
           value="cart"
           @click="showCart = !showCart"
         >
-          <v-icon> mdi-shopping-outline </v-icon>
+          <v-icon> <font-awesome-icon :icon="['fas', 'basket-shopping']" size="xs" /> </v-icon>
           <div class="px-2"></div>
           <div style="font-weight: 600">My Cart</div>
         </v-btn>
@@ -40,42 +35,38 @@
           color="it"
           v-model="select"
         >
-        <v-btn
-            class="mb-4"
-            rounded="pill"
-            value="orders"
-        >
-            <v-icon> mdi-update </v-icon>
+          <v-btn class="mb-4" rounded="pill" value="orders">
+            <v-icon> <font-awesome-icon :icon="['fas', 'receipt']" size="xs" /> </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Orders</div>
-        </v-btn>
-           
-        <v-btn
-          class="mb-4"
-          rounded="pill"
-          value="Restuarant"
-          v-if="userDetail.Customer_isOwner == 0"
-        >
-          <v-icon> mdi-silverware </v-icon>
-          <div class="px-2"></div>
-          <div style="font-weight: 600">My Restaurabt</div>
-        </v-btn>
+          </v-btn>
 
-          <v-btn rounded="pill" value="Delivery"
+          <v-btn
+            class="mb-4"
+            rounded="pill"
+            value="Restuarant"
+            v-if="userDetail.Customer_isOwner == 0"
+          >
+            <v-icon> <font-awesome-icon :icon="['fas', 'store']" size="xs" /> </v-icon>
+            <div class="px-2"></div>
+            <div style="font-weight: 600">My Restaurant</div>
+          </v-btn>
+
+          <v-btn
+            rounded="pill"
+            value="Delivery"
             v-if="userDetail.Customer_isDelivery == 0"
           >
-
-            <v-icon> mdi-moped  </v-icon>
+            <v-icon> <font-awesome-icon :icon="['fas', 'hand']" size="xs" /> </v-icon>
             <div class="px-2"></div>
-            <div style="font-weight: 600">Delivery</div>
+            <div style="font-weight: 600">Pick order</div>
           </v-btn>
-        
         </v-btn-toggle>
       </div>
     </v-navigation-drawer>
-      <v-overlay v-model="showCart" class="d-flex justify-center align-center">
-        <MyCartOverlay />
-      </v-overlay>
+    <v-overlay v-model="showCart" class="d-flex justify-center align-center">
+      <MyCartOverlay />
+    </v-overlay>
   </div>
 </template>
 
@@ -114,13 +105,13 @@ export default {
       }
     },
   },
-  props:{
-      userDetail:{
-        type: Object,
-      }
+  props: {
+    userDetail: {
+      type: Object,
+    },
   },
-  beforeCreate(){
-    console.log("left")
-  }
+  beforeCreate() {
+    console.log("left");
+  },
 };
 </script>
