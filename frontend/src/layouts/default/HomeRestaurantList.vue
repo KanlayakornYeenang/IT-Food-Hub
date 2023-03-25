@@ -12,48 +12,50 @@
           class="elevation-0"
           rounded="xl"
           v-ripple
-          ><router-link :to="'/itfoodhub/' + restaurant.Restuarant_id">
-            <v-card class="restaurant-img ma-auto">
-              <v-img
-                cover
-                height="180"
-                aspect-ratio="16/9"
-                src="https://cf.shopee.co.th/file/5160e1eb7f9b68c33e15e06780dac2ca"
-              >
-              </v-img>
-            </v-card>
-            <v-card
-              rounded="xl"
-              color="#2255A4"
-              class="restaurant-content pt-16 pb-2"
-            >
-              <v-card-item>
-                <v-card-title
-                  class="py-1 d-flex justify-space-between"
-                  style="color: #e3b54c"
-                >
-                  <p class="h2">{{ restaurant.Restaurant_name }}</p>
-                  <p
-                    class="px-2 elevation-5"
-                    style="
-                      font-size: 1rem;
-                      color: white;
-                      background: #36c144;
-                      border-radius: 1rem;
-                    "
-                  >
-                    {{ restaurant.status }}
-                  </p>
-                </v-card-title>
-                <v-card-subtitle
-                  ><p style="color: #fff">
-                    {{ restaurant.Restuarant_type }}
-                  </p></v-card-subtitle
-                >
-              </v-card-item>
-            </v-card></router-link
-          ></v-card
+          @click="getRestaurant(restaurant)"
         >
+          <!-- <router-link :to="'/itfoodhub/' + restaurant.Restaurant_name"> -->
+          <v-card class="restaurant-img ma-auto">
+            <v-img
+              cover
+              height="180"
+              aspect-ratio="16/9"
+              src="https://cf.shopee.co.th/file/5160e1eb7f9b68c33e15e06780dac2ca"
+            >
+            </v-img>
+          </v-card>
+          <v-card
+            rounded="xl"
+            color="#2255A4"
+            class="restaurant-content pt-16 pb-2"
+          >
+            <v-card-item>
+              <v-card-title
+                class="py-1 d-flex justify-space-between"
+                style="color: #e3b54c"
+              >
+                <p class="h2">{{ restaurant.Restaurant_name }}</p>
+                <p
+                  class="px-2 elevation-5"
+                  style="
+                    font-size: 1rem;
+                    color: white;
+                    background: #36c144;
+                    border-radius: 1rem;
+                  "
+                >
+                  {{ restaurant.status }}
+                </p>
+              </v-card-title>
+              <v-card-subtitle
+                ><p style="color: #fff">
+                  {{ restaurant.Restuarant_type }}
+                </p></v-card-subtitle
+              >
+            </v-card-item>
+          </v-card>
+          <!-- </router-link> -->
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -75,9 +77,10 @@
 </style>
 
 <script>
+import axios from "axios";
 export default {
   data: () => ({
-    //
+    test: "",
   }),
   props: {
     restaurants: {
@@ -85,6 +88,26 @@ export default {
     },
     category: {
       type: String,
+    },
+  },
+  methods: {
+    getRestaurant(restaurant) {
+      axios
+        .get(
+          "http://localhost:5000/api/itfoodhub/" + restaurant.Restaurant_name
+        )
+        .then(
+          (res) => {
+            if (res.data) {
+              this.$router.push("/itfoodhub/" + restaurant.Restaurant_name);
+            }
+          },
+          (res) => {
+            if (res.response.data != undefined) {
+              //
+            }
+          }
+        );
     },
   },
   computed: {

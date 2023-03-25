@@ -1,135 +1,143 @@
-const express = require('express');
-const router =  express.Router()
-const jwt = require('jsonwebtoken')
-const pool = require('../config/config')
-let refreshTokens = []
+const express = require("express");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
+const pool = require("../config/config");
+let refreshTokens = [];
 
-    
+router.use(express.json());
 
-router.use(express.json())
+router.post("/refresh", (req, res) => {
+  // take the refresh token from the user
+  const refreshToken = req.body.token;
+  console.log("test" + refreshTokens);
 
-router.post("/refresh", (req, res)=>{
-    // take the refresh token from the user
-    const refreshToken = req.body.token
-    console.log("test"+ refreshTokens)
+  //send error if there is no token or it's invalid
+  if (!refreshToken) return res.status(404).json("You are not authenticated");
+  if (!refreshTokens.includes(refreshToken)) {
+    return res.status(403).json("Refresh token is invalid");
+  }
+  jwt.verify(refreshToken, "myRefreshSecretKey", (err, user) => {
+    err && console.log(err);
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
-    //send error if there is no token or it's invalid
-    if(!refreshToken) return res.status(404).json("You are not authenticated")
-    if(!refreshTokens.includes(refreshToken)){
-        return res.status(403).json("Refresh token is invalid")
-    }
-    jwt.verify(refreshToken, "myRefreshSecretKey",(err, user)=>{
-        err && console.log(err)
-        refreshTokens = refreshTokens.filter(token=> token !== refreshToken)
-        
-        const newAccessToken = generateAccessToken(user)
-        const newRefreshAccessToken = generateRefreshToken(user)
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshAccessToken = generateRefreshToken(user);
 
-        refreshTokens.push(newRefreshAccessToken)
+    refreshTokens.push(newRefreshAccessToken);
 
-        res.status(200).json({
-            accessToken : newAccessToken,
-            refreshToken : newRefreshAccessToken
-        })
-    })
+    res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshAccessToken,
+    });
+  });
+  //if everything is ok, create a new token, refresh abd sebd tijeb
+});
 
-    //if everything is ok, create a new token, refresh abd sebd tijeb
-})
+const generateAccessToken = (user) => {
+  // ตอนสร้าง token ต้องใส่ รายละเอียดเกี่ยวกับ user ที่ login เข้าไปด้วย ตอน verify จะได้ข้อมูลพวกนั้นมา
+  return jwt.sign(
+    { id: user.id, isAdmin: user.isAdmin, Customer_email: user.Customer_email },
+    "mySecretKey",
+    { expiresIn: "15m" }
+  );
+};
 
-const generateAccessToken = (user) =>{
-    // ตอนสร้าง token ต้องใส่ รายละเอียดเกี่ยวกับ user ที่ login เข้าไปด้วย ตอน verify จะได้ข้อมูลพวกนั้นมา
-    return jwt.sign({id: user.id, isAdmin : user.isAdmin, Customer_email : user.Customer_email}, 
-        "mySecretKey",
-        {expiresIn :"15m"}
-        )}
-const generateRefreshToken = (user) =>{
-    return jwt.sign({id: user.id, isAdmin : user.isAdmin}, 
-        "myRefreshSecretKey"
-        )}
+const generateRefreshToken = (user) => {
+  return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, "myRefreshSecretKey");
+};
 
-router.post('/login',  async (req,res)=>{
-    // query email and password for login
-    const [rows, field] =  await pool.query('SELECT Customer_email , Customer_password, Customer_isDelivery, Customer_isOwner FROM customer')
-    const {email, password} = req.body;
-    console.log(email ,"is trying to Login")
-    const user = rows.find(u=>{
-        return u.Customer_email === email && u.Customer_password === password
-    })
-    if(user){
-        console.log(user.Customer_password, "is login successful")
-        //Generate an access token
-        const accessToken = generateAccessToken(user)
-        const refreshToken = generateRefreshToken(user)
-        refreshTokens.push(refreshToken)
-        res.json({
-            Customer_email : user.Customer_email,
-            Customer_password : user.Customer_password,
-            isOwner : user.Customer_isOwner,
-            isDelivery : user.Customer_isDelivery,
-            accessToken,
-            refreshToken,
-            rows
-        })
-        
-    }else{
-        res.status(400).json("username or password is incorrect") 
-    }
+router.post("/login", async (req, res) => {
+  // query email and password for login
+  const [rows, field] = await pool.query(
+    "SELECT Customer_email , Customer_password, Customer_isDelivery, Customer_isOwner FROM customer"
+  );
+  const { email, password } = req.body;
+  console.log(email, "is trying to Login");
+  const user = rows.find((u) => {
+    return u.Customer_email === email && u.Customer_password === password;
+  });
 
+  if (user) {
+    console.log(user.Customer_password, "is login successful");
+    //Generate an access token
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    refreshTokens.push(refreshToken);
+    res.json({
+      Customer_email: user.Customer_email,
+      Customer_password: user.Customer_password,
+      isOwner: user.Customer_isOwner,
+      isDelivery: user.Customer_isDelivery,
+      accessToken,
+      refreshToken,
+      rows,
+    });
+  } else {
+    res.status(400).json("username or password is incorrect");
+  }
+});
 
-})
+const verify = (req, res, next) => {
+  // send Token in req Headers
+  const authnHeader = req.headers.authorization;
+  if (authnHeader) {
+    const token = authnHeader.split(" ")[1];
+    jwt.verify(token, "mySecretKey", (err, user) => {
+      if (err) {
+        return res.status(401).json("Token is not valid");
+      }
+      req.user = user;
+      next();
+    });
+  } else {
+    res.status(401).json("You are not authorized to access this");
+  }
+};
 
+router.delete("/users/:userId", verify, (req, res) => {
+  if (req.user.id === req.params.userId || req.user.isAdmin) {
+    res.status(200).json("User has been delete");
+  } else {
+    res.status(403).json("You are not allowed to");
+  }
+});
 
-const verify = (req, res, next) =>{
-    // send Token in req Headers
-    const authnHeader = req.headers.authorization
-    if(authnHeader){
-        const token = authnHeader.split(" ")[1]
-        jwt.verify(token, "mySecretKey", (err, user)=>{
-            if(err){
-                return res.status(401).json("Token is not valid")
-            }
-            req.user = user
-            next()
-        })
-    }else{
-        res.status(401).json("You are not authorized to access this")
-    }
-}
-router.delete("/users/:userId", verify,(req, res)=>{
-    if(req.user.id === req.params.userId || req.user.isAdmin){
-        res.status(200).json("User has been delete")
-    }else{
-        res.status(403).json("You are not allowed to")
-    }
-})
 router.post("/logout", verify, (req, res) => {
-    
-    const refreshToken = req.body.token
-    refreshTokens = refreshTokens.filter(token => token !== refreshToken)
-    res.status(200).json("You logged out successfully")
+  const refreshToken = req.body.token;
+  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+  res.status(200).json("You logged out successfully");
+});
 
-})
+router.post("/registerTest", (req, res) => {
+  // ชื่อ นามสกุล อีเมล และ พาสเวริด จะส่งผ่านยัง req.body
+  const { first_name, last_name, email, password } = req.body;
+  res.json({
+    fistName: req.body.first_name,
+    lastName: req.body.last_name,
+    email: req.body.email,
+    password: req.body.password,
+  });
+});
 
-router.post("/registerTest", (req,res)=>{
-    // ชื่อ นามสกุล อีเมล และ พาสเวริด จะส่งผ่านยัง req.body
-    const {first_name, last_name, email, password} = req.body
-    res.json({ 
-        fistName: req.body.first_name, 
-        lastName: req.body.last_name, 
-        email: req.body.email, 
-        password: req.body.password}
-    )
-})
+router.get("/itfoodhub", verify, async (req, res) => {
+  console.log("try to connect to Home page");
+  // req.user ที่ได้จะเป็นข้อมูลที่เราเอา token ไป decode แล้ว เราจะเอาข้อมูลนั้นมา query เผื่อ แสดงผล
+  var Customer_email = req.user.Customer_email;
+  const [users, field] = await pool.query(
+    "SELECT *  FROM customer  where Customer_Email = ?",
+    Customer_email
+  );
+  const [resturants, field_res] = await pool.query("SELECT * FROM restaurant");
+  res.send({ users: users, restuarants: resturants });
+});
 
-router.get('/itfoodhub', verify, async (req, res)=>{
-    console.log("try to connect to Home page")
-    // req.user ที่ได้จะเป็นข้อมูลที่เราเอา token ไป decode แล้ว เราจะเอาข้อมูลนั้นมา query เผื่อ แสดงผล
-    var Customer_email = req.user.Customer_email
-    const  [users, field] =   await pool.query('SELECT *  FROM customer  where Customer_Email = ?', Customer_email) 
-    const [resturants, field_res] = await pool.query('SELECT * FROM resturants')
-    res.send({users: users, restuarants :resturants} ) 
+router.get("/itfoodhub/:Restaurant_name", async (req, res) => {
+  const Restaurant_name = req.params.Restaurant_name;
+  const [restaurant, fields] = await pool.query(
+    "SELECT *  FROM restaurant where restaurant.Restaurant_name = ?;",
+    Restaurant_name
+  );
+  res.send(restaurant[0]);
+});
 
-
-})
-
-module.exports = router 
+module.exports = router;
