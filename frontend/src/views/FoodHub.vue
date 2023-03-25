@@ -6,7 +6,10 @@
       <HomeCategories
         @clicked-show-category-name="clickedShowCategoryName"
       ></HomeCategories>
-      <HomeRestaurantList :restaurants="data" :category="category"></HomeRestaurantList>
+      <HomeRestaurantList
+        :restaurants="data"
+        :category="category"
+      ></HomeRestaurantList>
     </div>
   </v-main>
 </template>
@@ -32,12 +35,11 @@ export default {
   methods: {
     clickedShowCategoryName: function (category) {
       if (this.category != category) {
-        this.category = category
+        this.category = category;
+      } else {
+        this.category = "";
       }
-      else {
-        this.category = ""
-      }
-      console.log(this.category)
+      console.log(this.category);
     },
   },
   beforeCreate() {

@@ -2,13 +2,10 @@
   <v-card
     rounded="xl"
     min-height="220"
-    color="#2255A4"
+    color="#ffffff"
     class="d-flex flex-column justify-center overflow-visible"
     style="position: relative"
   >
-    <span class="men">
-      <v-img src="@/assets/men.png" width="250"></v-img>
-    </span>
     <div class="bannertitle d-flex flex-column">
       <span class="ml-10">Enjoy Your Meal</span>
       <span class="ml-10"
@@ -24,7 +21,7 @@
   color: white;
 }
 .v-card {
-  background-image: url("/src/assets/bannerpattern1.png");
+  background-image: url("/src/assets/bannerpattern2.png");
 }
 .men {
   position: absolute;
