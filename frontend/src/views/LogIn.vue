@@ -37,6 +37,9 @@
             label="email"
           ></v-text-field>
           <v-text-field
+            :type="show ? 'text' : 'password'"
+            :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="show = !show"
             v-model="password"
             label="password"
             :rules="[rules.required, rules.counter]"
@@ -139,6 +142,7 @@ export default {
     password: "",
     response: "",
     userDetail: {},
+    show: false,
 
     rules: {
       // requried เช็คว่า value มีมั้ย
