@@ -13,9 +13,7 @@
         >
           <router-link to="/itfoodhub">
             <v-btn class="mb-4" rounded="pill" value="home">
-              <v-icon>
-                <font-awesome-icon :icon="['fas', 'house']" size="xs" />
-              </v-icon>
+              <v-icon> mdi-home </v-icon>
               <div class="px-2"></div>
               <div style="font-weight: 600">Home</div>
             </v-btn>
@@ -28,9 +26,7 @@
           value="cart"
           @click="showCart = !showCart"
         >
-          <v-icon>
-            <font-awesome-icon :icon="['fas', 'basket-shopping']" size="xs" />
-          </v-icon>
+          <v-icon> mdi-shopping </v-icon>
           <div class="px-2"></div>
           <div style="font-weight: 600">My Cart</div>
         </v-btn>
@@ -42,9 +38,7 @@
           v-model="select"
         >
           <v-btn class="mb-4" rounded="pill" value="orders">
-            <v-icon>
-              <font-awesome-icon :icon="['fas', 'receipt']" size="xs" />
-            </v-icon>
+            <v-icon> mdi-receipt-text </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Orders</div>
           </v-btn>
@@ -55,9 +49,7 @@
             value="Restuarant"
             v-if="userDetail.Customer_isOwner == 0"
           >
-            <v-icon>
-              <font-awesome-icon :icon="['fas', 'store']" size="xs" />
-            </v-icon>
+            <v-icon> mdi-storefront </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">My Restaurant</div>
           </v-btn>
@@ -67,9 +59,7 @@
             value="Delivery"
             v-if="userDetail.Customer_isDelivery == 0"
           >
-            <v-icon>
-              <font-awesome-icon :icon="['fas', 'hand']" size="xs" />
-            </v-icon>
+            <v-icon> mdi-hand-back-left </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Pick order</div>
           </v-btn>
