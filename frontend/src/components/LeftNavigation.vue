@@ -11,11 +11,15 @@
           color="it"
           v-model="select"
         >
-          <v-btn class="mb-4" rounded="pill" value="home">
-            <v-icon> <font-awesome-icon :icon="['fas', 'house']" size="xs" /> </v-icon>
-            <div class="px-2"></div>
-            <div style="font-weight: 600">Home</div>
-          </v-btn>
+          <router-link to="/itfoodhub">
+            <v-btn class="mb-4" rounded="pill" value="home">
+              <v-icon>
+                <font-awesome-icon :icon="['fas', 'house']" size="xs" />
+              </v-icon>
+              <div class="px-2"></div>
+              <div style="font-weight: 600">Home</div>
+            </v-btn>
+          </router-link>
         </v-btn-toggle>
 
         <v-btn
@@ -24,7 +28,9 @@
           value="cart"
           @click="showCart = !showCart"
         >
-          <v-icon> <font-awesome-icon :icon="['fas', 'basket-shopping']" size="xs" /> </v-icon>
+          <v-icon>
+            <font-awesome-icon :icon="['fas', 'basket-shopping']" size="xs" />
+          </v-icon>
           <div class="px-2"></div>
           <div style="font-weight: 600">My Cart</div>
         </v-btn>
@@ -36,7 +42,9 @@
           v-model="select"
         >
           <v-btn class="mb-4" rounded="pill" value="orders">
-            <v-icon> <font-awesome-icon :icon="['fas', 'receipt']" size="xs" /> </v-icon>
+            <v-icon>
+              <font-awesome-icon :icon="['fas', 'receipt']" size="xs" />
+            </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Orders</div>
           </v-btn>
@@ -47,7 +55,9 @@
             value="Restuarant"
             v-if="userDetail.Customer_isOwner == 0"
           >
-            <v-icon> <font-awesome-icon :icon="['fas', 'store']" size="xs" /> </v-icon>
+            <v-icon>
+              <font-awesome-icon :icon="['fas', 'store']" size="xs" />
+            </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">My Restaurant</div>
           </v-btn>
@@ -57,7 +67,9 @@
             value="Delivery"
             v-if="userDetail.Customer_isDelivery == 0"
           >
-            <v-icon> <font-awesome-icon :icon="['fas', 'hand']" size="xs" /> </v-icon>
+            <v-icon>
+              <font-awesome-icon :icon="['fas', 'hand']" size="xs" />
+            </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Pick order</div>
           </v-btn>
@@ -89,7 +101,6 @@
 import MyCartOverlay from "@/components/MyCartOverlay.vue";
 </script>
 
-
 <script>
 export default {
   data() {
@@ -100,9 +111,19 @@ export default {
   },
   watch: {
     select(newValue) {
-      if (newValue == undefined) {
+      if (newValue == undefined && this.$route.path == "/itfoodhub") {
         this.select = "home";
       }
+    },
+    path(newValue) {
+      if (!["/itfoodhub"].includes(newValue)) {
+        this.select = "";
+      }
+    },
+  },
+  computed: {
+    path() {
+      return (this.path = this.$route.path);
     },
   },
   props: {
