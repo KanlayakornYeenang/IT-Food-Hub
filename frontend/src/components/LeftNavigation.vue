@@ -105,9 +105,14 @@ import MyCartOverlay from "@/components/MyCartOverlay.vue";
 export default {
   data() {
     return {
-      select: "home",
+      select: undefined,
       showCart: false,
     };
+  },
+  props: {
+    userDetail: {
+      type: Object,
+    },
   },
   watch: {
     select(newValue) {
@@ -117,22 +122,19 @@ export default {
     },
     path(newValue) {
       if (!["/itfoodhub"].includes(newValue)) {
-        this.select = "";
+        this.select = undefined;
       }
     },
   },
   computed: {
     path() {
-      return (this.path = this.$route.path);
+      return this.$route.path;
     },
   },
-  props: {
-    userDetail: {
-      type: Object,
-    },
-  },
-  beforeCreate() {
-    console.log("left");
+  mounted() {
+    if (this.$route.path == "/itfoodhub") {
+      this.select = "home";
+    }
   },
 };
 </script>
