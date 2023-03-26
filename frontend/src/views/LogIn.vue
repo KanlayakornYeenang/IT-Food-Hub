@@ -1,133 +1,156 @@
 <template>
-  <v-sheet color="#2255A4">
-    <v-card class="pa-16 elevation-5" rounded="xl">
-      <v-img
-        contain
-        width="180"
-        src="https://cdn.discordapp.com/attachments/1019966926014910516/1085258301572386928/itfoodhub.png"
-      />
-      <v-divider class="w-100 ma-7"></v-divider>
-      <span class="w-100" v-if="Login">
-        <p class="text-center" style="font-weight: 600">
-          To continue, log in to IT Food Hub.
-        </p>
-
-        <v-btn class="w-100 mt-5" size="large" rounded="pill">
-          <v-img
-            :width="20"
-            aspect-ratio="1"
-            src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-          ></v-img>
-          <div class="px-2"></div>
-          <p>CONTINUE WITH GOOGLE</p>
-        </v-btn>
-
-        <div class="w-100 d-flex align-center">
-          <v-divider></v-divider>
-          <p class="ma-5" style="font-weight: 600">OR</p>
-          <v-divider></v-divider>
-        </div>
-      </span>
-      <p class="text-center response" color="danger">{{ this.response }}</p>
-      <v-responsive class="w-100" v-if="Login">
-        <v-form fast-fail @submit.prevent ref="form">
-          <v-text-field
-            v-model="email"
-            :rules="[rules.required, rules.email]"
-            label="email"
-          ></v-text-field>
-          <v-text-field
-            :type="show ? 'text' : 'password'"
-            :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append-inner="show = !show"
-            v-model="password"
-            label="password"
-            :rules="[rules.required, rules.counter]"
-          ></v-text-field>
-          <v-btn
-            type="submit"
-            block
-            color="it"
-            size="large"
-            rounded="pill"
-            @click="Loginsubmit"
-            >LOG IN</v-btn
-          >
-          <v-divider class="my-5"></v-divider>
+  <v-sheet>
+    <v-col xl="4" lg="5" md="8" sm="10">
+      <v-card
+        class="pa-16 elevation-5 d-flex flex-column align-center"
+        rounded="xl"
+      >
+        <v-img
+          contain
+          width="180"
+          src="https://cdn.discordapp.com/attachments/1019966926014910516/1085258301572386928/itfoodhub.png"
+        />
+        <v-divider class="w-100 ma-7"></v-divider>
+        <span class="w-100" v-if="Login">
           <p class="text-center" style="font-weight: 600">
-            Don't have an account?
+            To continue, log in to IT Food Hub.
           </p>
-          <v-btn
-            type="submit"
-            block
-            class="my-5"
-            size="large"
-            rounded="pill"
-            @click="Login = !Login"
-            >SIGN UP</v-btn
-          >
-        </v-form>
-      </v-responsive>
-      <v-responsive class="w-100" v-if="!Login">
-        <v-form fast-fail @submit.prevent ref="form">
-          <v-text-field
-            v-model="firstName"
-            color="primary"
-            label="First name"
-            variant="underlined"
-            placeholder="Enter your first name"
-            :rules="[rules.required, rules.counter]"
-          ></v-text-field>
 
-          <v-text-field
-            v-model="lastName"
-            color="primary"
-            label="Last name"
-            variant="underlined"
-            placeholder="Enter your lastname"
-            :rules="[rules.required, rules.counter]"
-          ></v-text-field>
+          <v-btn class="w-100 mt-5" size="large" rounded="pill">
+            <v-img
+              :width="20"
+              aspect-ratio="1"
+              src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+            ></v-img>
+            <div class="px-2"></div>
+            <p>CONTINUE WITH GOOGLE</p>
+          </v-btn>
 
-          <v-text-field
-            v-model="email"
-            :rules="[rules.required, rules.email]"
-            color="primary"
-            label="Email"
-            placeholder="Enter your email address"
-            variant="underlined"
-          ></v-text-field>
+          <div class="w-100 d-flex align-center">
+            <v-divider></v-divider>
+            <p class="ma-5" style="font-weight: 600">OR</p>
+            <v-divider></v-divider>
+          </div>
+        </span>
+        <p class="text-center response" color="danger">{{ this.response }}</p>
+        <v-responsive class="w-100" v-if="Login">
+          <v-form fast-fail @submit.prevent ref="form">
+            <v-text-field
+              v-model="email"
+              :rules="[rules.required, rules.email]"
+              label="email"
+            ></v-text-field>
+            <v-text-field
+              :type="show ? 'text' : 'password'"
+              :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append-inner="show = !show"
+              v-model="password"
+              label="password"
+              :rules="[rules.required, rules.counter]"
+            ></v-text-field>
+            <v-btn
+              type="submit"
+              block
+              color="it"
+              size="large"
+              rounded="pill"
+              @click="Loginsubmit"
+              >LOG IN</v-btn
+            >
+            <v-divider class="my-5"></v-divider>
+            <p class="text-center" style="font-weight: 600">
+              Don't have an account?
+            </p>
+            <v-btn
+              type="submit"
+              block
+              class="my-5"
+              size="large"
+              rounded="pill"
+              @click="Login = !Login"
+              >SIGN UP</v-btn
+            >
+          </v-form>
+        </v-responsive>
+        <v-responsive class="w-100" v-if="!Login">
+          <v-form fast-fail @submit.prevent ref="form">
+            <v-text-field
+              v-model="firstName"
+              color="primary"
+              label="First name"
+              variant="underlined"
+              placeholder="Enter your first name"
+              :rules="[rules.required, rules.counter]"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="password"
-            color="primary"
-            label="Password"
-            placeholder="Enter your password"
-            variant="underlined"
-            :rules="[rules.required, rules.counter]"
-          ></v-text-field>
-          <v-btn
-            type="submit"
-            block
-            class="mt-1 mb-4"
-            @click="Login = !Login"
-            size="large"
-            rounded="pill"
-            >ALREADY HAVE ACCOUNT</v-btn
-          >
-          <v-btn
-            type="submit"
-            block
-            class="mt-1 mb-4"
-            @click="Login = !Login"
-            size="large"
-            rounded="pill"
-            >Register</v-btn
-          >
-        </v-form>
-      </v-responsive>
-    </v-card>
+            <v-text-field
+              v-model="lastName"
+              color="primary"
+              label="Last name"
+              variant="underlined"
+              placeholder="Enter your lastname"
+              :rules="[rules.required, rules.counter]"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="email"
+              :rules="[rules.required, rules.email]"
+              color="primary"
+              label="Email"
+              placeholder="Enter your email address"
+              variant="underlined"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="password"
+              color="primary"
+              label="Password"
+              placeholder="Enter your password"
+              variant="underlined"
+              :rules="[rules.required, rules.counter]"
+            ></v-text-field>
+            <v-btn
+              type="submit"
+              block
+              class="mt-1 mb-4"
+              @click="Login = !Login"
+              size="large"
+              rounded="pill"
+              >ALREADY HAVE ACCOUNT</v-btn
+            >
+            <v-btn
+              type="submit"
+              block
+              class="mt-1 mb-4"
+              @click="Login = !Login"
+              size="large"
+              rounded="pill"
+              >Register</v-btn
+            >
+          </v-form>
+        </v-responsive>
+      </v-card>
+    </v-col>
   </v-sheet>
 </template>
+
+<style scoped>
+.v-sheet {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2255a4;
+  background-image: url("/src/assets/bannerpattern3.png");
+  background-position: center;
+}
+@media only screen and (max-width: 599px) {
+  .v-card {
+    padding: 2rem 1rem !important;
+  }
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -143,7 +166,6 @@ export default {
     response: "",
     userDetail: {},
     show: false,
-
     rules: {
       // requried เช็คว่า value มีมั้ย
       required: (value) => {
@@ -209,26 +231,3 @@ export default {
   },
 };
 </script> 
-  impoer 
-
-<style scoped>
-.v-sheet {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("/src/assets/bannerpattern3.png");
-  background-position: center;
-}
-.response {
-  color: red;
-}
-.v-card {
-  width: 30%;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-}
-</style>
