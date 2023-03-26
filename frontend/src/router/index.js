@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import User from '../views/User'
 import FoodHub from '../views/FoodHub'
 import Restaurant from '../views/Restaurant'
+import Delivery from '../views/Delivery'
 
 const routes = [
   {
@@ -18,9 +19,13 @@ const routes = [
       component: FoodHub
      },
      {
-      path: ':Restaurant_name',
+      path: 'Restaurant/:Restaurant_name',
       component: Restaurant
      },
+     {
+      path:'order',
+      component: Delivery
+     }
     ]
     
   },

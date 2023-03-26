@@ -8,6 +8,7 @@
     <div class="pa-12">
       <RestaurantBanner :restaurant="dynamicData" />
     </div>
+  
   </v-main>
 </template>
 

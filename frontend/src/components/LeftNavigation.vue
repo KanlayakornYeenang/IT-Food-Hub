@@ -16,6 +16,7 @@
             class="mb-4"
             rounded="pill"
             value="home"
+           to="/itfoodhub"
           >
             <v-icon> mdi-home-outline </v-icon>
             <div class="px-2"></div>
@@ -54,22 +55,26 @@
           class="mb-4"
           rounded="pill"
           value="Restuarant"
-          v-if="userDetail.Customer_isOwner == 0"
+          v-if="userDetail.Customer_isOwner == 1"
         >
           <v-icon> mdi-silverware </v-icon>
           <div class="px-2"></div>
-          <div style="font-weight: 600">My Restaurabt</div>
+          <div style="font-weight: 600">My Restaurant</div>
         </v-btn>
 
-          <v-btn rounded="pill" value="Delivery"
-            v-if="userDetail.Customer_isDelivery == 0"
-          >
-
-            <v-icon> mdi-moped  </v-icon>
-            <div class="px-2"></div>
-            <div style="font-weight: 600">Delivery</div>
-          </v-btn>
-        
+         
+          <v-btn 
+              replace="true"
+              class="mb-4"
+              rounded="pill" 
+              value="Delivery"
+              v-if="userDetail.Customer_isDelivery == 0"
+              to="/itfoodhub/order"
+              >
+                <v-icon> mdi-moped  </v-icon>
+                <div class="px-2"></div>
+                <div style="font-weight: 600">Delivery</div>
+      </v-btn>
         </v-btn-toggle>
       </div>
     </v-navigation-drawer>

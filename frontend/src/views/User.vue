@@ -43,7 +43,7 @@ export default {
           console.log(this.dynamicData);
         },
         (res) => {
-          this.$router.push("/");
+          this.$router.replace('/');
         }
       );
   },

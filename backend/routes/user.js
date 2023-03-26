@@ -127,14 +127,14 @@ router.get("/itfoodhub", verify, async (req, res) => {
     "SELECT *  FROM customer  where Customer_Email = ?",
     Customer_email
   );
-  const [resturants, field_res] = await pool.query("SELECT * FROM restaurant");
+  const [resturants, field_res] = await pool.query("SELECT * FROM restaurants");
   res.send({ users: users, restuarants: resturants });
 });
 
 router.get("/itfoodhub/:Restaurant_name", async (req, res) => {
   const Restaurant_name = req.params.Restaurant_name;
   const [restaurant, fields] = await pool.query(
-    "SELECT *  FROM restaurant where restaurant.Restaurant_name = ?;",
+    "SELECT *  FROM restaurants where Restaurant_name = ?;",
     Restaurant_name
   );
   res.send(restaurant[0]);
