@@ -4,7 +4,6 @@
       <template v-slot:prepend>
         <v-img class="mt-12" contain width="180" src="@/assets/logo.svg" />
       </template>
-
       <div class="py-16">
         <v-btn-toggle
           class="d-flex flex-column"
@@ -23,14 +22,14 @@
             <div style="font-weight: 600">Home</div>
           </v-btn>
         </v-btn-toggle>
-        
+
         <v-btn
           class="elevation-0 mb-4"
           rounded="pill"
           value="cart"
           @click="showCart = !showCart"
         >
-          <v-icon> mdi-shopping-outline </v-icon>
+          <v-icon> mdi-shopping </v-icon>
           <div class="px-2"></div>
           <div style="font-weight: 600">My Cart</div>
         </v-btn>
@@ -41,12 +40,8 @@
           color="it"
           v-model="select"
         >
-        <v-btn
-            class="mb-4"
-            rounded="pill"
-            value="orders"
-        >
-            <v-icon> mdi-update </v-icon>
+          <v-btn class="mb-4" rounded="pill" value="orders">
+            <v-icon> mdi-receipt-text </v-icon>
             <div class="px-2"></div>
             <div style="font-weight: 600">Orders</div>
         </v-btn>
@@ -55,32 +50,28 @@
           class="mb-4"
           rounded="pill"
           value="Restuarant"
-          v-if="userDetail.Customer_isOwner == 1"
+          v-if="userDetail.Customer_isOwner == 0"
         >
           <v-icon> mdi-silverware </v-icon>
           <div class="px-2"></div>
-          <div style="font-weight: 600">My Restaurant</div>
+          <div style="font-weight: 600">My Restaurabt</div>
         </v-btn>
 
-         
-          <v-btn 
-              replace="true"
-              class="mb-4"
-              rounded="pill" 
-              value="Delivery"
-              v-if="userDetail.Customer_isDelivery == 0"
-              to="/itfoodhub/order"
-              >
-                <v-icon> mdi-moped  </v-icon>
-                <div class="px-2"></div>
-                <div style="font-weight: 600">Delivery</div>
-      </v-btn>
+          <v-btn rounded="pill" value="Delivery"
+            v-if="userDetail.Customer_isDelivery == 0"
+          >
+
+            <v-icon> mdi-moped  </v-icon>
+            <div class="px-2"></div>
+            <div style="font-weight: 600">Delivery</div>
+          </v-btn>
+        
         </v-btn-toggle>
       </div>
     </v-navigation-drawer>
-      <v-overlay v-model="showCart" class="d-flex justify-center align-center">
-        <MyCartOverlay />
-      </v-overlay>
+    <v-overlay v-model="showCart" class="d-flex justify-center align-center">
+      <MyCartOverlay />
+    </v-overlay>
   </div>
 </template>
 
@@ -103,29 +94,40 @@
 import MyCartOverlay from "@/components/MyCartOverlay.vue";
 </script>
 
-
 <script>
 export default {
   data() {
     return {
-      select: "home",
+      select: undefined,
       showCart: false,
     };
   },
+  props: {
+    userDetail: {
+      type: Object,
+    },
+  },
   watch: {
     select(newValue) {
-      if (newValue == undefined) {
+      if (newValue == undefined && this.$route.path == "/itfoodhub") {
         this.select = "home";
       }
     },
-  },
-  props:{
-      userDetail:{
-        type: Object,
+    path(newValue) {
+      if (!["/itfoodhub"].includes(newValue)) {
+        this.select = undefined;
       }
+    },
   },
-  beforeCreate(){
-    console.log("left")
-  }
+  computed: {
+    path() {
+      return this.$route.path;
+    },
+  },
+  mounted() {
+    if (this.$route.path == "/itfoodhub") {
+      this.select = "home";
+    }
+  },
 };
 </script>
