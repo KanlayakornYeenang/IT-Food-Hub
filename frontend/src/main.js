@@ -17,13 +17,7 @@ import { registerPlugins } from '@/plugins'
 import { createPinia } from 'pinia'
 const store = createPinia()
 
-// fontawesome
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faHouse, faBasketShopping, faReceipt, faStore, faHand } from '@fortawesome/free-solid-svg-icons'
-library.add(faHouse, faBasketShopping, faReceipt, faStore, faHand)
-
-const app = createApp(App).component('font-awesome-icon', FontAwesomeIcon)
+const app = createApp(App)
 
 registerPlugins(app)
 
