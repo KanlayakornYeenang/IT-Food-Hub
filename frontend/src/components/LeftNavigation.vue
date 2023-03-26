@@ -15,7 +15,7 @@
             class="mb-4"
             rounded="pill"
             value="home"
-           to="/itfoodhub"
+            to="/itfoodhub"
           >
             <v-icon> mdi-home-outline </v-icon>
             <div class="px-2"></div>
@@ -50,7 +50,7 @@
           class="mb-4"
           rounded="pill"
           value="Restuarant"
-          v-if="userDetail.Customer_isOwner == 0"
+          v-if="userDetail.Customer_isOwner == 1  "
         >
           <v-icon> mdi-silverware </v-icon>
           <div class="px-2"></div>
@@ -59,6 +59,7 @@
 
           <v-btn rounded="pill" value="Delivery"
             v-if="userDetail.Customer_isDelivery == 0"
+            to="/itfoodhub/order"
           >
 
             <v-icon> mdi-moped  </v-icon>

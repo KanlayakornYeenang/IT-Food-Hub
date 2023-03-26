@@ -4,7 +4,7 @@ import User from '../views/User'
 import FoodHub from '../views/FoodHub'
 import Restaurant from '../views/Restaurant'
 import Delivery from '../views/Delivery'
-
+import DeliveryDetail from '../views/DeliveryDetail'
 const routes = [
   {
     path: '/',
@@ -24,7 +24,17 @@ const routes = [
      },
      {
       path:'order',
-      component: Delivery
+      component: Delivery,
+      children:[
+        {
+          path: '/:OrderDetails',
+          component : DeliveryDetail
+        }
+      ]
+     },
+     {
+      path: 'order/:orderDetails',
+      component : DeliveryDetail
      }
     ]
     

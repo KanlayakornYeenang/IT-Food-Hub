@@ -1,5 +1,5 @@
 <template>
-    <v-card width="2    0"
+    <v-card width="250"
         style="borderRadius:25px"
     >
         <v-img
@@ -54,14 +54,45 @@
           >
             <v-btn
                 prepend-icon="mdi-check-circle"
-                @click = "ConfirmOrder = !ConfirmOrder"
+                @click = "confirmOrder"
             >
                 รับงาน
             </v-btn>
         </v-container>
         </v-card-text>
       </v-card>
-      <v-overlay v-model="ConfirmOrder" class="d-flex justify-center align-center">
+        <v-overlay v-model="ConfirmOrder" class="d-flex justify-center align-center">
+                <v-sheet
+                  elevation="12"
+                  max-width="600"
+                  rounded="lg"
+                  width="100%"
+                  class="pa-4 text-center mx-auto"
+                >
+                    <v-icon
+                        class="mb-5"
+                        color="success"
+                        icon="mdi-check-circle"
+                        size="112"
+                    ></v-icon>
+                
+                    <h2 class="text-h5 mb-6">คุณได้รับงานเรียบร้อยแล้ว </h2>
+                
+                    <p class="mb-4 text-medium-emphasis text-body-2">
+                            คุณจะไม่สามารถรับงานอื่นได้จนกว่างานในปัจจุบันจะเสร็จสิ้น
+                
+                        <br>
+                    </p>
+                
+                    <v-divider class="mb-4"></v-divider>
+                    <v-progress-linear
+                        v-if="isLoading == true"
+                        indeterminate
+                        color="primary"
+                        class="d-sm- justify-center flex-column" 
+                    >
+                    </v-progress-linear>
+                </v-sheet>
       </v-overlay>
 </template>
 
@@ -75,8 +106,19 @@ export default {
         "Price" :'testPrice',
         "time" :'testTime'
     },
-    ConfirmOrder : false
+    ConfirmOrder : false,
+    isLoading : false
   }),
-  
+  methods:{
+    confirmOrder(){
+        this.ConfirmOrder = !this.ConfirmOrder
+        this.isLoading = true
+        setTimeout(() => {
+            this.$router.replace('/itfoodhub/order/orderDetails')
+        },2000)
+    }
+  }
+
+ 
 };
 </script>

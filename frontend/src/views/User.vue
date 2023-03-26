@@ -1,8 +1,17 @@
 <template>
-  <LeftNavigation :userDetail="userDetail"></LeftNavigation>
+  <LeftNavigation :userDetail="userDetail"
+    v-if="windowWidth > 1024"
+  ></LeftNavigation>
   <router-view :data="dynamicData"></router-view>
   <!-- eslint-disable -->
-  <RightProfile :userDetail="userDetail"></RightProfile>
+  <RightProfile :userDetail="userDetail"
+    v-if="windowWidth > 1024"
+  ></RightProfile>
+  <BottomNavigator
+    v-if="windowWidth < 1024"
+  >
+
+  </BottomNavigator>
 </template>
 
 <script setup >
@@ -12,9 +21,13 @@ import HomeCategories from "@/components/HomeCategories.vue";
 import HomeRestaurantList from "@/layouts/default/HomeRestaurantList.vue";
 import LeftNavigation from "@/components/LeftNavigation.vue";
 import RightProfile from "@/components/RightProfile.vue";
+import BottomNavigator from "@/components/BottomNavigator.vue";
 </script>
 <script >
-import axios from "axios";
+import axios from "axios";  
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { onMounted } from 'vue'
 export default {
   data: () => ({
     refresh_token: "",
@@ -23,7 +36,26 @@ export default {
     userDetail: {},
     name: "",
     dynamicData: [],
+    windowHeight: window.innerHeight,
+    windowWidth: window.innerWidth
   }),
+  mounted() {
+    console.log("mounted")
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
+  },
+  methods: {  
+    onResize() {
+      this.windowHeight = window.innerHeight
+      this.windowWidth = window.innerWidth
+    }
+  },
+  watch:{
+    windowHeight(old, newValue){
+      console.log(old)
+    }
+  },
   beforeCreate() {
     // get refresh token and access toke
     console.log("beforeCreate-at-HomePage");
@@ -40,7 +72,7 @@ export default {
           this.userDetail = res.data.users[0];
           this.dynamicData = res.data.restuarants;
           this.dynamicData = JSON.parse(JSON.stringify(this.dynamicData));
-          console.log(this.dynamicData);
+
         },
         (res) => {
           this.$router.replace('/');

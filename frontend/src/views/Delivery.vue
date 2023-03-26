@@ -4,8 +4,9 @@
             style="padding-left: 5vh; padding-right: 5vh;"
         >
             <v-col
-            class="d-flex flex-column justify-center my-4"
-            v-for=" i in 10"
+            class="d-flex flex-column justify-center my-5"
+            cols="3"
+            v-for=" i in 6 "
             >
             <CardDelivery></CardDelivery>
             </v-col>
@@ -15,6 +16,7 @@
 </template>
 <script setup>
     import CardDelivery from "@/components/CardDelivery.vue";
+
 
 </script>
 
