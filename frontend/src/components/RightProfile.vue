@@ -1,28 +1,39 @@
 <template>
-  <v-navigation-drawer permanent location="right">
+  <!-- v-navi  if widht < 1200 widht = 200 ; My-profile = 20px if width < 1200 -->
+   <!-- v-navi  if widht < 1200 widht = 200 ; My-profile = 30px if width > 1200 -->
+  <v-navigation-drawer permanent location="right"
+    width="300"
+  >
     <div class="pa-6 mt-8">
       <div class="d-flex justify-space-between">
-        <p class="h2">My Profile</p>
+        <p 
+          style="font-size:30px; font-weight:bold"
+        >My Profile</p>
         <v-btn icon="mdi-pencil" size="x-small"></v-btn>
       </div>
       <div class="my-5 d-flex flex-column align-center">
         <v-avatar color="#FE6612" size="60">
-          <span class="text-h5" style="color: white">KY</span>
+          <span class="text-h4" style="color: white">KY</span>
         </v-avatar>
-        <p class="pt-2">
+        <p class="pt-2"
+        >
           {{userDetail.Customer_Fname +" "+userDetail.Customer_Lname}}
         </p>
       </div>
       <v-divider class="my-5"></v-divider>
-      <v-btn class="text-it w-100 my-1" rounded="pill" size="small"
+       <!-- v-btn if widht < 1200 font-size = 10;   -->
+      <v-btn class="w-100 my-2" rounded="pill"
           @click="showRegisRes = !showRegisRes"
           v-if='userDetail.Customer_isOwner == 0'
         >Sign up as a restaurant</v-btn
       >
-      <v-btn class="text-foodhub w-100 my-1" rounded="pill" size="small"
-      @click="showRegisRider = !showRegisRider"
+      <v-btn class="text-foodhub w-100  my-2" rounded="pill"
+          size="small"
+          @click="showRegisRider = !showRegisRider"
           v-if='userDetail.Customer_isDelivery == 0'
-        >Sign up as a deliver</v-btn
+        ><p
+          style="font-size: 15px;"
+        >Become a Delivery </p></v-btn
       >
     </div>
   </v-navigation-drawer>

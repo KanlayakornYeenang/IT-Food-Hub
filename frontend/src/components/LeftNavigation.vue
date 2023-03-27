@@ -1,8 +1,13 @@
 <template>
   <div>
-    <v-navigation-drawer permanent location="left" class="align-center">
+    <!--v-navi if widht > 1200 ? widht = 300px : widht = 200--->
+    <v-navigation-drawer permanent location="left" class="align-center"
+      width="200"
+    >
       <template v-slot:prepend>
-        <v-img class="mt-12" contain width="180" src="@/assets/logo.svg" />
+        <!--v-img if widht > 1200 ? widht = 180px : widht = 120--->
+        <v-img class="mt-12" contain width="120" src="@/assets/logo.svg" 
+        />
       </template>
       <div class="py-16">
         <v-btn-toggle
@@ -11,11 +16,14 @@
           color="it"
           v-model="select"
         >
+          <!--v-btn if widht > 1200 ? widht = 200px : widht = 120--->
           <v-btn
             class="mb-4"
             rounded="pill"
             value="home"
             to="/itfoodhub"
+            width="150"
+
           >
             <v-icon> mdi-home-outline </v-icon>
             <div class="px-2"></div>
