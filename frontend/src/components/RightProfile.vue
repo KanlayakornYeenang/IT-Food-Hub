@@ -2,12 +2,12 @@
   <!-- v-navi  if widht < 1200 widht = 200 ; My-profile = 20px if width < 1200 -->
    <!-- v-navi  if widht < 1200 widht = 200 ; My-profile = 30px if width > 1200 -->
   <v-navigation-drawer permanent location="right"
-    width="300"
+    :style="{'width': widhtNavi+'px'}"
   >
     <div class="pa-6 mt-8">
       <div class="d-flex justify-space-between">
         <p 
-          style="font-size:30px; font-weight:bold"
+          :style="{'font-size' : fontProfile+'px', 'font-weight' :'bold'}"
         >My Profile</p>
         <v-btn icon="mdi-pencil" size="x-small"></v-btn>
       </div>
@@ -25,14 +25,17 @@
       <v-btn class="w-100 my-2" rounded="pill"
           @click="showRegisRes = !showRegisRes"
           v-if='userDetail.Customer_isOwner == 0'
-        >Sign up as a restaurant</v-btn
+        >
+        <p 
+        :style="{'fontSize': fontsize+'px'}"
+        >Sign up as a restaurant</p></v-btn
       >
       <v-btn class="text-foodhub w-100  my-2" rounded="pill"
           size="small"
           @click="showRegisRider = !showRegisRider"
           v-if='userDetail.Customer_isDelivery == 0'
         ><p
-          style="font-size: 15px;"
+        :style="{'fontSize': fontsize+'px'}"
         >Become a Delivery </p></v-btn
       >
     </div>
@@ -56,14 +59,39 @@
       return {
         showRegisRes: false,
         showRegisRider: false,
-        isOwner :'0'
+        isOwner :'0',
+        windowWidth: window.innerWidth,
+        widhtNavi : 300,
+        fontProfile : 30,
+        fontsize : 15
       };
     },
     props:{
       userDetail: {
         type : Object
       }
+    },
+  mounted() {
+    console.log("mounted")
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
+  },
+  methods: {  
+    onResize() {
+      this.windowWidth = window.innerWidth
+      if(this.windowWidth > 1200){
+        this.widhtNavi = 300
+        this.fontSize = 15
+        this.fontProfile = 30
+      }else{
+        this.widhtNavi = 200
+        this.fontsize = 9
+        this. fontProfile = 21
+      }
+
     }
+    },
      
   }
 </script>

@@ -10,7 +10,6 @@
   <BottomNavigator
     v-if="windowWidth < 1024"
   >
-
   </BottomNavigator>
 </template>
 
@@ -25,9 +24,6 @@ import BottomNavigator from "@/components/BottomNavigator.vue";
 </script>
 <script >
 import axios from "axios";  
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { onMounted } from 'vue'
 export default {
   data: () => ({
     refresh_token: "",
@@ -49,13 +45,9 @@ export default {
     onResize() {
       this.windowHeight = window.innerHeight
       this.windowWidth = window.innerWidth
+
     }
-  },
-  watch:{
-    windowHeight(old, newValue){
-      console.log(old)
-    }
-  },
+    },
   beforeCreate() {
     // get refresh token and access toke
     console.log("beforeCreate-at-HomePage");

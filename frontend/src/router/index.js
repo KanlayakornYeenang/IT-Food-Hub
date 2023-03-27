@@ -25,12 +25,6 @@ const routes = [
      {
       path:'order',
       component: Delivery,
-      children:[
-        {
-          path: '/:OrderDetails',
-          component : DeliveryDetail
-        }
-      ]
      },
      {
       path: 'order/:orderDetails',

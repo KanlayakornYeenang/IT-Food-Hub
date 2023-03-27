@@ -5,16 +5,17 @@
         >
             <v-col
             class="d-flex flex-column justify-center my-5"
-            cols="12"
-           
+            cols="15"
             >
                 <v-row
                     >
                     <v-col
-                        cols="12"
+                        cols="15"
+                        xl="3"
                         lg="4"
-                        sm="6"
-                        xs="12"
+                        md="6"
+                        sm="5"
+                        xs="8"
                         v-for="i  in 10" 
                     
                     >
