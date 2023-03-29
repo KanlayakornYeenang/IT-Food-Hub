@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <div class="pa-12">
+    <div class="foodhub">
       <HeaderSearchBar></HeaderSearchBar>
       <HomeBanner></HomeBanner>
       <HomeCategories
@@ -13,6 +13,9 @@
     </div>
   </v-main>
 </template>
+
+<style scoped>
+</style>
 
 <script setup>
 import HeaderSearchBar from "@/components/HeaderSearchBar.vue";

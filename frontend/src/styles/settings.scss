@@ -43,4 +43,23 @@
 
 a {
     color: inherit;
-} 
+}
+
+/* for screen xs, sm < 960 */
+@media screen and (max-width: 960px) {
+    .foodhub {
+        padding: 1rem;
+        padding-bottom: 4rem;
+    }
+    .v-main {
+        padding: 0 !important;
+    }
+}
+
+/* for screen md, lg, xl > 960 */
+@media screen and (min-width: 960px) {
+    .foodhub {
+        padding: 0rem 3rem;
+        padding-top: 3rem;
+    }
+}

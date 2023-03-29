@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-none d-md-block">
     <v-navigation-drawer permanent location="left" class="align-center">
       <template v-slot:prepend>
         <v-img class="mt-12" contain width="180" src="@/assets/logo.svg" />

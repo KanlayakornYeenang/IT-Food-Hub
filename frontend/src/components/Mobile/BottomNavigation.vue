@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-bottom-navigation grow :active="active">
+  <div class="d-md-none">
+    <v-bottom-navigation grow>
       <v-btn value="recent">
         <v-icon>mdi-home</v-icon>
         Home
@@ -13,6 +13,13 @@
     </v-bottom-navigation>
   </div>
 </template>
+
+<style scoped>
+.d-md-none .v-bottom-navigation {
+  left: 0 !important;
+  width: 100vw !important;
+}
+</style>
 
 <script>
 export default {

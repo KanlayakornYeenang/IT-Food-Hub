@@ -1,9 +1,6 @@
 <template>
   <div
     class="cart"
-    :style="[
-      isBottomNavActive ? { bottom: '4.7rem' } : { bottom: '1rem' },
-    ]"
   >
     <v-btn rounded="lg" icon="mdi-shopping"></v-btn>
   </div>
@@ -25,5 +22,6 @@ export default {
   right: 0.75rem;
   z-index: 1;
   transition: 0.2s;
+  bottom: 4.75rem;
 }
 </style>

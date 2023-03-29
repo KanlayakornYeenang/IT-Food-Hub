@@ -3,6 +3,9 @@
   <router-view :data="dynamicData"></router-view>
   <!-- eslint-disable -->
   <RightProfile :userDetail="userDetail"></RightProfile>
+  
+  <MyCartButton/>
+  <BottomNavigation />
 </template>
 
 <script setup >
@@ -12,7 +15,11 @@ import HomeCategories from "@/components/HomeCategories.vue";
 import HomeRestaurantList from "@/layouts/default/HomeRestaurantList.vue";
 import LeftNavigation from "@/components/LeftNavigation.vue";
 import RightProfile from "@/components/RightProfile.vue";
+
+import BottomNavigation from "@/components/Mobile/BottomNavigation.vue";
+import MyCartButton from "@/components/Mobile/MyCartButton.vue";
 </script>
+
 <script >
 import axios from "axios";
 export default {
