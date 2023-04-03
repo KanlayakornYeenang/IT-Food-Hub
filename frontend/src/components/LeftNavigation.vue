@@ -47,7 +47,7 @@
             class="mb-4"
             rounded="pill"
             value="Restuarant"
-            v-if="userDetail.Customer_isOwner == 0"
+            v-if="userDetail.Customer_isOwner == 1"
           >
             <v-icon> mdi-storefront </v-icon>
             <div class="px-2"></div>
@@ -58,6 +58,7 @@
             rounded="pill"
             value="Delivery"
             v-if="userDetail.Customer_isDelivery == 0"
+            to='/itfoodhub/order/'
           >
             <v-icon> mdi-hand-back-left </v-icon>
             <div class="px-2"></div>

@@ -3,7 +3,7 @@ const mysql = require('mysql2')
 const pool = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'abc484107123',
+    password: 'pondba13501',
     database: 'itfoodhub'
 })
 module.exports = pool.promise()

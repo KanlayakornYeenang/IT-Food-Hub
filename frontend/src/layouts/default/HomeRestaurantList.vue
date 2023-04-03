@@ -6,7 +6,7 @@
         :key="i"
         class="d-flex flex-column justify-center my-4"
         cols="3"
-        ><router-link :to="'/itfoodhub/' + restaurant.Restaurant_name">
+        ><router-link :to="'/itfoodhub/restaurant/' + restaurant.Restaurant_name">
           <v-card
             style="background: none"
             class="elevation-0"
@@ -35,12 +35,10 @@
                   <p class="h2">{{ restaurant.Restaurant_name }}</p>
                   <p
                     class="px-2 elevation-5"
-                    style="
-                      font-size: 1rem;
+                    style="font-size: 1rem;
                       color: white;
                       background: #36c144;
-                      border-radius: 1rem;
-                    "
+                      border-radius: 1rem; "
                   >
                     {{ restaurant.status }}
                   </p>
@@ -78,6 +76,7 @@
 export default {
   data: () => ({
     test: "",
+
   }),
   props: {
     restaurants: {
