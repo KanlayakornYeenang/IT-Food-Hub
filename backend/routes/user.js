@@ -46,11 +46,13 @@ const generateRefreshToken = (user) => {
   return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, "myRefreshSecretKey");
 };
 
+//<--------------------------------------------------------Login user -------------------------------------------------------------->
 router.post("/login", async (req, res) => {
   // query email and password for login
   const [rows, field] = await pool.query(
     "SELECT Customer_email , Customer_password, Customer_isDelivery, Customer_isOwner FROM customer"
   );
+  console.log(rows)
   const { email, password } = req.body;
   console.log(email, "is trying to Login");
   const user = rows.find((u) => {
@@ -76,7 +78,7 @@ router.post("/login", async (req, res) => {
     res.status(400).json("username or password is incorrect");
   }
 });
-
+//<-------------------------------------------------------middlware----------------------------------------------------->
 const verify = (req, res, next) => {
   // send Token in req Headers
   const authnHeader = req.headers.authorization;
@@ -94,29 +96,36 @@ const verify = (req, res, next) => {
   }
 };
 
-router.delete("/users/:userId", verify, (req, res) => {
-  if (req.user.id === req.params.userId || req.user.isAdmin) {
-    res.status(200).json("User has been delete");
-  } else {
-    res.status(403).json("You are not allowed to");
-  }
-});
-
+//<--------------------------------------------------------------------Login-------------------------------------------->
 router.post("/logout", verify, (req, res) => {
   const refreshToken = req.body.token;
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   res.status(200).json("You logged out successfully");
 });
-
-router.post("/registerTest", (req, res) => {
+//<---------------------------------------------------------------------register-------------------------------------------->
+router.post("/register",async (req, res) => {
   // ชื่อ นามสกุล อีเมล และ พาสเวริด จะส่งผ่านยัง req.body
-  const { first_name, last_name, email, password } = req.body;
-  res.json({
-    fistName: req.body.first_name,
-    lastName: req.body.last_name,
-    email: req.body.email,
-    password: req.body.password,
-  });
+  const { firstName, lastName, email, password } = req.body;
+  console.log({
+    "userRegister": "detail",
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+  })
+  const [rows, fields] = await pool.query(
+    "SELECT Customer_email from Customer"
+  )
+  console.log(rows)
+  const emailExits = rows.find(row => row.Customer_email === email)
+  if(emailExits === undefined) {
+    const [rows, field] = await pool.query("INSERT INTO customer(Customer_email, Customer_Fname, Customer_Lname, Customer_Password) VALUES (?, ?, ?,?)",
+    [email, firstName, lastName, password])
+    res.status(200).json("success")
+  }
+  else{
+    res.status(400).json("can't register email is already exists")
+  }
 });
 
 router.get("/itfoodhub", verify, async (req, res) => {

@@ -73,6 +73,9 @@
           </v-form>
         </v-responsive>
         <v-responsive class="w-100" v-if="!Login">
+          <p class="text-center" style="font-weight: 600; color:red">
+            {{this.emailisExist}}
+          </p>
           <v-form fast-fail @submit.prevent ref="form">
             <v-text-field
               v-model="firstName"
@@ -122,9 +125,9 @@
               type="submit"
               block
               class="mt-1 mb-4"
-              @click="Login = !Login"
               size="large"
               rounded="pill"
+              @click ="register"
               >Register</v-btn
             >
           </v-form>
@@ -132,6 +135,23 @@
       </v-card>
     </v-col>
   </v-sheet>
+  <v-overlay
+      v-model="showRegister"
+      class="d-flex justify-center align-center"
+    >
+    <v-card
+      color="green"
+      >
+      <v-card-text>
+        Register successfully
+        <v-progress-linear
+          indeterminate
+          color="white"
+          class="mb-0"
+        ></v-progress-linear>
+      </v-card-text>
+    </v-card>
+    </v-overlay>
 </template>
 
 <style scoped>
@@ -154,6 +174,7 @@
 
 <script>
 import axios from "axios";
+import { toHandlers } from "vue";
 export default {
   data: () => ({
     valid: true,
@@ -165,6 +186,8 @@ export default {
     password: "",
     response: "",
     userDetail: {},
+    emailisExist: "",
+    showRegister: false,
     show: false,
     rules: {
       // requried เช็คว่า value มีมั้ย
@@ -215,7 +238,7 @@ export default {
                 "refresh_token",
                 res.data.refreshToken
               );
-              this.$router.push("/itfoodhub");
+              this.$router.push("/itfoodhub")
             }
           },
           (res) => {
@@ -228,6 +251,32 @@ export default {
         );
       }
     },
+    async register(){
+      const { valid } = await this.$refs.form.validate();
+      if(valid){
+        const registerDetails = ({
+          firstName : this.firstName,
+          lastName : this.lastName,
+          email : this.email,
+          password : this.password
+        })
+        axios.post("http://localhost:5000/api/register", registerDetails)
+        .then(
+          (res)=>{
+            console.log(res.data)
+            this.showRegister = true
+            setTimeout(()=>{
+              this.$router.go(this.$router.currentRoute)
+            }, 2000)
+          },
+          (res)=>{
+            console.log("res",res.response.data);
+            this.emailisExist = res.response.data
+          }
+        )
+      }
+
+    }
   },
 };
 </script> 

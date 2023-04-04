@@ -54,5 +54,29 @@ export default {
         }
       );
   },
+  watch:{
+   $router () {
+      console.log("beforeCreate-at-HomePage");
+    this.refresh_token = localStorage.getItem("refresh_token");
+    this.access_token = localStorage.getItem("access_token");
+    axios
+      .get("http://localhost:5000/api/itfoodhub", {
+        headers: {
+          Authorization: "Bearer " + this.access_token,
+        },
+      })
+      .then(
+        (res) => {
+          this.userDetail = res.data.users[0];
+          this.dynamicData = res.data.restuarants;
+          this.dynamicData = JSON.parse(JSON.stringify(this.dynamicData));
+          console.log(this.dynamicData);
+        },
+        (res) => {
+          this.$router.push("/");
+        }
+      );
+    }
+  }
 };
 </script>

@@ -47,7 +47,7 @@
             class="mb-4"
             rounded="pill"
             value="Restuarant"
-            v-if="userDetail.Customer_isOwner == 1"
+            v-if="userDetail.Customer_isOwner == 0"
           >
             <v-icon> mdi-storefront </v-icon>
             <div class="px-2"></div>
@@ -65,6 +65,13 @@
             <div style="font-weight: 600">Pick order</div>
           </v-btn>
         </v-btn-toggle>
+      </div>
+      <div 
+        style="position: absolute; bottom:0; margin: 5vh"
+      >
+        <a 
+        @click="logout"
+        >btn</a>
       </div>
     </v-navigation-drawer>
     <v-overlay v-model="showCart" class="d-flex justify-center align-center">
@@ -104,6 +111,13 @@ export default {
     userDetail: {
       type: Object,
     },
+  },
+  methods:{
+    logout(){
+      window.localStorage.clear();
+      window.location = "http://localhost:3000/"
+
+    }
   },
   watch: {
     select(newValue) {
