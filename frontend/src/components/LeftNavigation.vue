@@ -114,8 +114,8 @@ export default {
   },
   methods:{
     logout(){
-      window.localStorage.clear();
-      window.location = "http://localhost:3000/"
+      window.localStorage.clear()
+      this.$router.push('/')
 
     }
   },
