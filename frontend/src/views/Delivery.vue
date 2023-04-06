@@ -8,11 +8,15 @@
             cols="15"
             >
                 <v-row
+                    justify="center"
+                    align="center"
                     >
                     <v-col
-                        cols="15"
-                        xl="3"
-                        lg="4"
+                    align-self="center"
+                    offset="10"
+                        cols="12"
+                        xl="4"
+                        lg="5"
                         md="6"
                         sm="5"
                         xs="8"
@@ -20,61 +24,73 @@
                     
                     >
                         <v-card
-                            style="border-radius: 20px;"
+                            style="border-radius: 30px; height: 13vw ;padding:2vh; background-color:#2255A4;width:25vw; "
                         >
-                            <div 
-                                class="detail-container"
-                                style="display: flex; padding: 2vh"
+                            <v-card
+                            style="border-radius: 30px;  height: 11vw; "
                             >
-                                <v-avatar
-                                    color="yellow"
-                                    size="small"
-                                >
-                                    <v-icon>mdi-map-marker</v-icon>
-                                </v-avatar>
-                                <div
-                                    style="margin-left: 2vh"
-                                >
-                                    <div 
-                                        style="font-size: small;"
-                                    >
-                                        Pickup point
-                                    </div>
+                                <div>
                                     <div
-                                        style="font-weight: bold;"
+                                        style="display: flex; justify-content: space-between"
                                     >
-                                        IT, project base 3
+                                        <div
+                                            style=" height:7vw; width:12vw; margin-top:2vh;padding:0.5"
+                                        >
+                                            <v-timeline truncate-line="both"
+                                            >
+                                                <v-timeline-item
+                                                    size="small"
+                                                >
+                                                    <div
+                                                        style=" display: block;/* or inline-block */
+                                                        text-overflow: ellipsis;
+                                                        word-wrap: break-word;
+                                                        overflow: hidden;
+                                                        max-height: 3.6em;
+                                                        line-height: 1.8em;"
+                                                     >
+                                                        ร้านพี่ช้าง
+                                                    </div>
+                                                </v-timeline-item>
+                                                <v-timeline-item
+                                                    size="small"
+                                                >
+                                                 M22
+                                                </v-timeline-item>
+                                            </v-timeline>
+                                        </div>
+                                        <div
+                                            style=" height:7vw; width:12vw; padding-top:1vw; border-left: 1px solid #D9D9D9; margin-top:1vh" 
+                                        >
+                                            <div 
+                                            style="display: flex; justify-content: center"
+                                            >
+                                                <div
+                                                >
+                                                    <div style="font-weight:bold; font-size:medium; color: #264C87">
+                                                        ค่าอาหาร
+                                                    </div>
+                                                    <div  style="font-size:smaller; padding-bottom:1vh; color: #264C87">
+                                                        150 บาท
+                                                    </div>
+                                                    <div style="font-weight:bold; font-size:medium; color: #264C87">
+                                                        จำนวน
+                                                    </div>
+                                                    <div style="font-size:smaller">
+                                                        3รายการ
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content:center; padding-top:1vh">
+                                        <v-btn
+                                            style="background-color: #FE6612; color:white; border-radius:20px; height:2.5vh; align-item:center"
+                                        >รับงาน</v-btn>
                                     </div>
                                 </div>
-                            </div>
-                            <div 
-                                class="status-detail"
-                                style="margin: 1vh; display: flex; justify-content: center"
-                            >
-                                <div
-                                    style="border-right: 1px solid black; padding:1vh"
-                                >
-                                    3 รายการ
-                                </div>
-                                <div
-                                    style="border-right: 1px solid black; padding:1vh"
-                                >
-                                    คุณ เกียร์
-                                </div>
-                                <div
-                                style="border-right:; padding:1vh"
-                                >
-                                200 B
-                                </div>
-                            </div>
-                            <div 
-                                style="display: flex; margin: 2vh; justify-content: end"
-                            >
-                                <v-btn
-                                    @click ="this.openDialog = true"
-                                    style="background-color: #5EC055; color:white"
-                                >ยืนยัน</v-btn>
-                            </div>
+                            </v-card>
                         </v-card>
                     </v-col>
                 </v-row>
