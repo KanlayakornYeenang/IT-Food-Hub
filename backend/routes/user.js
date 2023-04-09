@@ -195,24 +195,5 @@ router.post("/recieveorders/:id", verify , async (req, res)=>{
 })
 
 // นี้คือ การ update status ของ order 
-const io = socketIo(6100,{ 
-  cors: {
-      origin: 'http://localhost:3000', // Replace with your frontend URL
-      methods: ['GET', 'POST'],
-    },
-});
-  io.on('connection', (socket) => {
-    console.log('New client connected');
-    socket.on('update_order_Status', async ({orderId, newState}) => {
-        const [update, field] =  await pool.query(
-          `update orders set order_status= '${newState }' where orders_id = '${orderId}';`
-        )
-        console.log(`Order ${orderId} state updated to ${newState}`);
-        io.emit('order_updated', { orderId, newState });
-      });
-    socket.on('disconnect', () => {
-      console.log('Client disconnected');
-    });
-});
 
 module.exports = router;

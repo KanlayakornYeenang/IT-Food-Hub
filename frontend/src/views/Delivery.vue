@@ -24,42 +24,39 @@
                     
                     >
                         <v-card
-                            style="border-radius: 30px; height: 13vw ;padding:2vh; background-color:#2255A4;width:25vw; "
-                        >
-                            <v-card
-                            style="border-radius: 30px;  height: 11vw; "
+                            style="min-width: 20vh; min-height: 20vh;background-color:#2255A4; border-radius:30px; padding:2vh"
+                        > 
+                            <div
+                                style="min-width: 18vw; min-height: 18vh; background-color:white; border-radius:30px;"
                             >
-                                <div>
+                                <div
+                                    style="padding: 1vh;"
+                                >
+                                    <v-icon style="margin-right:1vh">mdi-google-maps</v-icon>{{ order.order_destination  }}
+                                </div>
+                                <div 
+                                    class="status-detail"
+                                    style="margin: 1vh; display: flex; justify-content: center"
+                                >
                                     <div
-                                        style="display: flex; justify-content: space-between"
+                                        style="border-right: 1px solid black; padding:1vh"
                                     >
-                                       {{ order.order_destination }}
+                                        {{ order.food_name.length }} รายการ
+                                    </div>
+                                    <div
+                                        style="border-right: 1px solid black; padding:1vh"
+                                    >
+                                        คุณ {{ order.customer_fname }}
+                                    </div>
+                                    <div
+                                        style="border-right:; padding:1vh"
+                                    >
+                                    {{ order.order_total_price }} B
                                     </div>
                                 </div>
-                            </v-card>
-                            <div 
-                                class="status-detail"
-                                style="margin: 1vh; display: flex; justify-content: center"
-                            >
-                                <div
-                                    style="border-right: 1px solid black; padding:1vh"
+                                <div 
+                                    style="display: flex; margin: 2vh; justify-content: end"
                                 >
-                                    {{ order.food_name.length }} รายการ
-                                </div>
-                                <div
-                                    style="border-right: 1px solid black; padding:1vh"
-                                >
-                                    คุณ {{ order.customer_fname }}
-                                </div>
-                                <div
-                                style="border-right:; padding:1vh"
-                                >
-                                {{ order.order_total_price }} B
-                                </div>
-                            </div>
-                            <div 
-                                style="display: flex; margin: 2vh; justify-content: end"
-                            >
                                 <v-btn
                                     v-if="order.delivery_fname == undefined"
                                     @click ="setOverlayDetail(order.orders_id)"
@@ -70,8 +67,8 @@
                                     @click="AcceptOrder(order.orders_id)"
                                     style="background-color: #5EC055; color:white"
                                     >ไปที่ออเดอร์ที่ต้องจัดส่ง</v-btn>
+                                </div>
                             </div>
-                          
                         </v-card>
                     </v-col>
                 </v-row>

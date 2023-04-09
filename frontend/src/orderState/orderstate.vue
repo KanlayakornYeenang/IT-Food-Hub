@@ -3,22 +3,22 @@
        style="min-width:30vw; min-height:70vh   ; border-radius:20px; background-color:#EBF2FC; display:flex; flex-direction:column;"
     >
         <v-card
-            style="width: 30vw; height: 8vh; border-top-right-radius: 20px; background-color:white; display:flex; align-items:center; justify-content:center; font-weight: bold"
+            style="min-width: 30vw; min-height: 8vh; border-top-right-radius: 20px; background-color:white; display:flex; align-items:center; justify-content:center; font-weight: bold"
         >
              สรุปคำสั้งซื้อ
         </v-card>  
         <div
-            style="width: 30vw; height: 6vh; font-size:10px; color:#7F7F7F; padding: 2vh; border-bottom:1px solid #D9D9D9;"        >
+            style="min-width: 30vw; min-height: 6vh; font-size:10px; color:#7F7F7F; padding: 2vh; border-bottom:1px solid #D9D9D9;"        >
             แสดงรายการร้านอาหาร
         </div>
         <div
-        style="width: 30vw; height: 6vh; font-size:12px; background-color:white ;padding: 2vh; border-bottom:1px solid #D9D9D9; margin-bottom:1vh;"
+        style="min-width: 30vw; min-height: 6vh; font-size:12px; background-color:white ;padding: 2vh; border-bottom:1px solid #D9D9D9; margin-bottom:1vh;"
         >
             ร้านอาหาร : พี่ช้าง
         </div>
         <div v-for="i in 5">
             <div
-            style="width: 30vw; height: 6vh; font-size:13px; padding: 2vh; display: flex; justify-content:space-between"
+            style="min-width: 30vw; min-height: 6vh; font-size:13px; padding: 2vh; display: flex; justify-content:space-between"
             >
             <div>
                <span
@@ -51,7 +51,7 @@
             สถาะนะของออเดอร์ : <span style="color: #36C144; font-weight:bold">กำลังไปร้านอาหาร</span> new status ={{ status }} 
         </div>
         <v-card
-            style="width: 30vw; height: 8vh;background-color:white;  border-top: 1px solid #D9D9D9; margin-top:auto"
+            style="min-width: 30vw; min-height: 8vh;background-color:white;  border-top: 1px solid #D9D9D9; margin-top:auto"
          >
           
          <div
@@ -75,23 +75,25 @@ export default {
       message: '',
       messages: [],
       socket: null,
-      status: ''
+      status: "pending"
     };
   },
-  mounted() {
-    this.socket = io('http://localhost:6100');
+    mounted() {
+    console.log("mounted")
+    this.socket = io('http://localhost:4114')
     this.socket.on('update_order_Status', ({orderId, newState}) => {
-        console.log("connect :",this.socket.connected)
         console.log(`Received update_order_Status event with order ID ${orderId} and new state ${newState}`);
         this.status = newState
-    });
+    // update component data with new state
+    })
+    },
+    methods: {    
+        updateStatus(){
+            this.socket.emit('update_order_Status', { orderId: 1, newState: 'test' });  
+        }
+    },
+    beforeCreate() {
+    },
 
-
-  },
-  methods: {    
-    updateStatus(){
-        this.socket.emit('update_order_Status', { orderId: 1, newState: 'delivered' });  
-    }
-  },
 };
 </script>>
