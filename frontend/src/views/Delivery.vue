@@ -8,11 +8,15 @@
             cols="15"
             >
                 <v-row
+                    justify="center"
+                    align="center"
                     >
                     <v-col
-                        cols="15"
-                        xl="3"
-                        lg="4"
+                    align-self="center"
+                    offset="10"
+                        cols="12"
+                        xl="4"
+                        lg="5"
                         md="6"
                         sm="5"
                         xs="8"
@@ -20,28 +24,14 @@
                     
                     >
                         <v-card
-                            style="border-radius: 20px;"
+                            style="border-radius: 30px; height: 13vw ;padding:2vh; background-color:#2255A4;width:25vw; "
                         >
-                            <div 
-                                class="detail-container"
-                                style="display: flex; padding: 2vh"
+                            <v-card
+                            style="border-radius: 30px;  height: 11vw; "
                             >
-                                <v-avatar
-                                    color="yellow"
-                                    size="small"
-                                >
-                                    <v-icon>mdi-map-marker</v-icon>
-                                </v-avatar>
-                                <div
-                                    style="margin-left: 2vh"
-                                >
-                                    <div 
-                                        style="font-size: small;"
-                                    >
-                                        Pickup point
-                                    </div>
+                                <div>
                                     <div
-                                        style="font-weight: bold;"
+                                        style="display: flex; justify-content: space-between"
                                     >
                                        {{ order.order_destination }}
                                     </div>
