@@ -1,6 +1,6 @@
 <template>
     <v-main>
-        <v-row
+        <v-row 
             style="padding-left: 5vh; padding-right: 5vh;"
         >
             <v-col
@@ -16,7 +16,7 @@
                         md="6"
                         sm="5"
                         xs="8"
-                        v-for="i  in 10" 
+                        v-for="order in groupData" 
                     
                     >
                         <v-card
@@ -43,7 +43,7 @@
                                     <div
                                         style="font-weight: bold;"
                                     >
-                                        IT, project base 3
+                                       {{ order.order_destination }}
                                     </div>
                                 </div>
                             </div>
@@ -54,27 +54,34 @@
                                 <div
                                     style="border-right: 1px solid black; padding:1vh"
                                 >
-                                    3 รายการ
+                                    {{ order.food_name.length }} รายการ
                                 </div>
                                 <div
                                     style="border-right: 1px solid black; padding:1vh"
                                 >
-                                    คุณ เกียร์
+                                    คุณ {{ order.customer_fname }}
                                 </div>
                                 <div
                                 style="border-right:; padding:1vh"
                                 >
-                                200 B
+                                {{ order.order_total_price }} B
                                 </div>
                             </div>
                             <div 
                                 style="display: flex; margin: 2vh; justify-content: end"
                             >
                                 <v-btn
-                                    @click ="this.openDialog = true"
+                                    v-if="order.delivery_fname == undefined"
+                                    @click ="setOverlayDetail(order.orders_id)"
                                     style="background-color: #5EC055; color:white"
-                                >ยืนยัน</v-btn>
+                                >ยืนยัน {{order.delivery_fname}}</v-btn>
+                                <v-btn
+                                    v-if="order.delivery_fname != undefined"
+                                    @click="AcceptOrder(order.orders_id)"
+                                    style="background-color: #5EC055; color:white"
+                                    >ไปที่ออเดอร์ที่ต้องจัดส่ง</v-btn>
                             </div>
+                          
                         </v-card>
                     </v-col>
                 </v-row>
@@ -98,8 +105,9 @@
                     <v-btn  @click="openDialog = false"
                         style="margin:1vh"
                     >ยกเลิก</v-btn>
-                    <v-btn style="margin:1vh; background-color:#5EC055; color:white"
-                        @click="AcceptOrder()"
+                    <v-btn 
+                        style="margin:1vh; background-color:#5EC055; color:white"
+                        @click="AcceptOrder(pathOrder)"
                     >ตกลง</v-btn>
                 </div>
             </v-card>
@@ -108,19 +116,58 @@
 </template>
 <script setup>
 
-
-
+    
 </script>
 <script>
+import axios from 'axios';
 export default {
   data: () => ({
-    openDialog : false
+    openDialog : false,
+    orders: null,
+    groupData:null,
+    pathOrder: ''
   }),
   methods:{
-    AcceptOrder(){
-        console.log("accepydata")
-        this.$router.push("/itfoodhub/order/testDetails");
+    AcceptOrder(path){
+        this.$router.push("/itfoodhub/order/yourOrderis"+path);
+    },
+    setOverlayDetail(path){
+        this.openDialog = true
+        this.pathOrder = path
     }
+  },
+  beforeCreate() {
+    console.log("welcome to orders Page")
+    this.refresh_token = localStorage.getItem("refresh_token");
+    this.access_token = localStorage.getItem("access_token");
+    axios
+      .get("http://localhost:5000/api/orders", {
+        headers: {
+          Authorization: "Bearer " + this.access_token,
+        },
+      })
+      .then(
+        (res)=>{
+            console.log("data",res.data)
+            this.orders = res.data
+            console.log(this.orders)
+            this.groupData = this.orders.reduce((acc, order) => {
+            const { orders_id, customer_fname, order_destination, order_status, order_total_price,delivery_fname } = order;
+            const food_name = [order.food_name];
+            const existingOrder = acc.find(o => o.orders_id === orders_id);
+            if (existingOrder) {
+                existingOrder.food_name.push(order.food_name);
+            } else {
+                acc.push({ orders_id, customer_fname, food_name, order_destination, order_status, order_total_price,delivery_fname });
+            }
+            
+            return acc;
+            }, []);
+        console.log(this.groupData)
+        },
+      ).catch((err)=>{
+        console.log(err)
+      })
   }
 }
 

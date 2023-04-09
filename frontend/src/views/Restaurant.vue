@@ -16,7 +16,7 @@ import RestaurantBanner from "@/components/RestaurantBanner.vue";
 </script>
 
 <script>
-import axios from "axios";
+
 export default {
   data: () => ({
     dynamicData: {},

@@ -1,77 +1,66 @@
 <template>
     <v-card
-        style="width: 60vh;height: 40vh; border-radius:20px; padding:1vh"
+       style="min-width:30vw; min-height:70vh   ; border-radius:20px; background-color:#EBF2FC; display:flex; flex-direction:column;"
     >
-        <div style="padding:2vh; font-weight:bold; font-size:larger">
-            ร้านพี่ช้าง
-            <div
-                style="font-size: small; margin-top:0.5vh"
-            >
-                ID : 323131
-            </div>
-        </div>
-        <div 
-            style="margin: 1vh; display: flex"
+        <v-card
+            style="width: 30vw; height: 8vh; border-top-right-radius: 20px; background-color:white; display:flex; align-items:center; justify-content:center; font-weight: bold"
         >
+             สรุปคำสั้งซื้อ
+        </v-card>  
+        <div
+            style="width: 30vw; height: 6vh; font-size:10px; color:#7F7F7F; padding: 2vh; border-bottom:1px solid #D9D9D9;"        >
+            แสดงรายการร้านอาหาร
+        </div>
+        <div
+        style="width: 30vw; height: 6vh; font-size:12px; background-color:white ;padding: 2vh; border-bottom:1px solid #D9D9D9; margin-bottom:1vh;"
+        >
+            ร้านอาหาร : พี่ช้าง
+        </div>
+        <div v-for="i in 5">
             <div
-                style="padding:0; width:50vh; margin-left:2vh; margin-right:2vh;"
+            style="width: 30vw; height: 6vh; font-size:13px; padding: 2vh; display: flex; justify-content:space-between"
             >
-                <v-timeline direction="horizontal"
-                    style="padding: 0;"
-                    line-inset="-80"
-                >
-                    <v-timeline-item
-                        size="small"
-                        style="margin: 0;"
-                        dot-color="green"
-                    >
-                        <div
-                            style="font-size: 10px;"
-                        >
-                           ได้รับคำสั้งซื้อเรียบร้อย
-                        </div>
-                    </v-timeline-item>
-                    <v-timeline-item
-                        size="small"
-                        style="margin: 0;"
-                        dot-color="black"
-                    >
-                        <div
-                            style="font-size: 10px;"
-                        >
-                            ถึงร้านอาหารเรียบร้อย
-                        </div>
-                    </v-timeline-item>
-                    <v-timeline-item
-                        size="small"
-                        style="margin: 0;"
-                        dot-color="black"
-                    >
-                        <div
-                             style="font-size: 10px;"
-                        >
-                            กำลังไปส่งอาหาร
-                        </div>
-                    </v-timeline-item>
-                    <v-timeline-item
-                    size="small"
-                    style="margin: 0;"
-                    dot-color="black"
-                    >
-                        <div
-                            style="font-size: 10px"
-                        >
-                            ส่งอาหารเรียบร้อย
-                        </div>
-                    </v-timeline-item>
-                </v-timeline>
+            <div>
+               <span
+                style="margin-right: 1vh;" 
+               >2</span> กะเพรา
+            </div>
+            <div>
+                50
+            </div>
             </div>
         </div>
         <div
-            style="margin-left:2vh; font-weight: bold"
+            style="min-width: 30vw; min-height: 6vh; font-size:10px; color:#7F7F7F; padding: 2vh; border-bottom:1px solid #D9D9D9; border-top:1px solid #D9D9D9;background-color:white ;"
+        
         >
-            Details
+            <div>
+                หมายเหตุจากลูกค้า
+            </div>
+            <div
+                style="margin: 2vh;"
+            >
+                tseteqeweqeeweqeweqweqe
+            </div>
+
         </div>
+        <div
+            style="min-width: 30vw; min-height: 6vh; font-size:13px; color:black; padding: 2vh; border-bottom:1px solid #D9D9D9; border-top:1px solid #D9D9D9"
+        
+        >
+            สถาะนะของออเดอร์ : <span style="color: #36C144; font-weight:bold">กำลังไปร้านอาหาร</span> new status ={{ status }} 
+        </div>
+        <v-card
+            style="width: 30vw; height: 8vh;background-color:white;  border-top: 1px solid #D9D9D9; margin-top:auto"
+         >
+          
+         <div
+            @click="updateStatus"
+            style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:bold; color: #36C144; cursor:pointer"
+         >
+            ถึงร้านอาหารแล้ว
+         </div>
+        </v-card>        
     </v-card>
 </template>
 <script setup>
@@ -79,5 +68,30 @@
 </script>
 
 <script>
+import io from 'socket.io-client';
+export default {
+  data() {
+    return {
+      message: '',
+      messages: [],
+      socket: null,
+      status: ''
+    };
+  },
+  mounted() {
+    this.socket = io('http://localhost:6100');
+    this.socket.on('update_order_Status', ({orderId, newState}) => {
+        console.log("connect :",this.socket.connected)
+        console.log(`Received update_order_Status event with order ID ${orderId} and new state ${newState}`);
+        this.status = newState
+    });
 
-</script>
+
+  },
+  methods: {    
+    updateStatus(){
+        this.socket.emit('update_order_Status', { orderId: 1, newState: 'delivered' });  
+    }
+  },
+};
+</script>>

@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const pool = require("../config/config");
+const cors = require('cors')
 let refreshTokens = [];
-
+const socketIo = require('socket.io');
 router.use(express.json());
 
 router.post("/refresh", (req, res) => {
@@ -38,7 +39,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     { id: user.id, isAdmin: user.isAdmin, Customer_email: user.Customer_email },
     "mySecretKey",
-    { expiresIn: "15m" }
+    { expiresIn: "50m" }
   );
 };
 
@@ -147,7 +148,71 @@ router.get("/itfoodhub/:Restaurant_name", async (req, res) => {
     Restaurant_name
   );
   res.send(restaurant[0]);
+})
+
+// หน้าที่โชว์ order ทั้งหมด
+router.get("/orders", verify , async (req, res)=>{
+  let userIsOnduty = false
+  const Delivery_email= req.user.Customer_email
+  //check order ที่มี delivery คนเดียวกับคนที่ขอ requset
+  const [rows, field] = await pool.query(
+    "select * from orders where delivery_email = ?",Delivery_email
+    )
+  // ถ้ามีเราก้จะให้ status แนบไปกับ res ว่า มึงอะทำงานอยู่นะไอ้สัส
+  if(rows.length == 0){
+    console.log("is not onDuty")
+    const [order_Delivery, fields] = await pool.query(
+      "select orders.orders_id, orders.order_status, orders.order_total_price, orders.customer_fname, orders.order_destination, foodorder.food_name from orders join foodorder on foodorder.order_id = orders.orders_id where orders.delivery_fname is null;")
+       res.send(order_Delivery)
+  }else{
+    console.log("already onDuty")
+    res.send(rows)
+  }
+  
+
+})
+
+// รับ order
+
+router.post("/recieveorders/:id", verify , async (req, res)=>{
+
+    const Delivery_email= req.user.Customer_email
+    const idOrder = req.params.id
+    //เอาชื่อของ Delivery
+    try{
+    const [delivery_details, fields] = await pool.query("select * from customer where customer_email = ?;",
+    Delivery_email)
+    // update order ให้มีคน delive
+    const Delivery_Fname = delivery_details[0].Customer_Fname
+    const [update, field] = await pool.query(
+      "update orders set delivery_fname = ? , delivery_email = ? where orders_id = ?;", [Delivery_Fname, Delivery_email, idOrder]
+    )
+      console.log("success")
+    }catch(err){
+      console.log(err)
+    }
+    res.send("success")
+})
+
+// นี้คือ การ update status ของ order 
+const io = socketIo(6100,{ 
+  cors: {
+      origin: 'http://localhost:3000', // Replace with your frontend URL
+      methods: ['GET', 'POST'],
+    },
 });
-// confirm Order
+  io.on('connection', (socket) => {
+    console.log('New client connected');
+    socket.on('update_order_Status', async ({orderId, newState}) => {
+        const [update, field] =  await pool.query(
+          `update orders set order_status= '${newState }' where orders_id = '${orderId}';`
+        )
+        console.log(`Order ${orderId} state updated to ${newState}`);
+        io.emit('order_updated', { orderId, newState });
+      });
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
+});
 
 module.exports = router;
