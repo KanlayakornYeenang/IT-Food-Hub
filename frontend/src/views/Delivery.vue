@@ -36,7 +36,7 @@
                                        {{ order.order_destination }}
                                     </div>
                                 </div>
-                            </div>
+                            </v-card>
                             <div 
                                 class="status-detail"
                                 style="margin: 1vh; display: flex; justify-content: center"
