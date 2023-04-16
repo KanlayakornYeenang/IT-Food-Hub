@@ -156,19 +156,20 @@ router.get("/orders", verify , async (req, res)=>{
   const Delivery_email= req.user.Customer_email
   //check order ที่มี delivery คนเดียวกับคนที่ขอ requset
   const [rows, field] = await pool.query(
-    "select order.orders_id from orders order inner join customer on orders.delivery_id = customer.customerId inner join foodorder on orders_id = foodorder.order_id where customer_email = ?",Delivery_email
+    "select o.order_id , o.order_total_price, o.order_destination, o.restaurant_name, d.customer_Fname as 'delivery_name', c.customer_Fname as 'customer_name', f.food_name from orders o left outer join customer d on (o.delivery_id = d.customerId) left outer join customer c on (o.customer_id = c.customerId) left outer join foodorder f on (f.order_id = o.order_id)  where d.customer_email = ?",
+    [Delivery_email]
     )
   console.log(rows)
-  // ถ้ามีเราก้จะให้ status แนบไปกับ res ว่า มึงอะทำงานอยู่นะไอ้สัส
-  // if(rows.length == 0){
-  //   console.log("is not onDuty")
-  //   const [order_Delivery, fields] = await pool.query(
-  //     "select * from orders inner join customer on orders.customer_id = customer.customerId inner join foodorder on orders_id = foodorder.order_id")
-  //      res.send(order_Delivery)
-  // }else{
+  //check ว่า user คนนั้นรับ order ไปหรือยัง
+  if(rows.length == 0){
+    console.log("is not onDuty")
+    const [order_Delivery, fields] = await pool.query(
+      "select o.order_id,  o.order_total_price, o.order_destination, o.restaurant_name, f.food_name from orders o left outer join foodorder f on o.order_id = f.order_id where o.delivery_id is null")
+       res.send(order_Delivery)
+  }else{
     console.log("already onDuty")
     res.send(rows)
-  // }
+  }
   
 
 })

@@ -46,7 +46,7 @@
                                     <div
                                         style="border-right: 1px solid black; padding:1vh"
                                     >
-                                        คุณ {{ order.customer_fname }}
+                                        คุณ {{ order.customer_name }}
                                     </div>
                                     <div
                                         style="border-right:; padding:1vh"
@@ -59,12 +59,12 @@
                                 >
                                 <v-btn
                                     v-if="order.delivery_fname == undefined"
-                                    @click ="setOverlayDetail(order.orders_id)"
+                                    @click ="AcceptOrder(order.order_id)"
                                     style="background-color: #5EC055; color:white"
                                 >ยืนยัน {{order.delivery_fname}}</v-btn>
                                 <v-btn
                                     v-if="order.delivery_fname != undefined"
-                                    @click="AcceptOrder(order.orders_id)"
+                                    @click="AcceptOrder(order.order_id)"
                                     style="background-color: #5EC055; color:white"
                                     >ไปที่ออเดอร์ที่ต้องจัดส่ง</v-btn>
                                 </div>
@@ -94,7 +94,7 @@
                     >ยกเลิก</v-btn>
                     <v-btn 
                         style="margin:1vh; background-color:#5EC055; color:white"
-                        @click="AcceptOrder(pathOrder)"
+                        @click="confirmOrder"
                     >ตกลง</v-btn>
                 </div>
             </v-card>
@@ -112,11 +112,23 @@ export default {
     openDialog : false,
     orders: null,
     groupData:null,
-    pathOrder: ''
+    order_id: '',
+    access_token:'',
   }),
   methods:{
-    AcceptOrder(path){
-        this.$router.push("/itfoodhub/order/yourOrderis"+path);
+    AcceptOrder(orderid){
+        this.openDialog = true
+        console.log(orderid)
+        this.order_id = orderid
+        // axios.post("http://localhost:5000/api/orders",{
+        //     headers: {
+        //         Authorization: "Bearer " + this.access_token,
+        //     },
+        // }).then(response =>console.log(response))
+    },
+    confirmOrder(){
+        this.openDialog = false
+        console.log(this.order_id)
     },
     setOverlayDetail(path){
         this.openDialog = true
@@ -139,18 +151,18 @@ export default {
             this.orders = res.data
             console.log("res data = ",this.orders)
             this.groupData = this.orders.reduce((acc, order) => {
-            const { orders_id, Customer_Fname, order_destination, order_status, order_total_price, } = order;
+            const { order_id, customer_name, order_destination, order_status, order_total_price,restaurant_name } = order;
             const food_name = [order.food_name];
-            const existingOrder = acc.find(o => o.orders_id === orders_id);
+            const existingOrder = acc.find(o => o.order_id === order_id);
             if (existingOrder) {
                 existingOrder.food_name.push(order.food_name);
             } else {
-                acc.push({ orders_id, customer_fname, food_name, order_destination, order_status, order_total_price,delivery_fname });
+                acc.push({ order_id, customer_name, food_name, order_destination, order_status, order_total_price ,restaurant_name});
             }
             
             return acc;
             }, []);
-        console.log("test",this.groupData)
+        console.log("groupData",this.groupData)
         },
       ).catch((err)=>{
         console.log(err)
