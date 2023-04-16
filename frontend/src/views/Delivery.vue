@@ -135,11 +135,11 @@ export default {
       })
       .then(
         (res)=>{
-            console.log("data",res.data)
+            console.log("order - data :",res.data)
             this.orders = res.data
-            console.log(this.orders)
+            console.log("res data = ",this.orders)
             this.groupData = this.orders.reduce((acc, order) => {
-            const { orders_id, customer_fname, order_destination, order_status, order_total_price,delivery_fname } = order;
+            const { orders_id, Customer_Fname, order_destination, order_status, order_total_price, } = order;
             const food_name = [order.food_name];
             const existingOrder = acc.find(o => o.orders_id === orders_id);
             if (existingOrder) {
@@ -150,7 +150,7 @@ export default {
             
             return acc;
             }, []);
-        console.log(this.groupData)
+        console.log("test",this.groupData)
         },
       ).catch((err)=>{
         console.log(err)

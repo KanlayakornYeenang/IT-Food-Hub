@@ -156,18 +156,19 @@ router.get("/orders", verify , async (req, res)=>{
   const Delivery_email= req.user.Customer_email
   //check order ที่มี delivery คนเดียวกับคนที่ขอ requset
   const [rows, field] = await pool.query(
-    "select * from orders where delivery_email = ?",Delivery_email
+    "select order.orders_id from orders order inner join customer on orders.delivery_id = customer.customerId inner join foodorder on orders_id = foodorder.order_id where customer_email = ?",Delivery_email
     )
+  console.log(rows)
   // ถ้ามีเราก้จะให้ status แนบไปกับ res ว่า มึงอะทำงานอยู่นะไอ้สัส
-  if(rows.length == 0){
-    console.log("is not onDuty")
-    const [order_Delivery, fields] = await pool.query(
-      "select orders.orders_id, orders.order_status, orders.order_total_price, orders.customer_fname, orders.order_destination, foodorder.food_name from orders join foodorder on foodorder.order_id = orders.orders_id where orders.delivery_fname is null;")
-       res.send(order_Delivery)
-  }else{
+  // if(rows.length == 0){
+  //   console.log("is not onDuty")
+  //   const [order_Delivery, fields] = await pool.query(
+  //     "select * from orders inner join customer on orders.customer_id = customer.customerId inner join foodorder on orders_id = foodorder.order_id")
+  //      res.send(order_Delivery)
+  // }else{
     console.log("already onDuty")
     res.send(rows)
-  }
+  // }
   
 
 })
@@ -183,9 +184,9 @@ router.post("/recieveorders/:id", verify , async (req, res)=>{
     const [delivery_details, fields] = await pool.query("select * from customer where customer_email = ?;",
     Delivery_email)
     // update order ให้มีคน delive
-    const Delivery_Fname = delivery_details[0].Customer_Fname
+    const Delivery_ID = delivery_details[0].CustomerId
     const [update, field] = await pool.query(
-      "update orders set delivery_fname = ? , delivery_email = ? where orders_id = ?;", [Delivery_Fname, Delivery_email, idOrder]
+      "update orders set delivery_id = ? where orders_id = ?;", [Delivery_ID, idOrder]
     )
       console.log("success")
     }catch(err){
