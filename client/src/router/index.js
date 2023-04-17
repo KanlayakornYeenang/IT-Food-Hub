@@ -15,7 +15,7 @@ const routes = [
     component: () => import("@/components/nav/PrivateNav.vue"),
     children: [
       {
-        path: "itfoodhub",
+        path: "",
         component: () => import("@/views/ITFoodHub.vue"),
       },
     ],
