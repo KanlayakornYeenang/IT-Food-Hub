@@ -39,7 +39,7 @@ const getDetail = async (req, res) => {
   }
 }
 
-const getRestaurant = async (res) => {
+const getRestaurant = async (req, res) => {
   try {
     const result = await getAllRestaurant();
     return res.json(result);
