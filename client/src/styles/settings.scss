@@ -1,0 +1,30 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://next.vuetifyjs.com/features/sass-variables/`
+// @use 'vuetify' with (
+//   $color-pack: false
+// );
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@500;700&family=Poppins:wght@500;600&display=swap');
+
+.v-card, .v-container, .v-list-item {
+    * {
+        font-family: 'Poppins', 'IBM Plex Sans Thai', sans-serif !important;
+        line-height: 1.5;
+    }
+    .fw-600 {
+        font-weight: 600;
+    }
+    .fw-700 {
+        font-weight: 700;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #0000ff;
+}
