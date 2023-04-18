@@ -3,6 +3,7 @@ const {
   getUserByNameAndPasword,
   getUserDetailById,
   getAllRestaurant,
+  registerUser
 } = require("../../models/users");
 
 const login = async (req, res) => {
@@ -13,13 +14,13 @@ const login = async (req, res) => {
     if (result) {
       const user = result;
       const token = jwt.sign(
-        { user_id: user.user_id, user_role: user.user_role },
+        { user_id: user.user_id, user_role: user.user_role, user_email: user.user_email},
         "mySecretKey",
         {
           expiresIn: "1d",
         }
       );
-      return res.json({ success: true, message: "Login successful", token });
+      return res.json({ success: true, message: "Login successful", token, user_detail: user });
     }
     return res
       .status(401)
@@ -31,9 +32,10 @@ const login = async (req, res) => {
 
 const getDetail = async (req, res) => {
   try {
+    console.log(req.user)
     const user_id = req.user.user_id
     const result = await getUserDetailById(user_id);
-    return res.json(result);
+    return res.json( result);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -48,4 +50,14 @@ const getRestaurant = async (req, res) => {
   }
 };
 
-module.exports = { login, getDetail, getRestaurant };
+const registerOfUser = async (req, res) => {
+  const {fname, lname, email, password} = req.body
+  try{
+    const result = await registerUser(fname, lname, email, password)
+    return res.json(result);
+  }catch(err){
+    res.status(500).send(err)
+  }
+}
+
+module.exports = { login, getDetail, getRestaurant, registerOfUser };
