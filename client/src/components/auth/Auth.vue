@@ -27,7 +27,7 @@ import LogIn from "@/components/Auth/LogIn.vue";
 </script>
 
 <script>
-export default {
+export default {  
   data() {
     return {
       //
