@@ -1,12 +1,14 @@
 <template>
   <v-container fluid class="pa-0">
     <Banner />
+    <SearchTab />
     <Category />
   </v-container>
 </template>
 
 <script setup>
 import Banner from "@/components/itfoodhub/Banner.vue";
+import SearchTab from "@/components/itfoodhub/SearchTab.vue";
 import Category from "@/components/itfoodhub/Category.vue";
 </script>
 
