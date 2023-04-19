@@ -13,4 +13,7 @@ router.get("/user", verify, users.getDetail);
 // for send all restaurants to user
 router.get("/itfoodhub", verify, users.getRestaurant);
 
+// for register user
+router.post("/register", users.registerOfUser)
+
 module.exports = router;

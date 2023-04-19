@@ -17,5 +17,12 @@ const getAllRestaurant = async () => {
   const [rows, fields] = await db.query(sql);
   return rows;
 }
+const registerUser = async (fname, lname, email,password,)=>{
+  const sql = "insert into users(user_fname, user_lname, user_email, user_password, user_role) values(?,?,?,?,?)"
+  const [rows,fields] = await db.query(sql, [fname, lname, email, password, "customer"])
+  return rows
+}
 
-module.exports = { getUserByNameAndPasword, getUserDetailById, getAllRestaurant };
+
+
+module.exports = { getUserByNameAndPasword, getUserDetailById, getAllRestaurant, registerUser};
