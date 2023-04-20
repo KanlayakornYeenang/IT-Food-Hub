@@ -2,13 +2,16 @@ const jwt = require("jsonwebtoken");
 
 const verify = (req, res, next) => {
   const authnHeader = req.headers.authorization;
+  // if user change Password
+  const {password} = req.body
+  req.newPassword = password
   if (authnHeader) {
     const token = authnHeader.split(" ")[1];
     jwt.verify(token, "mySecretKey", (err, user) => {
       if (err) {
         return res.status(401).json("Token is not valid");
       }
-      req.user = user;
+      req.user = user
       next();
     });
   } else {

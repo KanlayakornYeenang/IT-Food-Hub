@@ -3,7 +3,11 @@ const {
   getUserByNameAndPasword,
   getUserDetailById,
   getAllRestaurant,
-  registerUser
+  registerUser,
+  getAllUser,
+  updatePassword,
+  insertProfilePicture,
+  updateRoleUser
 } = require("../../models/users");
 
 const login = async (req, res) => {
@@ -53,11 +57,65 @@ const getRestaurant = async (req, res) => {
 const registerOfUser = async (req, res) => {
   const {fname, lname, email, password} = req.body
   try{
-    const result = await registerUser(fname, lname, email, password)
-    return res.json(result);
+    const users = await  getAllUser()
+    //check email is not already have in database
+    const findSameEmail = users.find(user => user.user_email === email)
+    if(findSameEmail){
+      res.status(500).send("your email is already in use")
+    }else{
+      const result = await registerUser(fname, lname, email, password)
+      return res.json(result);
+    }
   }catch(err){
     res.status(500).send(err)
   }
 }
 
-module.exports = { login, getDetail, getRestaurant, registerOfUser };
+const changePasswordUser = async(req, res)=>{
+  try{
+    const newPassword = req.newPassword 
+    const user_id = req.user.user_id
+    result = await updatePassword(user_id, newPassword)
+    res.send({
+      message: "Password updated!",
+      result: result
+    })
+  }catch(err){
+    res.status(500).send(err)
+  }
+}
+
+const insertPictureProfile = async(req, res)=>{
+  const file = req.file
+  console.log(file)
+  id = 1
+  if(!file){
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return res.json(error)
+  }
+  try{
+    console.log(file.path.substr(6))
+    result = await insertProfilePicture(id, file.path.substr(6))
+    res.send(result)
+  }catch(error){
+    res.send(error)
+  }
+}
+
+const changeRoleUser = async(req, res)=>{
+  const user_id = req.user.user_id
+  const role = req.params.role
+  try{
+    const result = await updateRoleUser(user_id, role)
+    res.send({
+      message: "Role updated successfully",
+      result : result
+    })
+  }catch(err){
+    res.status(404).send(err)
+  }
+
+}
+
+module.exports = { login, getDetail, getRestaurant, registerOfUser ,changePasswordUser, insertPictureProfile, changeRoleUser};
