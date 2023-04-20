@@ -12,11 +12,15 @@ const routes = [
   },
   {
     path: "/itfoodhub",
-    component: () => import("@/components/nav/PrivateNav.vue"),
+    component: () => import("@/views/Default.vue"),
     children: [
       {
         path: "",
         component: () => import("@/views/ITFoodHub.vue"),
+      },
+      {
+        path: ":restaurant_name",
+        component: () => import("@/views/Restaurant.vue"),
       },
     ],
   },

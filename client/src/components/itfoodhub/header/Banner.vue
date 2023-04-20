@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center align-center py-10">
+  <div class="d-flex justify-center align-center pt-10">
     <v-col cols="8" class="bg-it banner d-flex rounded-lg">
       <div class="pa-4">
         <p class="text-h3 mb-3 fw-600">
@@ -8,7 +8,7 @@
         </p>
         <p>
           อยากเป็นพาร์ทเนอร์กับ IT FOOD HUB
-          <a href="#" class="text-yellow">คลิกที่นี่</a>
+          <a href="#" class="text-amber">คลิกที่นี่</a>
         </p>
       </div>
     </v-col>

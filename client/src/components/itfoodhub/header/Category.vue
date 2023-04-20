@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center justify-center">
+  <div class="d-flex align-center justify-center py-5">
     <v-col cols="8" class="pa-0">
       <v-tabs
         v-model="tab"
@@ -36,6 +36,7 @@
     </v-col>
   </div>
 </template>
+
 <style>
 .v-tab--selected {
   font-weight: 600 !important;
