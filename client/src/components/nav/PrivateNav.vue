@@ -1,74 +1,61 @@
 <template>
-  <v-card>
-    <v-layout>
-      <v-navigation-drawer location="top" color="it" float class="pa-2">
-        <v-list nav class="d-flex justify-space-around">
-          <v-sheet cols="1" color="transparent">
-            <v-img :width="90" src="@/assets/logo-white.png"></v-img>
-          </v-sheet>
-          <div>
-            <v-btn
-              class="mx-2"
-              size="large"
-              elevation="0"
-              color="transparent"
-              prepend-icon="mdi-home"
-              ><p class="th-b text-body-1 fw-600">หน้าแรก</p></v-btn
-            >
-            <v-btn
-              class="mx-2"
-              size="large"
-              elevation="0"
-              color="transparent"
-              prepend-icon="mdi-receipt-text"
-              ><p class="th-b text-body-1 fw-600">รายการ</p></v-btn
-            >
-            <v-btn
-              v-if="user"
-              class="mx-2"
-              size="large"
-              elevation="0"
-              color="transparent"
-              prepend-icon="mdi-account"
-            >
-              <p class="th-b text-body-1 fw-600">
-                {{ user.user_fname[0] + user.user_lname[0] }}
-              </p></v-btn
-            >
-          </div>
-        </v-list>
-      </v-navigation-drawer>
-      <v-main style="min-height: 100vh">
-        <router-view />
-      </v-main>
-    </v-layout>
-  </v-card>
+  <v-app-bar color="it" height="145" elevation="2">
+    <v-col cols="8" class="d-flex flex-column mx-auto">
+      <div class="d-flex justify-space-between my-2">
+        <div>
+          <v-btn size="small">
+            <p class="text-body-1 fw-600">สมัครเป็นพาร์ทเนอร์ร้านอาหาร</p>
+          </v-btn>
+          <v-btn size="small">
+            <p class="text-body-1 fw-600">สมัครเป็นคนส่งอาหาร</p>
+          </v-btn>
+        </div>
+        <div>
+          <v-btn size="small" prepend-icon="mdi-chat-processing">
+            <p class="text-body-1 fw-600">ข้อความ</p>
+          </v-btn>
+          <v-btn size="small" prepend-icon="mdi-receipt-text">
+            <p class="text-body-1 fw-600">รายการสั่งซื้อ</p>
+          </v-btn>
+          <v-btn size="small" prepend-icon="mdi-bell">
+            <p class="text-body-1 fw-600">การแจ้งเตือน</p>
+          </v-btn>
+          <v-btn v-if="user" size="small" prepend-icon="mdi-account">
+            <p class="text-body-1 fw-600">{{ user.user_fname }}</p>
+          </v-btn>
+        </div>
+      </div>
+      <div class="d-flex justify-space-between align-end my-2">
+        <v-sheet color="transparent" class="mr-10 ml-7">
+          <v-img :width="125" src="@/assets/logo-white.png"></v-img>
+        </v-sheet>
+        <v-text-field
+          placeholder="Search IT FOOD HUB"
+          variant="solo"
+          hide-details
+          append-inner-icon="mdi-magnify"
+        ></v-text-field>
+        <v-btn icon class="mx-10"
+          ><v-badge :content="100" color="foodhub"
+            ><v-icon size="x-large">mdi-shopping</v-icon></v-badge
+          ></v-btn
+        >
+      </div>
+    </v-col>
+  </v-app-bar>
 </template>
 
-<style>
-.v-navigation-drawer {
-  height: fit-content !important;
-}
-</style>
-
 <script>
-import axios from "@/plugins/axios.js";
-
 export default {
   data() {
     return {
       user: null,
     };
   },
-  mounted() {
-    axios
-      .get("api/user")
-      .then((res) => {
-        this.user = res.data;
-      })
-      .catch((err) => {
-        this.$router.push("/");
-      });
+  props: {
+    user: {
+      type: Object,
+    },
   },
 };
 </script>

@@ -4,7 +4,7 @@
       <div class="mb-4">
         <div class="d-flex">
           <div>
-            <p class="text-h4" style="font-weight:700">สวัสดี</p>
+            <p class="text-h4" style="font-weight:600">สวัสดี</p>
           </div>
           <div class="px-1"></div>
           <div>

@@ -15,7 +15,9 @@ const it = {
   dark: false,
   colors: {
     it: "#2255A4",
+    itlight: "#D7E1F1",
     foodhub: "#FE6612",
+    foodhublight: "#FFCDB1",
   },
 };
 
