@@ -87,7 +87,7 @@ const changePasswordUser = async(req, res)=>{
 
 const insertPictureProfile = async(req, res)=>{
   const file = req.file
-  console.log(file)
+
   id = 1
   if(!file){
     const error = new Error("Please upload a file");
@@ -104,10 +104,16 @@ const insertPictureProfile = async(req, res)=>{
 }
 
 const changeRoleUser = async(req, res)=>{
+  const file = req.file
+  if(!file){
+    const error = new Error("Please upload a file");
+    console.log(error)
+    return res.status(404).send(error)
+  }
   const user_id = req.user.user_id
   const role = req.params.role
   try{
-    const result = await updateRoleUser(user_id, role)
+    const result = await updateRoleUser(user_id, role, file.path.substr(6))
     res.send({
       message: "Role updated successfully",
       result : result

@@ -45,17 +45,13 @@ const insertProfilePicture = async(image_id, file_name)=>{
 
 // update role  user // note yet
 const updateRoleUser = async (user_id, role, file_name)=>{
-  const connection = await db.getConnection()
-  await connection.beginTransaction()
-  try{
+    console.log("update role user")
     const sql = "update users set user_role = ? where user_id = ?"
     const [rows, fields] = await db.query(sql,[role, user_id])
     // test
     insertProfilePicture(2, file_name)
     return rows
-  }catch(err){
-    return err
-  }
+  
 }
 
 
