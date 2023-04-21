@@ -22,6 +22,20 @@ const routes = [
         path: ":rst_id",
         component: () => import("@/views/Restaurant.vue"),
       },
+      {
+        path:"user",
+        component: ()=>import("@/views/User.vue"),
+        children:[
+          {
+            path:"",
+            component: ()=>import("@/components/user/Profile.vue"),
+          },
+          {
+            path:"password",
+            component: ()=>import("@/components/user/ChangePassword.vue"),
+          }
+        ]
+      }
     ],
   },
 ];
