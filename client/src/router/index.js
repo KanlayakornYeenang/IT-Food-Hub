@@ -19,7 +19,7 @@ const routes = [
         component: () => import("@/views/ITFoodHub.vue"),
       },
       {
-        path: ":restaurant_name",
+        path: ":rst_id",
         component: () => import("@/views/Restaurant.vue"),
       },
     ],

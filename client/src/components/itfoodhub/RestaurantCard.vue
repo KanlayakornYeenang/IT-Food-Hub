@@ -4,7 +4,7 @@
     class="w-100"
     elevation="2"
     rounded="lg"
-    :to="'/itfoodhub/'+restaurant.rst_name"
+    :to="'/itfoodhub/'+restaurant.rst_id"
   >
     <v-img
       cover
