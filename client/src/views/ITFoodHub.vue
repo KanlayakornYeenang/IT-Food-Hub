@@ -8,30 +8,8 @@
       <div class="d-flex justify-center align-center">
         <v-col cols="8" class="d-flex my-3">
           <v-row>
-            <v-col cols="3" v-for="i in 6" :key="i">
-              <v-card
-                color="it"
-                class="w-100"
-                elevation="2"
-                rounded="lg"
-                to="/itfoodhub/ป้าไม่ได้อะไรเลย"
-              >
-                <v-img
-                  cover
-                  height="180"
-                  src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                ></v-img>
-                <v-card-item class="pa-3">
-                  <v-card-title class="d-flex justify-space-between"
-                    ><p class="text-amber fw-600">ป้าไม่ได้อะไรเลย</p>
-                    <v-chip class="bg-success">เปิด</v-chip></v-card-title
-                  >
-                  <v-chip-group>
-                    <v-chip>อาหารทานเล่น</v-chip>
-                    <v-chip>เครื่องดื่ม</v-chip>
-                  </v-chip-group>
-                </v-card-item>
-              </v-card>
+            <v-col cols="3" v-for="restaurant,i in restaurants" :key="i">
+              <RestaurantCard :restaurant="restaurant"/>
             </v-col>
           </v-row>
         </v-col>
@@ -42,6 +20,7 @@
 
 <script setup>
 import Header from "@/components/itfoodhub/Header.vue";
+import RestaurantCard from "@/components/itfoodhub/RestaurantCard.vue";
 </script>
 
 <script>
@@ -63,6 +42,7 @@ export default {
       .get("api/itfoodhub")
       .then((res) => {
         this.restaurants = res.data;
+        console.log(res.data);
       })
       .catch((err) => {
         this.$router.push("/");
