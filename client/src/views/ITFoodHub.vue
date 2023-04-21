@@ -39,7 +39,7 @@ export default {
   },
   mounted() {
     axios
-      .get("api/itfoodhub")
+      .get("itfoodhub/getAllRestaurants")
       .then((res) => {
         this.restaurants = res.data;
         console.log(res.data);

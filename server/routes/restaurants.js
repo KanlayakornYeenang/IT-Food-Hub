@@ -6,6 +6,7 @@ const { restaurants } = require("../controllers/restaurants");
 const upload = require("../middleware/multer")
 
 // for get user detail
-router.get("/:rst_id", restaurants.getAllMenu);
+router.get("/getAllRestaurants", verify, restaurants.getRestaurants)
+router.get("/:rst_id", verify, restaurants.getAllMenu);
 
 module.exports = router;
