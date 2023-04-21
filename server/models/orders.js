@@ -16,11 +16,13 @@ const getAllOrder = async ()=>{
 }
 
 // update orders to order_delivery = user ที่รับ order
-
 const updateDelivery_order = async (delivery_id, order_id)=>{
     const sql = "update orders set delivery_id = ? where order_id = ?;"
     const [rows, fields] = await db.query(sql, [delivery_id, order_id])
     return rows
 }
+// create order
+const createOrder = async (customer_id) =>{
 
+}
 module.exports = {getOrderThatHaveDelivery, getAllOrder, updateDelivery_order}

@@ -3,6 +3,7 @@ const router = express.Router();
 const verify = require("../middleware/verify");
 const requireRole = require("../middleware/requireRole");
 const { users } = require("../controllers/auth");
+const {customer}=  require("../controllers/customer")
 const upload = require("../middleware/multer")
 
 // for user login
@@ -25,5 +26,7 @@ router.post("/uploadprofile", upload.single("image"), users.insertPictureProfile
 
 // for update role 
 router.put("/updaterole/:role",verify,upload.single("image"), users.changeRoleUser)
+// for create orders
+router.post("/createorder", customer.createOrder)
 
 module.exports = router;
