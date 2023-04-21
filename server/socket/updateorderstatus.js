@@ -5,7 +5,7 @@ const updateOrderStatus = (io) =>{
         "Socket is ready.... waiting for connection!"
     )
     io.on('connection', (socket) => {
-        console.log('New client connected');
+        console.log('New client connected');  
         socket.on('update_order_Status', async ({orderId, newState}) => {
             // code to update order Status
 

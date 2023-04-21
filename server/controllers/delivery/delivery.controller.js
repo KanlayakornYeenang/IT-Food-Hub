@@ -31,6 +31,7 @@ const updateDeliveryOrder = async(req, res)=>{
     // กดรับ orderปุ๊ป ก็ส่ง id ของ order เข้ามาใน params เลย
     const user_id = req.user.user_id
     const order_id = req.params.id
+    console.log(order_id, req.user)
     try{
         const result = await updateDelivery_order(user_id, order_id)
         return res.json(result)
@@ -39,5 +40,7 @@ const updateDeliveryOrder = async(req, res)=>{
         res.status(500).send(err);
     }
 }
+
+
 
 module.exports = {getOrder, updateDeliveryOrder};

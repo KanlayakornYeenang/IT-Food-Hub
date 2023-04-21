@@ -1,11 +1,12 @@
-const requireRole = (role) => {
-  return (req, res, next) => {
-    if (req.user && req.user.user_role === role) {
-      next();
-    } else {
-      res.status(401).json({ message: "Unauthorized" });
-    }
-  };
+
+
+const requireRole = (req, res, next) => {
+  console.log(req.user.user_role)
+  const role = req.user.user_role
+  if(role !== 'delivery'){
+    res.status(404).send("You can't do this!!, role is not allowed")
+  }
+  next()
 };
 
 module.exports = requireRole;
