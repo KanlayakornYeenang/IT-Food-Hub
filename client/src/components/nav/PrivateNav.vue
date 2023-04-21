@@ -20,9 +20,34 @@
           <v-btn size="small" prepend-icon="mdi-bell">
             <p class="text-body-1 fw-600">การแจ้งเตือน</p>
           </v-btn>
-          <v-btn v-if="user" size="small" prepend-icon="mdi-account">
-            <p class="text-body-1 fw-600">{{ user.user_fname }}</p>
-          </v-btn>
+          <v-menu
+            open-on-hover
+          >
+            <template v-slot:activator="{ props }">
+              <v-btn v-if="user" size="small" prepend-icon="mdi-account" id="menu-activator" v-bind="props">
+                <p class="text-body-1 fw-600">{{ user.user_fname }}</p>
+              </v-btn>
+            </template>
+            <div
+              style="background-color: white; border-top-right-radius:5px; border-top-left-radius:5px"
+            >
+              <v-btn
+                variant="plain"
+                :to="'/itfoodhub/user'"
+              >
+               บัญชีของฉัน
+              </v-btn>
+            </div>
+            <div
+              style="background-color: white; border-bottom-right-radius:5px; border-bottom-left-radius:5px"
+            >
+              <v-btn
+                variant="plain"
+              >
+               ออกจากระบบ
+              </v-btn>
+            </div>
+        </v-menu>
         </div>
       </div>
       <div class="d-flex justify-space-between align-end my-2">
