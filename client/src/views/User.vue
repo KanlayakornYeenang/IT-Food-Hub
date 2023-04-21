@@ -23,7 +23,6 @@
                             <div variant="plain"
                             >
                                 <v-icon 
-                                :to="'/itfoodhub/user'"
                                 icon="mdi-pencil"></v-icon>
                                 แก้ไขข้อมูลส่วนตัว
                             </div>

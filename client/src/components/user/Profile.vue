@@ -100,12 +100,8 @@
                             style="margin-bottom: 4vh;"
                         >
                             <v-avatar color="info" size="150">
-                                <v-img
-                                    style="width: 20vh;"
-                                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                                    alt="John"
-                                ></v-img>
-                              </v-avatar>
+                                <v-icon icon="mdi-account-circle"></v-icon>
+                            </v-avatar>
                         </div>
                         <div class="d-flex justify-center align-center">
                             <div>
