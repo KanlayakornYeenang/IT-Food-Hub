@@ -9,7 +9,7 @@
     <v-img
       cover
       height="180"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      src="https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon-614x460.png"
     ></v-img>
     <v-card-item class="pa-3">
       <v-card-title class="d-flex justify-space-between"

@@ -12,4 +12,5 @@ const gropMenu = (orders)=>{
     }, [])
     return orderGrouped
 }
+
 module.exports = {gropMenu}

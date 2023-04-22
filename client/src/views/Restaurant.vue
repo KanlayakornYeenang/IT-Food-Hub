@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid class="pa-0">
-      <Header />
+      <Header :restaurant="restaurant" />
     </v-container>
     <v-container fluid class="pa-0 bg-grey-lighten-4">
       <v-divider></v-divider>
@@ -13,8 +13,8 @@
             </v-card-item>
           </v-card>
           <v-row class="py-2">
-            <v-col cols="12" sm="3" v-for="(menu, i) in menus" :key="i">
-              <MenuCard :menu="menu" />
+            <v-col cols="12" sm="3" v-for="(item, i) in menu" :key="i">
+              <MenuCard :menu="item" />
             </v-col>
           </v-row>
         </v-col>
@@ -34,15 +34,16 @@ import axios from "@/plugins/axios.js";
 export default {
   data() {
     return {
-      menus: null,
+      restaurant: null,
+      menu: null,
     };
   },
   mounted() {
     axios
       .get(this.$route.path)
       .then((res) => {
-        this.menus = res.data;
-        console.log(res.data);
+        this.restaurant = res.data.restaurant;
+        this.menu = res.data.menu;
       })
       .catch((err) => {
         this.$router.push("/");

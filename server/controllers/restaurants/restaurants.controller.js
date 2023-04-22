@@ -1,7 +1,10 @@
 const {
   getAllRestaurants,
-  getAllMenuByRestaurantId,
+  getRestaurantById,
+  getMenuById,
 } = require("../../models/restaurants");
+
+const { groupOptions } = require("../../hook/groupedOption");
 
 const getRestaurants = async (req, res) => {
   try {
@@ -12,10 +15,19 @@ const getRestaurants = async (req, res) => {
   }
 };
 
-const getAllMenu = async (req, res) => {
+const getRestaurant = async (req, res) => {
   try {
-    const result = await getAllMenuByRestaurantId(req.params.rst_id);
+    const result = await getRestaurantById(req.params.rst_id);
     return res.json(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const getMenu = async (req, res) => {
+  try {
+    const result = await getMenuById(req.params.menu_id);
+    return res.json(groupOptions(result));
   } catch (error) {
     res.status(500).send(error);
   }
@@ -23,5 +35,6 @@ const getAllMenu = async (req, res) => {
 
 module.exports = {
   getRestaurants,
-  getAllMenu,
+  getRestaurant,
+  getMenu,
 };
