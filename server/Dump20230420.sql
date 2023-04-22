@@ -1,198 +1,188 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
---
--- Host: localhost    Database: itfoodhub
--- ------------------------------------------------------
--- Server version	8.0.32
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               10.4.24-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win64
+-- HeidiSQL Version:             12.4.0.6659
+-- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `customer`
---
+-- Dumping structure for table foodhub.category
+CREATE TABLE IF NOT EXISTS `category` (
+  `cat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cat_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `customer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customer` (
-  `CustomerId` int NOT NULL AUTO_INCREMENT,
-  `Customer_Email` varchar(45) DEFAULT NULL,
-  `Customer_Fname` varchar(45) DEFAULT NULL,
-  `Customer_Lname` varchar(45) DEFAULT NULL,
-  `Customer_Password` varchar(45) DEFAULT NULL,
-  `Customer_isOwner` varchar(45) DEFAULT '0',
-  `Customer_isDelivery` varchar(45) DEFAULT '0',
-  `Customer_Phone` varchar(45) DEFAULT NULL,
-  `Restauran_id` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`CustomerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dumping data for table foodhub.category: ~5 rows (approximately)
+INSERT INTO `category` (`cat_id`, `cat_name`) VALUES
+	(1, 'ข้าวแกง'),
+	(2, 'อาหารจานเดียว'),
+	(3, 'ก๋วยเตี๋ยว'),
+	(4, 'อาหารทานเล่น'),
+	(5, 'เครื่องดื่ม');
 
---
--- Dumping data for table `customer`
---
+-- Dumping structure for table foodhub.menu
+CREATE TABLE IF NOT EXISTS `menu` (
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rst_id` int(11) NOT NULL,
+  `menu_name` varchar(45) NOT NULL,
+  `menu_cat` varchar(45) NOT NULL,
+  `menu_desc` varchar(45) DEFAULT NULL,
+  `menu_price` decimal(5,2) NOT NULL DEFAULT 0.00,
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `customer` WRITE;
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'vorawee@gmail.com','vorawee','wirawan','vorawee','1','0',NULL,NULL),(2,'mukrob@gmail.com','mind','mind','mukrob','0','0',NULL,NULL),(3,'test@gmail.com','test','test','test','0','0',NULL,NULL);
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
-UNLOCK TABLES;
+-- Dumping data for table foodhub.menu: ~3 rows (approximately)
+INSERT INTO `menu` (`menu_id`, `rst_id`, `menu_name`, `menu_cat`, `menu_desc`, `menu_price`) VALUES
+	(1, 1, 'อเมริกาโน่', 'กาแฟ', NULL, 0.00),
+	(2, 2, 'ก๋วยเตี๋ยวไก่มะระ', 'ก๋วยเตี๋ยว', NULL, 0.00),
+	(3, 2, 'ข้าวไข่ข้น', 'ข้าว', NULL, 0.00);
 
---
--- Table structure for table `foodorder`
---
+-- Dumping structure for table foodhub.menu_item
+CREATE TABLE IF NOT EXISTS `menu_item` (
+  `option_id` int(11) NOT NULL,
+  `item_name` varchar(45) NOT NULL,
+  `item_price` decimal(5,2) DEFAULT 0.00,
+  PRIMARY KEY (`option_id`,`item_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `foodorder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `foodorder` (
-  `foodorder_id` int NOT NULL AUTO_INCREMENT,
-  `food_name` varchar(45) DEFAULT NULL,
-  `food_price` varchar(45) DEFAULT NULL,
-  `order_id` int NOT NULL,
-  PRIMARY KEY (`foodorder_id`),
-  KEY `order_idFK_idx` (`order_id`),
-  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dumping data for table foodhub.menu_item: ~8 rows (approximately)
+INSERT INTO `menu_item` (`option_id`, `item_name`, `item_price`) VALUES
+	(1, 'พิเศษ', 10.00),
+	(2, 'บะหมี่', 0.00),
+	(2, 'วุ้นเส้น', 0.00),
+	(2, 'หมี่', 0.00),
+	(2, 'เล็ก', 0.00),
+	(3, 'น่อง', 0.00),
+	(3, 'เลือด', 0.00),
+	(3, 'ไก่ฉีก', 0.00);
 
---
--- Dumping data for table `foodorder`
---
+-- Dumping structure for table foodhub.menu_option
+CREATE TABLE IF NOT EXISTS `menu_option` (
+  `option_id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_id` int(11) NOT NULL,
+  `option_name` varchar(45) NOT NULL,
+  `option_type` enum('optional','require') NOT NULL,
+  `max_optional` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`option_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `foodorder` WRITE;
-/*!40000 ALTER TABLE `foodorder` DISABLE KEYS */;
-INSERT INTO `foodorder` VALUES (1,'กะเพราหมู','50',1),(2,'ไก่ผัดพริก','50',1),(3,'กะเพราโบราณ','50',1),(4,'ผัดซี้อิ้ว','45',2),(5,'หมุพริกแกง','60',2),(6,'เนื้อน้ำมันหอย','60',2),(7,'กะเพราไก่','50',3),(8,'ข้าวผัดน้ำพริก','50',3),(9,'หมูกระเทียม','60',3),(10,'ข้าวไข่ดาว','70',3);
-/*!40000 ALTER TABLE `foodorder` ENABLE KEYS */;
-UNLOCK TABLES;
+-- Dumping data for table foodhub.menu_option: ~3 rows (approximately)
+INSERT INTO `menu_option` (`option_id`, `menu_id`, `option_name`, `option_type`, `max_optional`) VALUES
+	(1, 2, 'พิเศษ', 'optional', 1),
+	(2, 2, 'เส้น', 'require', 1),
+	(3, 2, 'เครื่อง', 'optional', 3);
 
---
--- Table structure for table `orders`
---
-
-DROP TABLE IF EXISTS `orders`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `orders` (
-  `order_id` int NOT NULL AUTO_INCREMENT,
-  `order_status` varchar(45) DEFAULT NULL,
-  `order_total_price` varchar(45) DEFAULT NULL,
-  `foodOrder_id` varchar(45) DEFAULT NULL,
-  `order_destination` varchar(45) DEFAULT NULL,
-  `delivery_id` int DEFAULT NULL,
-  `customer_id` int DEFAULT NULL,
-  `restaurant_name` varchar(45) DEFAULT NULL,
+-- Dumping structure for table foodhub.orders
+CREATE TABLE IF NOT EXISTS `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_status` varchar(45) NOT NULL,
+  `order_total_price` decimal(5,2) DEFAULT 0.00,
+  `cus_id` varchar(45) NOT NULL,
+  `rst_id` varchar(45) NOT NULL,
+  `dlv_id` varchar(45) NOT NULL,
+  `order_dest` varchar(45) NOT NULL,
+  `order_date_time` datetime NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `orders`
---
+-- Dumping data for table foodhub.orders: ~0 rows (approximately)
+INSERT INTO `orders` (`order_id`, `order_status`, `order_total_price`, `cus_id`, `rst_id`, `dlv_id`, `order_dest`, `order_date_time`) VALUES
+	(1, 'กำลังไปที่ร้านอาหาร', 0.00, '2', '2', '1', 'm19', '2023-04-21 11:29:47');
 
-LOCK TABLES `orders` WRITE;
-/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'going to restaurant','100','1','m19',1,2,'ร้านพี่ช้าง'),(2,'find rider','200','3','m22',NULL,3,'ร้านไก่ทอด'),(3,'find rider','300','2','m21',NULL,3,'ร้านพ่อมึง');
-/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
-UNLOCK TABLES;
+-- Dumping structure for table foodhub.orders_detail
+CREATE TABLE IF NOT EXISTS `orders_detail` (
+  `order_detail_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `	option_details` longtext DEFAULT NULL,
+  PRIMARY KEY (`order_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
---
--- Table structure for table `restaurants`
---
+-- Dumping data for table foodhub.orders_detail: ~2 rows (approximately)
+INSERT INTO `orders_detail` (`order_detail_id`, `order_id`, `menu_id`, `quantity`, `	option_details`) VALUES
+	(1, 1, 1, 1, '{ "พิเศษ": [ "พิเศษ" ], "เส้น": [ "บะหมี่" ], "เครื่อง": [ "น่อง", "เลือด", "ไก่ฉีก" ] }');
 
-DROP TABLE IF EXISTS `restaurants`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `restaurants` (
-  `Restuarant_id` int NOT NULL AUTO_INCREMENT,
-  `Restaurant_name` varchar(45) NOT NULL,
-  `Restuarant_Location` varchar(45) NOT NULL,
-  `Restuarant_type` varchar(45) NOT NULL,
-  PRIMARY KEY (`Restuarant_id`,`Restaurant_name`,`Restuarant_Location`,`Restuarant_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dumping structure for table foodhub.restaurants
+CREATE TABLE IF NOT EXISTS `restaurants` (
+  `rst_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rst_name` varchar(45) NOT NULL,
+  `rst_locat` varchar(45) NOT NULL DEFAULT 'โรงอาหารคณะไอที',
+  PRIMARY KEY (`rst_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `restaurants`
---
+-- Dumping data for table foodhub.restaurants: ~2 rows (approximately)
+INSERT INTO `restaurants` (`rst_id`, `rst_name`, `rst_locat`) VALUES
+	(1, 'จิบกาแฟสด', 'โรงอาหารคณะไอที'),
+	(2, 'ก๋วยเตี๋ยวไก่มะระ ข้าวไข่ข้น', 'โรงอาหารคณะไอที');
 
-LOCK TABLES `restaurants` WRITE;
-/*!40000 ALTER TABLE `restaurants` DISABLE KEYS */;
-INSERT INTO `restaurants` VALUES (1,'พี่ช้าง','โรงอาหาร ไอที','a la carte'),(2,'ร้าน A','โรงอาหาร ไอที','a la carte'),(3,'ร้าน B','โรงอาหาร ไอที','a la carte'),(4,'ร้าน C','โองอาหาร ไอที','noodle'),(5,'ร้าน D','โรงอาหาร ไอที','drink'),(6,'ร้าน E','โรงอาหาร ไอที','snack');
-/*!40000 ALTER TABLE `restaurants` ENABLE KEYS */;
-UNLOCK TABLES;
+-- Dumping structure for table foodhub.restaurants_category
+CREATE TABLE IF NOT EXISTS `restaurants_category` (
+  `rst_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  PRIMARY KEY (`rst_id`,`cat_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Table structure for table `testimages`
---
+-- Dumping data for table foodhub.restaurants_category: ~2 rows (approximately)
+INSERT INTO `restaurants_category` (`rst_id`, `cat_id`) VALUES
+	(1, 5),
+	(2, 2),
+	(2, 3);
 
-DROP TABLE IF EXISTS `testimages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `testimages` (
-  `image_id` int NOT NULL AUTO_INCREMENT,
-  `file_path` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dumping structure for table foodhub.role
+CREATE TABLE IF NOT EXISTS `role` (
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `testimages`
---
+-- Dumping data for table foodhub.role: ~4 rows (approximately)
+INSERT INTO `role` (`role_id`, `role_name`) VALUES
+	(1, 'admin'),
+	(2, 'customer'),
+	(3, 'restaurant'),
+	(4, 'delivery person');
 
-LOCK TABLES `testimages` WRITE;
-/*!40000 ALTER TABLE `testimages` DISABLE KEYS */;
-INSERT INTO `testimages` VALUES (1,'\\test\\image-1681939058259.png');
-/*!40000 ALTER TABLE `testimages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `user_fname` varchar(45) DEFAULT NULL,
-  `user_lname` varchar(45) DEFAULT NULL,
-  `user_email` varchar(45) DEFAULT NULL,
-  `user_password` varchar(45) DEFAULT NULL,
-  `user_role` enum('admin','customer','partner','delivery') DEFAULT NULL,
+-- Dumping structure for table foodhub.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_email` varchar(45) NOT NULL,
+  `user_password` varchar(45) NOT NULL,
+  `user_fname` varchar(45) NOT NULL,
+  `user_lname` varchar(45) NOT NULL,
+  `user_phone` varchar(45) DEFAULT NULL,
+  `user_locat` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `users`
---
+-- Dumping data for table foodhub.users: ~2 rows (approximately)
+INSERT INTO `users` (`user_id`, `user_email`, `user_password`, `user_fname`, `user_lname`, `user_phone`, `user_locat`) VALUES
+	(1, 'vorawee@gmail.com', 'vorawee', 'vorawee', 'wirawan', NULL, NULL),
+	(2, 'mhuukrob@gmail.com', 'mhuukrob', 'kanlayakorn', 'yeenang', NULL, NULL);
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'vorawee','wirawam','vorawee@gmail.com','test','partner'),(2,'mhukrob','zaza','mhukrob@gmail.com','mhukrob','admin'),(3,'testRegister','testregister','test@gmail.com','test','customer');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
+-- Dumping structure for table foodhub.users_role
+CREATE TABLE IF NOT EXISTS `users_role` (
+  `user_id` int(11) NOT NULL,
+  `role_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping routines for database 'itfoodhub'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+-- Dumping data for table foodhub.users_role: ~2 rows (approximately)
+INSERT INTO `users_role` (`user_id`, `role_id`) VALUES
+	(1, '1'),
+	(2, '1');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2023-04-20 12:47:04
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
