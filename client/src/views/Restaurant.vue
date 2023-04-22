@@ -14,7 +14,7 @@
           </v-card>
           <v-row class="py-2">
             <v-col cols="12" sm="3" v-for="(item, i) in menu" :key="i">
-              <MenuCard :menu="item" />
+              <MenuCard :restaurant_name="restaurant.rst_name" :menu="item" />
             </v-col>
           </v-row>
         </v-col>

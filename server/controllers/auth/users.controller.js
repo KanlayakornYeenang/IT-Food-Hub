@@ -57,7 +57,7 @@ const getRestaurant = async (req, res) => {
 const registerOfUser = async (req, res) => {
   const {fname, lname, email, password} = req.body
   try{
-    const users = await  getAllUser()
+    const users = await getAllUser()
     //check email is not already have in database
     const findSameEmail = users.find(user => user.user_email === email)
     if(findSameEmail){

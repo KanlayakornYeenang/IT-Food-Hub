@@ -27,11 +27,10 @@
 
     <v-dialog
       v-model="dialog"
-      width="auto"
-      location="right"
       scroll-strategy="close"
+      width="600"
     >
-      <MenuDialog :menu="menu" @updateDialog="updateDialog" />
+      <MenuDialog :restaurant_name="restaurant_name" :menu="menu" @updateDialog="updateDialog" />
     </v-dialog>
   </div>
 </template>
@@ -43,6 +42,9 @@ import MenuDialog from "@/components/restaurant/MenuDialog.vue";
 <script>
 export default {
   props: {
+    restaurant_name: {
+      type: String
+    },
     menu: {
       type: Object,
     },

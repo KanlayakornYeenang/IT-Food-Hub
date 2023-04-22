@@ -39,8 +39,7 @@ const updatePassword = async(user_id, password)=>{
 const insertProfilePicture = async(image_id, file_name)=>{
   const sql = "insert into testimages(image_id, file_path) values(?,?)"
   const [rows, fields] = await db.query(sql,[image_id, file_name])
-  return rows
-  
+  return rows  
 }
 
 // update role  user // note yet

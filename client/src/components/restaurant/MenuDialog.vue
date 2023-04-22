@@ -1,12 +1,8 @@
 <template>
-  <v-card color="#f7f7f7" style="min-width: 25vw">
+  <v-card color="#f7f7f7" rounded="lg">
     <v-card elevation="0" class="mb-2 pa-2">
       <div class="text-right mb-2">
-        <v-btn
-          color="transparent"
-          icon
-          @click="this.$emit('updateDialog', false)"
-          elevation="0"
+        <v-btn color="transparent" icon @click="updateDialog" elevation="0"
           ><v-icon>mdi-close</v-icon></v-btn
         >
       </div>
@@ -26,19 +22,36 @@
     >
       <v-card-items>
         <div class="d-flex align-center">
-          <v-card-title> {{ option.option_name }} </v-card-title
-          ><v-card-subtitle class="pa-0 pt-1"
-            >เลือกได้สูงสุด {{ option.max_optional }}</v-card-subtitle
+          <v-card-title class="d-flex">
+            <p>{{ option.option_name }}</p>
+            <p v-if="option.option_type == 'require'" class="mx-1 text-red">
+              *
+            </p></v-card-title
+          ><v-card-subtitle class="pa-0 pt-1 d-flex"
+            ><p v-if="option.option_type == 'require'">ต้องเลือก</p>
+            <p v-else>เลือกได้สูงสุด</p>
+            <p class="mx-1">{{ option.max_optional }}</p></v-card-subtitle
           >
         </div>
         <v-card-text class="pr-0 pl-2 py-0">
-          <div v-if="option.max_optional > 1">
-            <div v-for="(item, i) in option.item" :key="i">
-              <Checkbox :item="item" />
-            </div>
+          <div
+            v-if="
+              (option.option_type == 'optional' && option.max_optional == 1) ||
+              option.max_optional > 1
+            "
+          >
+            <Checkbox
+              :option_name="option.option_name"
+              :option="option.item"
+              @update-checkbox="update"
+            />
           </div>
           <div v-else>
-            <Radio :option="option.item" />
+            <Radio
+              :option_name="option.option_name"
+              :option="option.item"
+              @update-radio="update"
+            />
           </div>
         </v-card-text>
       </v-card-items>
@@ -57,18 +70,33 @@
       <v-divider></v-divider>
       <v-card-items>
         <v-card-actions class="ma-5">
-          <v-col cols="4" class="pa-0 pr-4 d-flex align-center justify-space-between">
-            <v-btn elevation="2" size="small" color="it" icon
+          <v-col
+            cols="4"
+            class="pa-0 pr-4 d-flex align-center justify-space-between"
+          >
+            <v-btn
+              elevation="2"
+              size="small"
+              color="it"
+              icon
+              @click="decrement()"
               ><v-icon>mdi-minus</v-icon></v-btn
             >
-            <p class="text-center text-h5 fw-600">0</p>
-            <v-btn elevation="2" size="small" color="it" icon
+            <p class="text-center text-h5 fw-600">
+              {{ quantity }}
+            </p>
+            <v-btn
+              elevation="2"
+              size="small"
+              color="it"
+              icon
+              @click="quantity++"
               ><v-icon>mdi-plus</v-icon></v-btn
             >
           </v-col>
           <v-col cols="8" class="pa-0">
-            <v-btn class="bg-success w-100" size="x-large"
-              >เพิ่มไปยังตะกร้า - 0</v-btn
+            <v-btn @click="addToBasket" class="bg-success w-100" size="x-large"
+              >เพิ่มใส่ตะกร้า - 0.00</v-btn
             >
           </v-col></v-card-actions
         >
@@ -89,11 +117,84 @@ export default {
   data() {
     return {
       options: null,
+      selected: {},
+      quantity: 1,
+      orders: {
+        rst_id: this.menu.rst_id,
+        rst_name: this.restaurant_name,
+        menu: [],
+      },
+      order: {},
+      basket: null,
     };
   },
   props: {
+    restaurant_name: {
+      type: String,
+    },
     menu: {
       type: Object,
+    },
+  },
+  methods: {
+    update(selected) {
+      Object.assign(this.selected, selected);
+    },
+    updateDialog() {
+      this.$emit("updateDialog", false);
+    },
+    decrement() {
+      if (this.quantity > 1) {
+        this.quantity--;
+      }
+    },
+    addToBasket() {
+      this.basket = JSON.parse(localStorage.getItem("basket"));
+      let existed = false; // ตัวแปรสำหรับเก็บว่ามีเมนูนี้อยู่ในตะกร้าแล้วหรือไม่
+      this.basket.basket.forEach((orders) => {
+        // ตรวจสอบว่าเมนูนี้อยู่ในร้านอาหารเดียวกันหรือไม่
+        if (orders.rst_id === this.menu.rst_id) {
+          orders.menu.forEach((order) => {
+            if (
+              order.menu_name === this.menu.menu_name &&
+              this.isEqual(order.option, this.selected)
+            ) {
+              // ถ้ามีเมนูนี้อยู่แล้ว ให้บวกเพิ่มใน quantity
+              order.quantity += this.quantity;
+              existed = true;
+            }
+          });
+          // ถ้าไม่มีเมนูนี้อยู่ให้ push เมนูใหม่เข้าไปใน array menu ของร้านอาหารนี้
+          if (!existed) {
+            this.createOrder();
+            orders.menu.push(this.orders.menu[0]);
+            existed = true;
+          }
+        }
+      });
+      // ถ้าไม่มีเมนูนี้อยู่ในตะกร้าให้เพิ่มเมนูใหม่เข้าไปในตะกร้า
+      if (!existed) {
+        this.createOrder();
+        this.basket.basket.push(this.orders);
+      }
+      // บันทึกตะกร้าสินค้าลงใน localStorage
+      localStorage.setItem("basket", JSON.stringify(this.basket));
+    },
+    isEqual(obj1, obj2) {
+      return JSON.stringify({ ...obj1 }) === JSON.stringify({ ...obj2 });
+    },
+    createOrder() {
+      for (var key in this.selected) {
+        if (this.selected[key].length === 0) {
+          delete this.selected[key];
+        }
+      }
+      this.order = {
+        menu_name: this.menu.menu_name,
+        option: this.selected,
+        quantity: this.quantity,
+      };
+      this.orders.menu.push(this.order);
     },
   },
   mounted() {
@@ -101,7 +202,9 @@ export default {
       .get(this.$route.path + "/" + this.menu.menu_id)
       .then((res) => {
         this.options = res.data;
-        console.log(res.data);
+        this.options.map((option) => {
+          Object.assign(this.selected, { [option.option_name]: [] });
+        });
       })
       .catch((err) => {
         this.$router.push("/");

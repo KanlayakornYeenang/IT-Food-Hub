@@ -12,6 +12,7 @@ const groupOptions = (options) => {
         menu_id: option.menu_id,
         option_name: option.option_name,
         item: [{ [option.item_name]: option.item_price }],
+        option_type: option.option_type,
         max_optional: option.max_optional,
       });
     }

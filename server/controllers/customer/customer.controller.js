@@ -1,7 +1,7 @@
+const { createOrder } = require("../../models/orders");
 
-const createOrder = async(req, res) =>{
-    res.send(req.body)
-}
+const placeOrder = async (req, res) => {
+  //
+};
 
-
-module.exports = {createOrder}
+module.exports = { placeOrder };

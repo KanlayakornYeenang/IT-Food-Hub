@@ -1,6 +1,10 @@
 <template>
-  <v-radio-group hide-details>
-    <v-radio color="it" v-for="(item, i) in option" :key="i" :value="Object.keys(item)[0]"
+  <v-radio-group hide-details v-model="selected">
+    <v-radio
+      color="it"
+      v-for="(item, i) in option"
+      :key="i"
+      :value="Object.keys(item)[0]"
       ><template v-slot:label>
         <div class="d-flex w-100 justify-space-between">
           <div>
@@ -22,12 +26,20 @@
 export default {
   data() {
     return {
-      //
+      selected: null,
     };
   },
   props: {
+    option_name: {
+      type: String,
+    },
     option: {
       type: Object,
+    },
+  },
+  watch: {
+    selected() {
+      this.$emit("update-radio", { [this.option_name]: [this.selected] });
     },
   },
 };
