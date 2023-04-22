@@ -6,7 +6,7 @@
       </p>
     </template>
     <template v-slot:append>
-      <div style="opacity: 0.8">
+      <div style="opacity: 0.8" class="d-flex">
         <p v-if="item[Object.keys(item)[0]] != 0">+</p>
         <p>{{ item[Object.keys(item)[0]] }}</p>
       </div>
