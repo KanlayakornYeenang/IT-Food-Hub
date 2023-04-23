@@ -112,6 +112,7 @@ import Radio from "@/components/restaurant/menuDialog/Radio.vue";
 
 <script>
 import axios from "@/plugins/axios.js";
+import eventBus from "@/eventBus";
 
 export default {
   data() {
@@ -179,6 +180,7 @@ export default {
       }
       // บันทึกตะกร้าสินค้าลงใน localStorage
       localStorage.setItem("basket", JSON.stringify(this.basket));
+      eventBus.emit("add-to-basket", this.basket);
     },
     isEqual(obj1, obj2) {
       return JSON.stringify({ ...obj1 }) === JSON.stringify({ ...obj2 });

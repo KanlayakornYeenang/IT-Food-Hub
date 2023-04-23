@@ -1,20 +1,12 @@
-/**
- * main.js
- *
- * Bootstraps Vuetify and other plugins then mounts the App`
- */
-
-// Components
 import App from './App.vue'
-
-// Composables
 import { createApp } from 'vue'
-
-// Plugins
 import { registerPlugins } from '@/plugins'
+import eventbus from '@/eventBus'
 
 const app = createApp(App)
 
 registerPlugins(app)
+
+app.config.globalProperties.$eventbus = eventbus // เพิ่ม $eventbus เป็น global property
 
 app.mount('#app')

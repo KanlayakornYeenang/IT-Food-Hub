@@ -68,7 +68,7 @@
         <v-btn icon class="mx-10" @click="dialog = true"
           ><v-badge
             v-if="basket"
-            :content="basket['basket'].length"
+            :content="totalMenus"
             color="foodhub"
             ><v-icon size="x-large">mdi-shopping</v-icon></v-badge
           ></v-btn
@@ -87,6 +87,7 @@ import Basket from "@/components/basket/Basket.vue";
 </script>
 
 <script>
+import eventBus from "@/eventBus";
 export default {
   data() {
     return {
@@ -104,6 +105,19 @@ export default {
       this.dialog = dialog;
     },
   },
+  computed: {
+    totalMenus() {
+      const totalMenus = this.basket['basket'].reduce((total, restaurant) => {
+        const menuQuantities = restaurant.menu.map((menu) => menu.quantity);
+        const restaurantTotal = menuQuantities.reduce(
+          (subtotal, quantity) => subtotal + quantity,
+          0
+        );
+        return total + restaurantTotal;
+      }, 0);
+      return totalMenus;
+    },
+  },
   mounted() {
     // อ่านค่า basket จาก localStorage
     this.basket = JSON.parse(localStorage.getItem("basket"));
@@ -111,6 +125,9 @@ export default {
       this.basket = { basket: [] };
       localStorage.setItem("basket", JSON.stringify(this.basket));
     }
+    eventBus.on("add-to-basket", (basket) => {
+      this.basket = basket;
+    });
   },
 };
 </script>
