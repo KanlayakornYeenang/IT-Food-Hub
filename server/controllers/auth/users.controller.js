@@ -36,7 +36,6 @@ const login = async (req, res) => {
 
 const getDetail = async (req, res) => {
   try {
-    console.log(req.user)
     const user_id = req.user.user_id
     const result = await getUserDetailById(user_id);
     return res.json( result);
@@ -95,7 +94,6 @@ const insertPictureProfile = async(req, res)=>{
     return res.json(error)
   }
   try{
-    console.log(file.path.substr(6))
     result = await insertProfilePicture(id, file.path.substr(6))
     res.send(result)
   }catch(error){

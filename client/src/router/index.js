@@ -33,7 +33,23 @@ const routes = [
           {
             path:"password",
             component: ()=>import("@/components/user/ChangePassword.vue"),
+          },
+          {
+            path:"cart",
+            component: ()=>import("@/components/user/cart/Cart.vue"),
           }
+        ]
+      },
+      {
+        path:"checkout",
+        component: () => import("@/views/Checkout.vue"),
+        children:
+        [
+          {
+            path:":order_Id",
+            component: ()=>import("@/components/checkout/CheckoutDetail.vue"),
+          }
+
         ]
       }
     ],

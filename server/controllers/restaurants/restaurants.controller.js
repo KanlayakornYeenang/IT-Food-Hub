@@ -20,7 +20,7 @@ const getRestaurant = async (req, res) => {
     const result = await getRestaurantById(req.params.rst_id);
     return res.json(result);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(404).send(error);
   }
 };
 
@@ -29,7 +29,7 @@ const getMenu = async (req, res) => {
     const result = await getMenuById(req.params.menu_id);
     return res.json(groupOptions(result));
   } catch (error) {
-    res.status(500).send(error);
+    res.status(404).send(error);
   }
 };
 

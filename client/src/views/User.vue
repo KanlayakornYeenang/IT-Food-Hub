@@ -48,14 +48,22 @@
                             style="padding-left: 7vh; font-size:15px"
                         >
                             <div
-                            ><v-btn variant="plain"
-                                style="padding-right:8vh;"
-                                :to="'/itfoodhub/user'"
-                            >ประวัติ</v-btn></div>
+                                ><v-btn variant="plain"
+                                    style="padding-right:8vh;"
+                                    :to="'/itfoodhub/user'"
+                                >ประวัติ</v-btn>
+                            </div>
                             <div
-                            ><v-btn variant="plain"
-                                :to="'/itfoodhub/user/password'"
-                            >เปลี่ยนรหัสผ่าน</v-btn></div>
+                                ><v-btn variant="plain"
+                                    :to="'/itfoodhub/user/password'"
+                                >เปลี่ยนรหัสผ่าน</v-btn>
+                            </div>
+                            <div
+                                style="padding-left: 1vh;"
+                                ><v-btn variant="plain"
+                                    :to="'/itfoodhub/user/cart'"
+                                >รายการการสั้งซ์้อ</v-btn>
+                            </div>  
                         </div>
                 </v-col>
               </v-row>
