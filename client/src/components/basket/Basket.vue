@@ -15,14 +15,15 @@
     <v-card elevation="0" class="mb-2 pa-2" v-for="(restaurants, i) in basket" :key="i">
       <v-card-items :key="i">
         <v-expansion-panels multiple v-model="panel" class="pa-2">
-          <v-expansion-panel v-for="(restaurant, restaurant_index) in restaurants" :key="restaurant_index">
-            <v-expansion-panel-title>
+          <v-expansion-panel class="my-3" v-for="(restaurant, restaurant_index) in restaurants" :key="restaurant_index">
+            <v-expansion-panel-title class="bg-itlight">
               <p class="text-h5 fw-600">{{ restaurant.rst_name }}</p>
             </v-expansion-panel-title>
-            <div class="px-2 pt-2">
-              <v-expansion-panel-text class="pb-2" v-for="(menu, menu_index) in restaurant.menu" :key="menu_index">
-                <v-col class="pa-0 d-flex" cols="12">
-                  <v-col class="pa-0 d-flex justify-space-between align-center" cols="2">
+            <div class="d-flex flex-column px-6">
+              <v-expansion-panel-text class="py-3">
+                <div class="d-flex flex-column" style="row-gap:1.15vh">
+                  <v-col class="d-flex pa-0" cols="12" v-for="(menu, menu_index) in restaurant.menu" :key="menu_index">
+                  <v-col class="d-flex pa-0 justify-space-between align-center" cols="2">
                     <v-btn class="text-it" icon size="x-small"
                       @click="handleMenuQuantity('decrease', menu, menu_index, restaurant_index)"><v-icon>mdi-minus</v-icon></v-btn>
                     <p>{{ menu.quantity }}</p>
@@ -46,12 +47,15 @@
                     </div>
                   </v-col>
                   <v-col cols="2" class="pa-0 text-right">
-                    <p v-if="menu.quantity > 0" class="fw-600">{{ calculateMenuTotal(menu) }}</p>
+                    <p v-if="menu.quantity > 0" class="text-h6 fw-600">{{ calculateMenuTotal(menu) }}</p>
                     <v-btn v-else>ลบรายการ</v-btn>
                   </v-col>
                 </v-col>
+                </div>
               </v-expansion-panel-text>
             </div>
+            <v-divider></v-divider>
+            <v-col class="py-2 px-6 d-flex justify-space-between text-h5" cols="12"><p>รวมทั้งหมด</p><p class="fw-600">{{ calculateTotalPriceRestaurant(restaurant.menu) }}</p></v-col>
           </v-expansion-panel>
         </v-expansion-panels>
         <v-card-text class="pr-0 pl-2 py-0"> </v-card-text>
@@ -60,10 +64,12 @@
 
     <v-card elevation="0">
       <v-card-items>
-        <v-card-actions class="ma-5">
-          <v-col cols="8" class="pa-0">
-            <v-btn class="bg-success w-100" size="x-large">เพิ่มใส่ตะกร้า - 0.00</v-btn>
-          </v-col></v-card-actions>
+        <v-card-actions class="d-flex flex-column ma-5">
+          <div>
+            <p>รวมทั้งหมด </p>
+          </div>
+          <v-btn class="bg-success w-100" size="x-large">ตรวจสอบรายการ</v-btn>
+        </v-card-actions>
       </v-card-items>
     </v-card>
   </v-card>
@@ -82,7 +88,16 @@ export default {
     },
   },
   methods: {
-    calculateMenuTotal(menu) {
+    calculateTotalPriceRestaurant(restaurant) { // ยอดรวมของ 1 ร้าน
+      let totalPrice = 0
+      for (let i = 0; i < restaurant.length; i++) {
+        let menu = restaurant[i]
+        let menuTotal = this.calculateMenuTotal(menu)
+        totalPrice += menuTotal
+      }
+      return totalPrice
+    },
+    calculateMenuTotal(menu) { // ยอดรวมของ 1 เมนู
       let totalPrice = parseFloat(menu.menu_price);
       for (let option in menu.option) {
         if (menu.option.hasOwnProperty(option)) {
