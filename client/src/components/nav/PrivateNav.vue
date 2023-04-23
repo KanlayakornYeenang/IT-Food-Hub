@@ -66,16 +66,13 @@
           append-inner-icon="mdi-magnify"
         ></v-text-field>
         <v-btn icon class="mx-10" @click="dialog = true"
-          ><v-badge
-            v-if="basket"
-            :content="totalMenus"
-            color="foodhub"
+          ><v-badge v-if="basket" :content="totalMenus" color="foodhub"
             ><v-icon size="x-large">mdi-shopping</v-icon></v-badge
           ></v-btn
         >
       </div>
 
-      <v-dialog v-model="dialog" width="auto" scroll-strategy="close">
+      <v-dialog v-model="dialog" width="600" scroll-strategy="close">
         <Basket :basket="basket" @updateDialog="updateDialog" />
       </v-dialog>
     </v-col>
@@ -107,7 +104,7 @@ export default {
   },
   computed: {
     totalMenus() {
-      const totalMenus = this.basket['basket'].reduce((total, restaurant) => {
+      const totalMenus = this.basket["basket"].reduce((total, restaurant) => {
         const menuQuantities = restaurant.menu.map((menu) => menu.quantity);
         const restaurantTotal = menuQuantities.reduce(
           (subtotal, quantity) => subtotal + quantity,
