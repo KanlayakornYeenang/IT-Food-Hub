@@ -12,71 +12,48 @@
         </v-card-title>
       </v-card-items>
     </v-card>
-    <v-card elevation="0" class="mb-2 pa-2 pr-6" v-for="(restaurants, i) in basket" :key="i">
+    <v-card elevation="0" class="mb-2 pa-2" v-for="(restaurants, i) in basket" :key="i">
       <v-card-items :key="i">
-        <v-expansion-panels>
-          <v-expansion-panel v-for="(restaurant, i) in restaurants" :key="i">
-            <v-expansion-panel-title expand-icon="mdi-menu-down">
+        <v-expansion-panels multiple v-model="panel" class="pa-2">
+          <v-expansion-panel v-for="(restaurant, restaurant_index) in restaurants" :key="restaurant_index">
+            <v-expansion-panel-title>
               <p class="text-h5 fw-600">{{ restaurant.rst_name }}</p>
             </v-expansion-panel-title>
-            <v-expansion-panel-text v-for="(menu, i) in restaurant.menu" :key="i">
-              <v-col class="pa-0 d-flex" cols="12">
-                <v-col class="pa-0 bg-red d-flex justify-space-between align-center" cols="2">
-                  <v-btn icon size="x-small"><v-icon size="x-small">mdi-minus</v-icon></v-btn>
-                  <p>{{ menu.quantity }}</p>
-                  <v-btn icon size="x-small"><v-icon size="x-small">mdi-plus</v-icon></v-btn>
-                </v-col>
-                <v-col cols="8" class="d-flex">
-                  <div>
-                    <v-img :width="80" class="rounded-lg"
-                      src="https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg">
-                    </v-img>
-                  </div>
-                  <div>
-                    <p>{{ menu.menu_name }}</p>
-                    <div class="d-flex">
-                      <div v-for="option, i in menu.option" :key="i" class="d-flex">
-                        <p v-for="item, i in option" :key="i">{{ item }}</p>
+            <div class="px-2 pt-2">
+              <v-expansion-panel-text class="pb-2" v-for="(menu, menu_index) in restaurant.menu" :key="menu_index">
+                <v-col class="pa-0 d-flex" cols="12">
+                  <v-col class="pa-0 d-flex justify-space-between align-center" cols="2">
+                    <v-btn class="text-it" icon size="x-small"
+                      @click="handleMenuQuantity('decrease', menu, menu_index, restaurant_index)"><v-icon>mdi-minus</v-icon></v-btn>
+                    <p>{{ menu.quantity }}</p>
+                    <v-btn class="text-it" icon size="x-small"
+                      @click="handleMenuQuantity('increase', menu, menu_index, restaurant_index)"><v-icon>mdi-plus</v-icon></v-btn>
+                  </v-col>
+                  <v-col cols="8" class="d-flex pa-0 px-2">
+                    <div>
+                      <v-img :width="80" class="rounded-lg"
+                        src="https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg">
+                      </v-img>
+                    </div>
+                    <div class="px-2">
+                      <p>{{ menu.menu_name }}</p>
+                      <div class="d-flex">
+                        <div v-for="option, i in menu.option" :key="i" class="d-flex">
+                          <v-card-subtitle class="pa-0 pr-1" v-for="item, i in option" :key="i">{{ item.split(' ')[0]
+                          }}</v-card-subtitle>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </v-col>
+                  <v-col cols="2" class="pa-0 text-right">
+                    <p v-if="menu.quantity > 0" class="fw-600">{{ calculateMenuTotal(menu) }}</p>
+                    <v-btn v-else>ลบรายการ</v-btn>
+                  </v-col>
                 </v-col>
-              </v-col>
-            </v-expansion-panel-text>
+              </v-expansion-panel-text>
+            </div>
           </v-expansion-panel>
         </v-expansion-panels>
-        <!-- <div>
-          <v-card-title v-for="restaurant, i in restaurants" :key="i" class="d-flex">
-            <p class="text-h5 fw-600">{{restaurant.rst_name}}</p>
-            </v-card-title
-          >
-          <v-col :key="i" class="pt-0" cols="12">
-            <v-card-actions>
-            <v-col
-            cols="3"
-            class="pa-0 pr-4 d-flex align-center justify-space-between"
-          >
-            <v-btn
-              elevation="2"
-              size="small"
-              color="it"
-              icon
-              ><v-icon>mdi-minus</v-icon></v-btn
-            >
-            <p class="text-center text-h5 fw-600">
-
-            </p>
-            <v-btn
-              elevation="2"
-              size="small"
-              color="it"
-              icon
-              ><v-icon>mdi-plus</v-icon></v-btn
-            >
-          </v-col>
-          </v-card-actions>
-          </v-col>
-        </div> -->
         <v-card-text class="pr-0 pl-2 py-0"> </v-card-text>
       </v-card-items>
     </v-card>
@@ -96,7 +73,7 @@
 export default {
   data() {
     return {
-      //
+      panel: [0, 1],
     };
   },
   props: {
@@ -104,5 +81,30 @@ export default {
       type: Object,
     },
   },
+  methods: {
+    calculateMenuTotal(menu) {
+      let totalPrice = parseFloat(menu.menu_price);
+      for (let option in menu.option) {
+        if (menu.option.hasOwnProperty(option)) {
+          let selectedOption = menu.option[option][0];
+          totalPrice += parseFloat(selectedOption.split(" ")[1]);
+        }
+      }
+      return totalPrice * menu.quantity;
+    },
+    handleMenuQuantity(type, menu, menu_index, restaurant_index) {
+      if (type === 'increase') {
+        menu.quantity++;
+      }
+      else {
+        if (menu.quantity > 0) {
+          menu.quantity--;
+        }
+      }
+      this.$forceUpdate(); // force re-render to update the total price
+      this.basket['basket'][restaurant_index].menu[menu_index].quantity = menu.quantity
+      localStorage.setItem('basket', JSON.stringify(this.basket));
+    },
+  }
 };
 </script>

@@ -4,7 +4,7 @@
       color="it"
       v-for="(item, i) in option"
       :key="i"
-      :value="Object.keys(item)[0]"
+      :value="Object.keys(item)[0] + ' ' + item[Object.keys(item)[0]]"
       ><template v-slot:label>
         <div class="d-flex w-100 justify-space-between">
           <div>

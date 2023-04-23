@@ -193,6 +193,7 @@ export default {
       }
       this.order = {
         menu_name: this.menu.menu_name,
+        menu_price: this.menu.menu_price,
         option: this.selected,
         quantity: this.quantity,
       };
