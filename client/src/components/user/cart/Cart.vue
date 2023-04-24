@@ -81,6 +81,15 @@
             </div>
         </div>
     </div>
+    <div v-if="carts.length == 0"
+     class="d-flex justify-center align-center"
+     style="font-size: 30px; height: 50vh"
+    >
+            <v-icon  
+                style="margin-right: 3vh;"
+            icon="mdi-cancel"></v-icon>
+            ไม่พบข้อมูลคำสั้งซื้อของคุณ
+    </div>
 </template>
 <script>
 import axios from "@/plugins/axios";

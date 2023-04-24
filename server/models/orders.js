@@ -33,10 +33,16 @@ const getAllCarts = async (user_id)=>{
   return(rows)
 }
 
+const getOrderByParams = async (param_id, user_id)=>{
+  const sql = "select o.order_id,  o.order_status, o.order_total_price, o.order_dest, me.menu_name, res.rst_name from orders o inner join orders_detail ord on (ord.order_id = o.order_id) inner join menu me on (ord.menu_id = me.menu_id) inner join restaurants res on(me.rst_id = res.rst_id) where o.cus_id = ? and o.order_id =?"
+  const [rows ,fields] = await db.query(sql,[user_id, param_id]);
+  return(rows)
+}
 module.exports = {
   getOrderThatHaveDelivery,
   getAllOrder,
   updateDelivery_order,
   createOrder,
-  getAllCarts
+  getAllCarts,
+  getOrderByParams
 };
