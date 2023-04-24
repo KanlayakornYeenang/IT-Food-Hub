@@ -46,11 +46,6 @@
                             </v-col>
                         </v-row>
                     </div>
-                    
-
-
-
-
                     <div
                         v-for="restaurant,i in baskets" :key="i"
                     >

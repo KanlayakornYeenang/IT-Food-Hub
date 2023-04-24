@@ -39,4 +39,7 @@ router.put(
 // for create orders
 router.post("/placeOrder", verify, customer.placeOrder);
 
+// for get all cart items
+router.get("/getcarts", verify,customer.getCart)
+
 module.exports = router;

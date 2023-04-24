@@ -54,6 +54,7 @@ const updateRoleUser = async (user_id, role, file_name)=>{
 }
 
 
+
 module.exports = { 
   getUserByNameAndPasword, 
   getUserDetailById, 

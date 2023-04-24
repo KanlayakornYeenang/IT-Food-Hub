@@ -4,7 +4,7 @@
       <v-navigation-drawer location="top" color="it" float class="pa-2">
         <v-list nav class="d-flex justify-space-around">
           <v-sheet cols="1" color="transparent">
-            <v-img :width="90" src="@/assets/logo-white.png"></v-img>
+              <v-img :width="90" src="@/assets/logo-white.png"></v-img>
           </v-sheet>
           <div>
             <v-menu>

@@ -69,7 +69,7 @@
               </v-row>
             </v-col>
             <v-col>
-                <div style=" width:100vh; height:50vh">
+                <div style=" width:100vh; height:100%">
                    <router-view :key="$route.fullPath"></router-view>
                 </div>
             </v-col>
