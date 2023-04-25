@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="d-flex justify-space-between align-end my-2">
-        <v-sheet color="transparent" class="mr-10 ml-7">
+        <v-sheet color="transparent" class="mr-10 ml-7" >
           <v-img :width="125" src="@/assets/logo-white.png"></v-img>
         </v-sheet>
         <v-text-field placeholder="Search IT FOOD HUB" variant="solo" hide-details
