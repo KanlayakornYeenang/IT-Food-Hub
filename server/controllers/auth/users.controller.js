@@ -45,12 +45,7 @@ const login = async (req, res) => {
 
 const getDetail = async (req, res) => {
   try {
-<<<<<<< HEAD
-    console.log(req.user);
-    const user_id = req.user.user_id;
-=======
     const user_id = req.user.user_id
->>>>>>> 5e5ac7a814ae58ad68ad4c04ce6fc6cb7d949ff3
     const result = await getUserDetailById(user_id);
     return res.json(result);
   } catch (err) {
@@ -107,20 +102,11 @@ const insertPictureProfile = async (req, res) => {
     error.httpStatusCode = 400;
     return res.json(error);
   }
-<<<<<<< HEAD
-  try {
-    console.log(file.path.substr(6));
-    result = await insertProfilePicture(id, file.path.substr(6));
-    res.send(result);
-  } catch (error) {
-    res.send(error);
-=======
   try{
     result = await insertProfilePicture(id, file.path.substr(6))
     res.send(result)
   }catch(error){
     res.send(error)
->>>>>>> 5e5ac7a814ae58ad68ad4c04ce6fc6cb7d949ff3
   }
 };
 

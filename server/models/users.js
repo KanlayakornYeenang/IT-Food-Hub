@@ -60,15 +60,6 @@ const updateRoleUser = async (user_id, role, file_name) => {
   return rows;
 };
 
-<<<<<<< HEAD
-module.exports = {
-  getUserByNameAndPasword,
-  getUserDetailById,
-  getAllRestaurant,
-  registerUser,
-  getAllUser,
-  updatePassword,
-=======
 
 module.exports = { 
   getUserByNameAndPasword, 
@@ -77,7 +68,6 @@ module.exports = {
   registerUser, 
   getAllUser, 
   updatePassword, 
->>>>>>> 5e5ac7a814ae58ad68ad4c04ce6fc6cb7d949ff3
   insertProfilePicture,
   updateRoleUser,
 };

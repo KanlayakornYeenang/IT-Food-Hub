@@ -12,7 +12,6 @@ const getCart = async (req, res) => {
   }catch(err){
     res.send(err)
   }
-
 }
 
 const getCheckOutByparams = async(req, res)=>{
