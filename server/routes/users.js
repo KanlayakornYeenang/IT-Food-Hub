@@ -35,7 +35,13 @@ router.put(
   users.changeRoleUser
 );
 
-//
-router.get("cart")
+// for create orders
+router.post("/placeOrder", verify, customer.placeOrder);
+
+// for get all cart items
+router.get("/getcarts", verify,customer.getCart)
+
+// for get items in checkout
+router.get("/getcheckoutbyparams/:orderId", verify, customer.getCheckOutByparams)
 
 module.exports = router;
