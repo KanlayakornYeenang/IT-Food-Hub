@@ -4,7 +4,7 @@ const {
   getMenuById,
 } = require("../../models/restaurants");
 
-const { groupOptions } = require("../../hook/groupedOption");
+const { groupOptions } = require("../../hook/groupOptions");
 
 const getRestaurants = async (req, res) => {
   try {

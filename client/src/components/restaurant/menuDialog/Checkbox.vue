@@ -5,16 +5,16 @@
       hide-details
       v-for="(item, i) in option"
       :key="i"
-      :value="Object.keys(item)[0] + ' ' + item[Object.keys(item)[0]]"
+      :value="{ 'item_id': item.item_id, 'item_price' : item.item_price }"
       v-model="selected"
     >
       <template v-slot:label>
-        <p>{{ Object.keys(item)[0] }}</p>
+        <p>{{ item.item_name }}</p>
       </template>
       <template v-slot:append>
         <div style="opacity: 0.8" class="d-flex">
-          <p v-if="item[Object.keys(item)[0]] != 0">+</p>
-          <p>{{ item[Object.keys(item)[0]] }}</p>
+          <p v-if="item.item_price != 0">+</p>
+          <p>{{ item.item_price }}</p>
         </div>
       </template>
     </v-checkbox>
@@ -29,8 +29,8 @@ export default {
     };
   },
   props: {
-    option_name: {
-      type: String,
+    option_id: {
+      type: Number,
     },
     option: {
       type: Object,
@@ -38,7 +38,7 @@ export default {
   },
   watch: {
     selected() {
-      this.$emit("update-checkbox", { [this.option_name]: this.selected });
+      this.$emit("update-checkbox", { [this.option_id]: this.selected });
     },
   },
 };

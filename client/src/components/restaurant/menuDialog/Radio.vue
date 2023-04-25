@@ -1,24 +1,19 @@
 <template>
   <v-radio-group hide-details v-model="selected">
-    <v-radio
-      color="it"
-      v-for="(item, i) in option"
-      :key="i"
-      :value="Object.keys(item)[0] + ' ' + item[Object.keys(item)[0]]"
-      ><template v-slot:label>
+    <v-radio color="it" v-for="(item, i) in option" :key="i"
+      :value="{ 'item_id': item.item_id, 'item_price' : item.item_price }"><template v-slot:label>
         <div class="d-flex w-100 justify-space-between">
           <div>
             <p>
-              {{ Object.keys(item)[0] }}
+              {{ item.item_name }}
             </p>
           </div>
           <div class="d-flex">
-            <p v-if="item[Object.keys(item)[0]] != 0">+</p>
-            <p>{{ item[Object.keys(item)[0]] }}</p>
+            <p v-if="item.item_price != 0">+</p>
+            <p>{{ item.item_price }}</p>
           </div>
-        </div></template
-      ></v-radio
-    >
+        </div>
+      </template></v-radio>
   </v-radio-group>
 </template>
 
@@ -30,8 +25,8 @@ export default {
     };
   },
   props: {
-    option_name: {
-      type: String,
+    option_id: {
+      type: Number,
     },
     option: {
       type: Object,
@@ -39,7 +34,7 @@ export default {
   },
   watch: {
     selected() {
-      this.$emit("update-radio", { [this.option_name]: [this.selected] });
+      this.$emit("update-radio", { [this.option_id]: [this.selected] });
     },
   },
 };

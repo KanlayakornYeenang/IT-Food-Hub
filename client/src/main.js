@@ -1,7 +1,7 @@
 import App from './App.vue'
 import { createApp } from 'vue'
 import { registerPlugins } from '@/plugins'
-import eventbus from '@/eventBus'
+import eventbus from '@/plugins/eventBus'
 
 const app = createApp(App)
 

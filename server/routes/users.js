@@ -3,7 +3,7 @@ const router = express.Router();
 const verify = require("../middleware/verify");
 const requireRole = require("../middleware/requireRole");
 const { users } = require("../controllers/auth");
-const { customer } = require("../controllers/customer");
+const { customers } = require("../controllers/customers/index");
 const upload = require("../middleware/multer");
 
 // for user login
@@ -21,6 +21,10 @@ router.post("/register", users.registerOfUser);
 // for update password
 router.put("/updatepassword", verify, users.changePasswordUser);
 
+router.post("/addToCart", verify, customers.addToCart)
+
+router.get("/cart",verify, customers.cart)
+
 // for upload profile picture /test
 router.post(
   "/uploadprofile",
@@ -35,8 +39,5 @@ router.put(
   upload.single("image"),
   users.changeRoleUser
 );
-
-// for create orders
-router.post("/placeOrder", verify, customer.placeOrder);
 
 module.exports = router;
