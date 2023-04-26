@@ -21,9 +21,11 @@ router.post("/register", users.registerOfUser);
 // for update password
 router.put("/updatepassword", verify, users.changePasswordUser);
 
-router.post("/addToCart", verify, customers.addToCart)
+router.post("/addToCart", verify, customers.addToCart);
 
-router.get("/cart",verify, customers.cart)
+router.get("/cart", verify, customers.cart);
+
+router.patch("/updateQuantity", verify, customers.updateQuantity);
 
 // for upload profile picture /test
 router.post(

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="it" height="145" elevation="2">
+  <v-app-bar v-if="user" color="it" height="145" elevation="2">
     <v-col cols="8" class="d-flex flex-column mx-auto">
       <div class="d-flex justify-space-between my-2">
         <div>
@@ -22,44 +22,44 @@
           </v-btn>
           <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
-              <v-btn v-if="user" size="small" prepend-icon="mdi-account" id="menu-activator" v-bind="props">
+              <v-btn size="small" prepend-icon="mdi-account" id="menu-activator" v-bind="props">
                 <p class="text-body-1 fw-600">{{ user.user_fname }}</p>
               </v-btn>
             </template>
             <div style="
-                        background-color: white;
-                        border-top-right-radius: 5px;
-                        border-top-left-radius: 5px;
-                      ">
+                            background-color: white;
+                            border-top-right-radius: 5px;
+                            border-top-left-radius: 5px;
+                          ">
               <v-btn variant="plain" :to="'/itfoodhub/user'">
                 บัญชีของฉัน
               </v-btn>
             </div>
             <div style="
-                        background-color: white;
-                        border-bottom-right-radius: 5px;
-                        border-bottom-left-radius: 5px;
-                      ">
+                            background-color: white;
+                            border-bottom-right-radius: 5px;
+                            border-bottom-left-radius: 5px;
+                          ">
               <v-btn variant="plain"> ออกจากระบบ </v-btn>
             </div>
           </v-menu>
         </div>
       </div>
       <div class="d-flex justify-space-between align-end my-2">
-        <v-sheet color="transparent" class="mr-10 ml-7" >
+        <v-sheet color="transparent" class="mr-10 ml-7">
           <v-img :width="125" src="@/assets/logo-white.png"></v-img>
         </v-sheet>
         <v-text-field placeholder="Search IT FOOD HUB" variant="solo" hide-details
           append-inner-icon="mdi-magnify"></v-text-field>
         <v-btn icon class="mx-10" @click="dialog = true">
-          <v-badge color="foodhub" v-if="cart" :content="cart.length">
+          <v-badge color="foodhub" v-if="cart" :content="content">
             <v-icon size="x-large">mdi-shopping</v-icon>
           </v-badge>
         </v-btn>
       </div>
 
       <v-dialog v-model="dialog" width="600" scroll-strategy="close">
-        <Cart :cart="cart" @updateDialog="updateDialog" />
+        <Cart :cart="cart" @updateDialog="updateDialog" @cartUpdated="refreshCart" />
       </v-dialog>
     </v-col>
   </v-app-bar>
@@ -77,6 +77,7 @@ export default {
     return {
       dialog: false,
       cart: null,
+      content: 0,
     };
   },
   props: {
@@ -88,23 +89,23 @@ export default {
     updateDialog(dialog) {
       this.dialog = dialog;
     },
-  },
-  computed: {
-    //
+    refreshCart() {
+      axios
+        .get('api/cart')
+        .then((res) => {
+          this.cart = res.data;
+          this.content = this.cart.reduce((acc, item) => acc + item.quantity, 0)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
-    axios
-      .get('api/cart')
-      .then((res) => {
-        this.cart = res.data
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$router.push("/");
-      });
-      eventbus.on('update-cart', (cart) => {
-        this.cart = cart
-      })
+    this.refreshCart()
+    eventbus.on('update-cart', (cart) => {
+      this.cart = cart
+    })
   }
 };
 </script>

@@ -20,9 +20,10 @@
           <div class="pa-1" v-for="menu in restaurant.menus" :key="menu">
             <v-col cols="12" class="d-flex" v-for="item in menu.items" :key="item">
               <v-col cols="3" class="pa-0 d-flex align-center">
-                <v-btn icon size="x-small"><v-icon>mdi-minus</v-icon></v-btn>
+                <v-btn icon size="x-small"
+                  @click="decreaseQuantity(menu, item)"><v-icon>mdi-minus</v-icon></v-btn>
                 <p class="mx-3 fw-600 text-h6">{{ item.quantity }}</p>
-                <v-btn icon size="x-small"><v-icon>mdi-plus</v-icon></v-btn>
+                <v-btn icon size="x-small" @click="increaseQuantity(menu, item)"><v-icon>mdi-plus</v-icon></v-btn>
               </v-col>
               <v-col cols="7" class="pa-0 d-flex">
                 <div class="mr-2">
@@ -46,6 +47,7 @@
 </template>
 
 <script>
+import axios from "@/plugins/axios";
 import { groupMenusByRestaurant } from "../../utils/groupMenusByRestaurant";
 export default {
   data() {
@@ -61,6 +63,28 @@ export default {
   methods: {
     updateDialog() {
       this.$emit("updateDialog", false);
+    },
+    decreaseQuantity(menu, item) {
+      if (item.quantity > 0) {
+        item.quantity--
+      }
+      axios.patch("api/updateQuantity", { cart_id: menu.cart_id, quantity: item.quantity })
+        .then(() => {
+          this.$emit('cartUpdated');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    increaseQuantity(menu, item) {
+      item.quantity++
+      axios.patch("api/updateQuantity", { cart_id: menu.cart_id, quantity: item.quantity })
+        .then(() => {
+          this.$emit('cartUpdated');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   computed: {

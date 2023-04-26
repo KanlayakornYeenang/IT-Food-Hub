@@ -20,7 +20,7 @@ const updateCartItemQuantity = async (cart_id, quantity) => {
 };
 
 const getAllMenusInCart = async (user_id) => {
-  const sql = "SELECT rst_id, rst_name, menu_name, GROUP_CONCAT(menu_item.item_name ORDER BY menu_item.item_id ASC SEPARATOR ' ') `item`, IFNULL(menu_price+SUM(item_price)*quantity, menu_price) `total_price`, quantity\
+  const sql = "SELECT cart_id, rst_id, rst_name, menu_id, menu_name, cart.item_id, GROUP_CONCAT(menu_item.item_name ORDER BY menu_item.item_id ASC SEPARATOR ' ') `item`, IFNULL(menu_price+SUM(item_price)*quantity, menu_price*quantity) `total_price`, quantity\
   FROM cart JOIN menu USING (menu_id) LEFT JOIN menu_item ON FIND_IN_SET(menu_item.item_id, cart.item_id)\
   JOIN restaurants USING (rst_id) WHERE user_id = ? GROUP BY (cart_id)";
   const [result] = await db.query(sql, [user_id]);

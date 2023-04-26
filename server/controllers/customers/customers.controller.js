@@ -2,7 +2,7 @@ const {
   addMenuToCart,
   findCartItem,
   updateCartItemQuantity,
-  getAllMenusInCart
+  getAllMenusInCart,
 } = require("../../models/customers");
 
 const addToCart = async (req, res) => {
@@ -25,6 +25,16 @@ const addToCart = async (req, res) => {
   }
 };
 
+const updateQuantity = async (req, res) => {
+  try {
+    const { cart_id, quantity } = req.body;
+    await updateCartItemQuantity(cart_id, quantity);
+    res.status(200).send("update cart successfully.");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const cart = async (req, res) => {
   try {
     const user_id = req.user.user_id;
@@ -35,4 +45,4 @@ const cart = async (req, res) => {
   }
 };
 
-module.exports = { addToCart, cart };
+module.exports = { addToCart, cart, updateQuantity };
