@@ -41,4 +41,7 @@ router.post("/placeOrder", verify, customer.placeOrder);
 // for get all cart items
 router.get("/getcarts", verify,customer.getCart)
 
+// for get Order By id
+router.get("/getcheckoutbyparams/:orderID", verify, customer.getCheckoutByOrder)
+
 module.exports = router;

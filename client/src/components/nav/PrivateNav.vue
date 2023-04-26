@@ -7,7 +7,7 @@
             <p class="text-body-1 fw-600">สมัครเป็นพาร์ทเนอร์ร้านอาหาร</p>
           </v-btn>
           <v-btn size="small">
-            <p class="text-body-1 fw-600">สมัครเป็นคนส่งอาหาร</p>
+            <p class="text-body-1 fw-600">ส่งอาหาร</p>
           </v-btn>
         </div>
         <div>
@@ -93,18 +93,18 @@ export default {
     //
   },
   mounted() {
-    axios
-      .get('api/cart')
-      .then((res) => {
-        this.cart = res.data
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$router.push("/");
-      });
-      eventbus.on('update-cart', (cart) => {
-        this.cart = cart
-      })
+    // axios
+    //   .get('api/cart')
+    //   .then((res) => {
+    //     this.cart = res.data
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.$router.push("/");
+    //   });
+    //   eventbus.on('update-cart', (cart) => {
+    //     this.cart = cart
+    //   })
   }
 };
 </script>

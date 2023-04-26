@@ -41,6 +41,10 @@ const routes = [
           {
             path:"cart/order/:orderid",
             component: () => import("@/components/user/cart/CartDetail.vue")
+          },
+          {
+            path: "myorder",
+            component: () => import("@/components/user/MyOrder.vue")
           }
         ]
       },
@@ -55,6 +59,10 @@ const routes = [
           }
 
         ]
+      },
+      {
+        path:"getorder",
+        component: () => import("@/views/GetOrder.vue"),
       }
     ],
   },

@@ -32,6 +32,11 @@ import MenuCard from "@/components/restaurant/MenuCard.vue";
 import axios from "@/plugins/axios.js";
 
 export default {
+  props: {
+    user: {
+      type: Object,
+    },
+  },
   data() {
     return {
       restaurant: null,
