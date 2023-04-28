@@ -55,6 +55,10 @@ const routes = [
       {
         path:"pickorder",
         component: () => import("@/views/PickOrder.vue"),
+      },
+      {
+        path:"pickorder/:orderid",
+        component:()=>import("@/views/OrderDelivery.vue")
       }
     ],
   },

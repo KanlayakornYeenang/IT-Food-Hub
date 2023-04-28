@@ -75,8 +75,8 @@
               </v-row>
             </v-col>
             <v-col>
-                <div style=" width:100vh; height:100%">
-                   <router-view :key="$route.fullPath" :user="user"></router-view>
+                <div style=" width:100vh; height:100%" v-if="user">
+                        <router-view :key="$route.fullPath" :user="user"></router-view>
                 </div>
             </v-col>
           </v-row>
