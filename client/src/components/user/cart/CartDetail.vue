@@ -26,14 +26,14 @@
                 <v-col
                     cols="3"
                  style=" align-items: center; display: flex; padding-left:2vh;">
-                    หมายเลขคำสั้งซื้อ  {{ order_detail.order_id}}
+                    หมายเลขคำสั้งซื้อ   {{ cartDetail[0].order_id}}
                 </v-col>
             </v-row>
         </div>
         <div
             style="background-color:white; margin:1vh; border-radius:5px; margin-top: 2vh; padding:2vh;"
         >
-            สถานะการจัดส่ง  {{ order_detail.order_status}}
+            สถานะการจัดส่ง  {{ cartDetail[0].order_status}}
         </div>  
         <div
             style="background-color:#ECE6E6; margin:1vh; border-radius:5px; margin-top: 1vh; padding:2vh"
@@ -42,7 +42,7 @@
                 class="ma-3"
                 style="font-size: 20px;"
             >
-                ที่อยู่ในการจัดส่ง
+                สถานที่จัดส่ง 
             </div>
             <v-row
                 class="ml-1"
@@ -51,19 +51,21 @@
                     cols="3"
                     style="border-right: 1px solid grey;"
                 >
-                    {{order_detail.order_dest}}
+                {{ cartDetail[0].order_dest}}
                 </v-col>
                 <v-col cols="5" style="border-right: 1px solid grey;">
                     <v-icon size="30" style="margin-right: 2vh;" icon="mdi-timer-outline"></v-icon> 
                     05-10-2019 02:32 <span style="font-size: 17px ;color:#2255A4; margin-left:2vh">สั้งซื้อสินค้า</span>
                 </v-col>
                 <v-col cols="2">
-                    คนส่ง
+                    คนส่ง  
                 </v-col>
             </v-row>
         </div> 
         <v-sheet style="padding:2vh; margin:1vh; border-radius:5px">
-            <v-col v-for="menus, name_res in order_detail.rst_name">
+            <v-col
+                v-for="menus, name in cartDetail[0].rst_name"
+            >
                 <div
                     class="mb-4"
                     style="font-size:17px;font-weight:bold; display:flex;"
@@ -71,8 +73,7 @@
                    <div 
                     style="display: flex; justify-content:center; align-items:center; margin-right:1vh"
                     >
-                    <v-icon icon="mdi-store"></v-icon> 
-                    {{name_res}} 
+                    <v-icon icon="mdi-store"></v-icon> {{ name }}
                 </div>
                    <v-btn
                     variant="outlined"
@@ -92,11 +93,10 @@
                                 </v-col>
                                 <v-col
                                     style=" align-items: center; display: flex"
-                                    v-for="menu in menus"
                                 >
-                                     <div>
+                                     <div v-for="menu in menus">
                                         <div>
-                                            {{ menu }}
+                                            {{menu}}
                                         </div>
                                         <div>
                                             <div 
@@ -107,6 +107,7 @@
                                               >
                                                 <v-col cols="12">
                                                   <div >
+                                                        dada
                                                   </div>
                                                 </v-col>
                                               </div>
@@ -137,7 +138,7 @@
                 </v-col>
                 <v-col>
                     <div style="display:flex; align-items:end; justify-content:end">
-                        {{ order_detail.order_total_price }}
+                        200
                     </div>
                 </v-col>
             </v-row>
@@ -174,7 +175,6 @@
                 <v-col>
                     <div style="display:flex; align-items:end; justify-content:end">
                         ชำระเงินปลายทาง
-                        {{ $route.params.order_id    }}
                     </div>
                 </v-col>
             </v-row>
@@ -185,25 +185,25 @@
 import axios from "@/plugins/axios.js";
 export default {
   data() {
-    return{
-     order_detail:[]
-    }
+    return {
+      cartDetail:[],
+      cartOrderIs : this.$route.params.orderid
+    };
   },
-  mounted(){
-    this.getOrderDetails()
+    beforeMount(){
+    this.getAllcarts()
   },
   methods: {
-   async getOrderDetails(){
+   async getAllcarts(){
         try{
-            const res = await axios.get("api/getcheckoutbyparams/"+this.$route.params.orderid);
-            console.log("params",this.$route.params.orderid)
-            console.log(res.data)
-            this.order_detail = res.data[0]
+            const res = await axios.get("api/getcheckoutbyparams/"+this.cartOrderIs);
+            this.cartDetail = res.data
+            console.log(this.cartDetail);
         }catch(err){
             console.log(err)
         }
     },
     }
-  
-}
+};
+
 </script>

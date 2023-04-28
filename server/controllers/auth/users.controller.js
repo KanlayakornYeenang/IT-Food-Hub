@@ -53,15 +53,6 @@ const getDetail = async (req, res) => {
   }
 };
 
-const getRestaurant = async (req, res) => {
-  try {
-    const result = await getAllRestaurant();
-    return res.json(result);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
 const registerOfUser = async (req, res) => {
   const { fname, lname, email, password } = req.body;
   try {
@@ -133,7 +124,6 @@ const changeRoleUser = async (req, res) => {
 module.exports = {
   login,
   getDetail,
-  getRestaurant,
   registerOfUser,
   changePasswordUser,
   insertPictureProfile,

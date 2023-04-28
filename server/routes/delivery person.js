@@ -5,9 +5,9 @@ const requireRole = require("../middleware/requireRole");
 const {delivery} = require("../controllers/delivery")
 
 // show all orders for delivery 
-router.get("/getOrder", verify,delivery.getOrder)
+router.get("/getOrder", verify,delivery.showOrder)
 
 // for delivery to accept order
-router.put("/acceptOrderDelivery/:id", verify, requireRole, delivery.updateDeliveryOrder)
+router.put("/acceptOrderDelivery/:id", verify, delivery.updateDeliveryOrder)
 
 module.exports = router;

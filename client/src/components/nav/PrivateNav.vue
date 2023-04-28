@@ -27,19 +27,19 @@
               </v-btn>
             </template>
             <div style="
-                            background-color: white;
-                            border-top-right-radius: 5px;
-                            border-top-left-radius: 5px;
-                          ">
+                                    background-color: white;
+                                    border-top-right-radius: 5px;
+                                    border-top-left-radius: 5px;
+                                  ">
               <v-btn variant="plain" :to="'/itfoodhub/user'">
                 บัญชีของฉัน
               </v-btn>
             </div>
             <div style="
-                            background-color: white;
-                            border-bottom-right-radius: 5px;
-                            border-bottom-left-radius: 5px;
-                          ">
+                                    background-color: white;
+                                    border-bottom-right-radius: 5px;
+                                    border-bottom-left-radius: 5px;
+                                  ">
               <v-btn variant="plain"> ออกจากระบบ </v-btn>
             </div>
           </v-menu>
@@ -51,15 +51,15 @@
         </v-sheet>
         <v-text-field placeholder="Search IT FOOD HUB" variant="solo" hide-details
           append-inner-icon="mdi-magnify"></v-text-field>
-        <v-btn icon class="mx-10" @click="dialog = true">
-          <v-badge color="foodhub" v-if="cart" :content="content">
+        <v-btn icon class="mx-10" @click="updateDialog(true)">
+          <v-badge color="foodhub" v-if="cart" :content="cartLength">
             <v-icon size="x-large">mdi-shopping</v-icon>
           </v-badge>
         </v-btn>
       </div>
 
       <v-dialog v-model="dialog" width="600" scroll-strategy="close">
-        <Cart :cart="cart" @updateDialog="updateDialog" @cartUpdated="refreshCart" />
+        <Cart @updateDialog="updateDialog" @updateCart="updateCart" @updateCancle="updateCancle" />
       </v-dialog>
     </v-col>
   </v-app-bar>
@@ -70,14 +70,13 @@ import Cart from "@/components/cart/Cart.vue";
 </script>
 
 <script>
-import eventbus from "@/plugins/eventBus";
 import axios from "@/plugins/axios.js";
 export default {
   data() {
     return {
       dialog: false,
       cart: null,
-      content: 0,
+      cancle: [],
     };
   },
   props: {
@@ -86,26 +85,45 @@ export default {
     },
   },
   methods: {
+    updateCart(cart) {
+      this.cart = cart;
+    },
     updateDialog(dialog) {
+      for (let i = 0; i < this.cart.length; i++) {
+        for (let j = 0; j < this.cart[i].menu.length; j++) {
+          let menu = this.cart[i].menu[j]
+          if (parseFloat(menu.quantity) == 0 && !this.cancle.includes(menu.cart_id)) {
+            menu.quantity++
+            axios.patch("api/updateQuantity", { cart_id: menu.cart_id, quantity: menu.quantity })
+          }
+        }
+      }
       this.dialog = dialog;
     },
-    refreshCart() {
-      axios
-        .get('api/cart')
-        .then((res) => {
-          this.cart = res.data;
-          this.content = this.cart.reduce((acc, item) => acc + item.quantity, 0)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    updateCancle(cancle) {
+      this.cancle = cancle
+    }
+  },
+  computed: {
+    cartLength() {
+      let length = 0;
+      for (let i = 0; i < this.cart.length; i++) {
+        for (let j = 0; j < this.cart[i].menu.length; j++) {
+          length += this.cart[i].menu[j].quantity
+        }
+      }
+      return length
+    }
   },
   mounted() {
-    this.refreshCart()
-    eventbus.on('update-cart', (cart) => {
-      this.cart = cart
-    })
+    axios
+      .get('api/cart')
+      .then((res) => {
+        this.cart = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
 </script>

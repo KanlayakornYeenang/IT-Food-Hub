@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-center align-center">
+    <div class="d-flex justify-center align-center" v-if="user">
         <v-col cols="8" class="d-flex my-3">
           <v-row>
             <v-col cols="2" >
@@ -15,7 +15,7 @@
                         <div 
                             style="font-size: 20px;"
                         >
-                            vorawee
+                           {{ user.user_fname}}
                         </div>
                         <div
                             style="font-size: 10px; color:grey;padding-bottom:0.7vh"
@@ -64,13 +64,19 @@
                                     :to="'/itfoodhub/user/cart'"
                                 >รายการการสั้งซ์้อ</v-btn>
                             </div>  
+                            <div
+                                style="padding-left: 1vh;"
+                                ><v-btn variant="plain"
+                                    :to="'/itfoodhub/user/myorder'"
+                                >รายการที่ต้องส่ง</v-btn>
+                            </div>  
                         </div>
                 </v-col>
               </v-row>
             </v-col>
             <v-col>
                 <div style=" width:100vh; height:100%">
-                   <router-view :key="$route.fullPath"></router-view>
+                   <router-view :key="$route.fullPath" :user="user"></router-view>
                 </div>
             </v-col>
           </v-row>
@@ -79,15 +85,11 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      //
-    };
-  },
   props: {
-    restaurant: {
+    user: {
       type: Object,
     },
   },
+  
 };
-</script>
+</script>   

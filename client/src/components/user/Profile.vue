@@ -1,5 +1,5 @@
 <template>
-    <div
+    <div v-if="user"
         style="padding-left: 2vh; padding-right: 2vh;"
         >
         <div style="margin-bottom: 6vh; border-bottom: 1px solid grey;">
@@ -34,8 +34,10 @@
                                         style="color: grey;"
                                     >ชื่อผู้ใช้</span>
                                     </v-col>
-                                    <v-col>
-                                        vorawee
+                                    <v-col >
+                                        <div>
+                                            {{user_detail.user_fname}} {{ user_detail.user_lname }}
+                                        </div>
                                     </v-col>
                                 </v-row>
                            </div>
@@ -44,17 +46,24 @@
                             >
                                 <v-row>
                                     <v-col 
-                                        style="display: flex; justify-content: end"
+                                        style="display: flex; justify-content: end;align-items: center"
                                     cols="5">
                                     <span
-                                        style="color: grey;"
+                                        style="color: grey; "
                                     >หมายเลขโทรศัพท์</span>
                                     </v-col>
                                     <v-col>
-                                        0916855522 
-                                        <v-btn variant="text" style="color: red;">
-                                            เปลี่ยน
-                                        </v-btn>
+                                        <div 
+                                            style="display: flex; align-items: center"
+                                        >
+                                            
+                                            <div >
+                                                    {{ user.user_phone }}
+                                            </div>
+                                            <v-btn variant="text" style="color: red;">
+                                                เปลี่ยน
+                                            </v-btn>
+                                        </div>
                                     </v-col>
                                 </v-row>  
                            </div>
@@ -70,7 +79,9 @@
                                         >อีเมล</span>
                                     </v-col>
                                     <v-col>
-                                        vorawee@gmail.com
+                                        <div>
+                                            {{user_detail.user_email}}
+                                        </div>
                                     </v-col>
                                 </v-row>  
                            </div>
@@ -125,3 +136,18 @@
     margin-bottom: 3vh;
 }
 </style>
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+    },
+  },
+  data() {
+    return {
+      user_detail: this.user,
+    };
+  },
+  
+};
+</script>
