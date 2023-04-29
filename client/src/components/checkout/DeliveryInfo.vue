@@ -9,21 +9,36 @@
             <p class="mx-2">{{ user.user_phone }}</p>
             <p>{{ user.user_locat }}</p>
             <div class="px-2"></div>
-            <v-btn size="small" class="text-it fw-600">แก้ไข</v-btn>
+            <v-btn size="small" class="text-it fw-600" @click="updateDialog(true)">แก้ไข</v-btn>
         </div>
+        <v-dialog v-model="dialog" persistent max-width="600" scroll-strategy="close">
+            <EditCard @updateDialog="updateDialog"/>
+        </v-dialog>
     </v-sheet>
 </template>
+
+<script setup>
+import EditCard from "@/components/checkout/EditCard.vue";
+</script>
 
 <script>
 export default {
     data() {
         return {
-            //
+            dialog: false
         }
     },
     props: {
         user: {
             type: Object
+        }
+    },
+    methods: {
+        updateDialog(dialog) {
+            this.dialog = dialog
+        },
+        updateUserInfo() {
+            this.showEditDialog = false;
         }
     }
 }

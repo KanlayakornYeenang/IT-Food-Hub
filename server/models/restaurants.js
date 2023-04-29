@@ -25,8 +25,16 @@ const getMenuById = async (menu_id) => {
   return rows;
 };
 
+const getMyRestaurantByUserId = async (user_id) => {
+  const sql =
+    "SELECT * FROM restaurants where owner_id = ?";
+  const [rows, fields] = await db.query(sql, [user_id]);
+  return rows[0];
+}
+
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
   getMenuById,
+  getMyRestaurantByUserId
 };

@@ -55,6 +55,10 @@ const routes = [
       {
         path:"pickorder",
         component: () => import("@/views/PickOrder.vue"),
+      },
+      {
+        path:"myrestaurant",
+        component: () => import("@/views/MyRestaurant.vue"),
       }
     ],
   },

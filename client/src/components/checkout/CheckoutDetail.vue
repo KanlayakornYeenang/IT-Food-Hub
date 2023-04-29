@@ -7,7 +7,7 @@
                     <v-col class="bg-white rounded-lg">
                         <v-col class="pa-2">
                             <div>
-                                <DeliveryInfo :user="user" />
+                                <DeliveryInfo :user="user" @updateDialog="updateDialog"/>
                                 <v-divider class="mb-3"></v-divider>
                                 <v-sheet class="pa-3" v-for="restaurant, rst_index in cart" :key="rst_index">
                                     <RestaurantCart :restaurant="restaurant" />
@@ -53,6 +53,7 @@ export default {
         return {
             cart: null,
             toggle: "wallet",
+            dialog: false
         }
     },
     props: {
@@ -61,6 +62,9 @@ export default {
         }
     },
     methods: {
+        updateDialog(dialog) {
+            this.dialog = dialog
+        },
         getTotalPrice() {
             let totalPrice = 0;
             if (this.cart) {
