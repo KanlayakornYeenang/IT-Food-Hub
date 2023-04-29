@@ -28,18 +28,17 @@
                 </v-col>
             </v-row>
     </v-card>
-    <v-btn  v-if="order.length > 1 " class="mt-3 w-100" @click="submitOrder(order.order_id)" color="foodhub">รับออเดอร์</v-btn>
+    <v-btn   class="mt-3 w-100" v-if="order.dlv_id == null" @click="submitOrder(order.order_id)" color="foodhub">รับออเดอร์</v-btn>
     <v-btn class="mt-3 w-100"
 
-                v-if="order.length = 1"
+                v-if="order.dlv_id != null"
                 color="foodhub"
                 @click="goToYouOrder"
             >
                 ไปที่คำสั้งซิ้อของคุณ
             </v-btn>
     <v-overlay
-        v-if="order.length = 1"
-        class="d-flex justify-center align-center" 
+        class="d-flex justify-center align-center"  
         v-model="overlay"
     >
             <v-card >
@@ -85,6 +84,7 @@ props: {
   },
   methods:{
      submitOrder(order_id){
+        console.log(order_id);
         // const res = await axios.put("/acceptOrderDelivery/"+order_id)
         this.overlay = ! this.overlay
         this.orderId = order_id

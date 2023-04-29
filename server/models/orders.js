@@ -2,7 +2,7 @@ const db = require("./db");
 
 const getAllOrderThatNotDelivered = async () => {
   const sql =
-    "select o.order_id, o.order_status, o.order_total_price, o.order_dest, me.menu_name, res.rst_name, u.user_fname, u.user_phone from orders o inner join orders_detail ord on (ord.order_id = o.order_id) inner join menu me on\
+    "select o.order_id, o.order_status, o.order_total_price, o.order_dest, o.dlv_id, me.menu_name, res.rst_name, u.user_fname, u.user_phone from orders o inner join orders_detail ord on (ord.order_id = o.order_id) inner join menu me on\
    (ord.menu_id = me.menu_id) inner join restaurants res on(me.rst_id = res.rst_id) inner join users u on(o.cus_id = u.user_id) where o.dlv_id is null";
   const [rows, fields] = await db.query(sql);
   return rows;
@@ -10,7 +10,7 @@ const getAllOrderThatNotDelivered = async () => {
 
 const gerOrderThatUserIsDelivered = async (user_id) => {
   const sql =
-    "select o.order_id, o.order_status, o.order_total_price, o.order_dest, me.menu_name, res.rst_name, u.user_fname, u.user_phone from orders o inner join orders_detail ord on (ord.order_id = o.order_id) inner join menu me on\
+    "select o.order_id, o.order_status, o.order_total_price, o.order_dest, o.dlv_id, me.menu_name, res.rst_name, u.user_fname, u.user_phone from orders o inner join orders_detail ord on (ord.order_id = o.order_id) inner join menu me on\
   (ord.menu_id = me.menu_id) inner join restaurants res on(me.rst_id = res.rst_id) inner join users u on(o.cus_id = u.user_id) where o.dlv_id = ?";
   const [rows, fields] = await db.query(sql, user_id)
   return rows
