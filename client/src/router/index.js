@@ -11,6 +11,10 @@ const routes = [
     component: () => import("@/views/LogIn.vue"),
   },
   {
+    path:"/register",
+    component: () => import("@/views/Register.vue"),
+  },
+  {
     path: "/itfoodhub",
     component: () => import("@/views/Default.vue"),
     children: [
@@ -60,6 +64,7 @@ const routes = [
         path:"pickorder/:orderid",
         component:()=>import("@/views/OrderDelivery.vue")
       },
+      {
         path:"myrestaurant",
         component: () => import("@/views/MyRestaurant.vue"),
       }

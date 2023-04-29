@@ -5,7 +5,7 @@ const {
     updateDelivery_order,
     getAllOrderThatHaveDelivered,
     gerOrderThatUserIsDelivered
-    getAllOrderThatHaveDelivered
+    
   } = require("../../models/orders");
 
 const  { gropMenu } = require("../../hook/groupedmenu")
