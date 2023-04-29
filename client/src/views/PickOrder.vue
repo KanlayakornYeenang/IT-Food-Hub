@@ -23,11 +23,13 @@
         <v-col cols="8" class="d-flex my-3 mx-auto">
           <p class="text-h5 fw-600 mt-5">6 คำสั่งซื้อ</p>
         </v-col>
-        <v-col cols="8" class="d-flex my-3 mx-auto">
-          <v-row> <v-col class="pa-2" v-for="n in 6" :key="n" cols="12" xl="3" lg="6">
-              <OrderCard />
-            </v-col></v-row>
-        </v-col>
+          <v-col cols="8" class="d-flex my-3 mx-auto">
+            <v-row> 
+              <v-col class="pa-2" v-for="order in orders" :key="order" cols="12" xl="3" lg="6">
+                <OrderCard :order = order />
+              </v-col>
+            </v-row>
+          </v-col>
       </div>
     </v-container>
   </div>
@@ -43,4 +45,34 @@
 
 <script setup>
 import OrderCard from "@/components/pickorder/OrderCard.vue";
+
+</script>
+<script>
+import axios from "@/plugins/axios";
+export default {
+props: {
+    user: {
+      type: Object,
+    },
+  },
+  data() {
+    return {
+      orders:[]
+    };
+  },
+  mounted(){
+    this.getAllcarts()
+  },
+  methods: {
+   async getAllcarts(){
+        try{
+            const res = await axios.get("api/getOrder");
+            console.log(res.data);
+            this.orders =res.data
+        }catch(err){
+            console.log(err)
+        }
+    },
+    }
+};
 </script>

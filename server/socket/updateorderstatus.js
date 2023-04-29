@@ -15,11 +15,15 @@ const updateOrderStatus =  async (io) =>{
             io.emit('show_order_status', { orderId, status });
         });
         socket.on('update_order_Status', async ({orderId, newState}) => {
+                console.log("newState",newState)
             // code to update order Status 
                 const update = await updateOrderStatus_sql(orderId, newState)
+                const status = await showState(orderId)
             //
             console.log(`Order ${orderId} state updated to ${newState}`);
-            io.emit('order_updated', { update});
+            console.log("status",status[0].order_status)
+            const status_updated = status[0].order_status
+            io.emit('order_updated', {orderId,status_updated});
         });
 
         socket.on('disconnect', () => {

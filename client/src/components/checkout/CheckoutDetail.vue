@@ -62,6 +62,20 @@ export default {
         }
     },
     methods: {
+        placeOrder() {
+            const schema = {
+                order_total_price: this.getTotalPrice() + 10,
+                order_dest: this.user.user_locat,
+                cart: this.cart,
+            }
+            axios.post("api/placeOrder", schema).then((res) => {
+                const order_id = res.data.order_id
+                this.$router.push("/itfoodhub/orders/"+order_id);
+            })
+        },
+        goBack() {
+            // eventbus.emit('update-dialog', true)
+            this.$router.go(-1); },
         updateDialog(dialog) {
             this.dialog = dialog
         },
@@ -78,18 +92,7 @@ export default {
                 });
             }
             return totalPrice
-        },
-        placeOrder() {
-            const schema = {
-                order_total_price: this.getTotalPrice() + 10,
-                order_dest: this.user.user_locat,
-                cart: this.cart,
-            }
-            axios.post("api/placeOrder", schema).then((res) => {
-                const order_id = res.data.order_id
-                this.$router.push("/itfoodhub/orders/" + order_id);
-            })
-        },
+        }
     },
     mounted() {
         axios

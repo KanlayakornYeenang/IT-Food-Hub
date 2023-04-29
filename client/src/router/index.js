@@ -57,6 +57,9 @@ const routes = [
         component: () => import("@/views/PickOrder.vue"),
       },
       {
+        path:"pickorder/:orderid",
+        component:()=>import("@/views/OrderDelivery.vue")
+      },
         path:"myrestaurant",
         component: () => import("@/views/MyRestaurant.vue"),
       }

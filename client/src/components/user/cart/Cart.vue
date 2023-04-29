@@ -32,52 +32,54 @@
                         </div>
                     </div>
                 </div>
-                <div v-for="menu, name_res in detail.rst_name" class="pa-2" style="border-bottom: 1px solid grey;">
-                    <div
-                        class="mb-4"
-                        style="font-size: 20px;"
-                    >
-                       <v-icon icon="mdi-store"></v-icon> {{ name_res }}
-                    </div>
-                    <v-row 
-                        class="mb-3"
-                    >
-                        <v-col cols="2">
-                            <v-img :width="120" class="rounded-lg"
-                                src="https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg">
-                            </v-img>
-                        </v-col>
-                        <v-col
-                            cols="10"
-                        >
-                            <div v-for="name , i in menu" style="display: flex; justify-content:space-between;">
-                                <div>
-                                    {{name}}
-                                </div>
-                                <div>
-                                    ฿50
-                                </div>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </div>
-            <div style="display: flex; justify-content:end; margin:1vh; font-weight: bold; font-size:20px">
-               <div>
-                รวมรายการสั้งซ์้อ 500
-               </div> 
-            </div>
-            <div style="display: flex; justify-content:end; margin:1vh; font-weight: bold; font-size:20px">
                 <div>
-                    <v-btn
-                    width="200"
-                    height="40"
-                    variant="tonal"
-                    style="background-color: #36C144; color: white"
-                    :to="'/itfoodhub/user/cart/order/'+detail.order_id"
-                    >
-                        เช็คสถานะการส่ง
-                    </v-btn>
-               </div>
+                    <div v-for="menu, name_res in detail.rst_name" class="pa-2" style="border-bottom: 1px solid grey;">
+                        <div
+                            class="mb-4"
+                            style="font-size: 20px;"
+                        >
+                        <v-icon icon="mdi-store"></v-icon> {{ name_res }}
+                        </div>
+                        <v-row 
+                            class="mb-3"
+                        >
+                            <v-col cols="2">
+                                <v-img :width="120" class="rounded-lg"
+                                    src="https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg">
+                                </v-img>
+                            </v-col>
+                            <v-col
+                                cols="10"
+                            >
+                                <div v-for="name , i in menu" style="display: flex; justify-content:space-between;">
+                                    <div>
+                                        {{name}}
+                                    </div>
+                                    <div>
+                                        ฿50
+                                    </div>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </div>
+                <div style="display: flex; justify-content:end; margin:1vh; font-weight: bold; font-size:20px">
+                <div>
+                    รวมรายการสั้งซ์้อ 500
+                </div> 
+                </div>
+                <div style="display: flex; justify-content:end; margin:1vh; font-weight: bold; font-size:20px">
+                    <div>
+                        <v-btn
+                        width="200"
+                        height="40"
+                        variant="tonal"
+                        style="background-color: #36C144; color: white"
+                        :to="'/itfoodhub/user/cart/order/'+detail.order_id"
+                        >
+                            เช็คสถานะการส่ง
+                        </v-btn>
+                </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,6 +87,11 @@
 <script>
 import axios from "@/plugins/axios";
 export default {
+props: {
+    user: {
+      type: Object,
+    },
+  },
   data() {
     return {
       carts:[]
