@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid class="pa-0">
-      <div class="d-flex banner justify-center align-center pt-10 pb-10">
+      <div class="d-flex banner justify-center align-center pt-10 pb-10" style="height:390px">
         <v-col cols="8" class="rounded-lg">
           <div class="py-4">
             <p class="text-h3 fw-600">
@@ -68,7 +68,7 @@ props: {
         try{
             const res = await axios.get("api/getOrder");
             console.log(res.data);
-            this.orders =res.data
+            this.orders = res.data
         }catch(err){
             console.log(err)
         }

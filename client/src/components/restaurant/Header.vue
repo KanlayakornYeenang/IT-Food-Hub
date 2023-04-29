@@ -1,8 +1,9 @@
 <template>
-  <div class="d-flex justify-center align-center pt-10">
-    <v-col cols="8" class="bg-white banner d-flex rounded-lg">
-      <v-card class="w-100" elevation="0">
-        <v-card-item v-if="restaurant" class="pa-0">
+  <div class="d-flex justify-center pt-10" style="height:390px">
+    <v-col cols="8" class="bg-white banner rounded-lg">
+      <v-card class="w-100 h-100 d-flex flex-column" elevation="0">
+
+        <v-card-item v-if="restaurant" class="pa-0 align-self-start flex-grow-1">
           <v-breadcrumbs :items="items" class="pa-0 my-1">
             <template v-slot:divider>
               <v-icon icon="mdi-chevron-right"></v-icon>
@@ -24,7 +25,11 @@
             </span>
           </v-card-subtitle>
         </v-card-item>
-        <Category :categories="categories"/>
+
+        <div class="align-self-start mt-auto">
+          <Category :categories="categories"/>
+        </div>
+
       </v-card>
     </v-col>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="mx-auto pt-10">
+  <v-sheet class="mx-auto">
     <v-slide-group show-arrows>
       <v-slide-group-item>
         <v-tabs color="it">
