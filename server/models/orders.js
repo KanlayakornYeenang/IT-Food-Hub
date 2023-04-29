@@ -35,9 +35,6 @@ const getAllCarts = async (user_id) => {
   return rows;
 };
 
-
-
-
 const updateOrderStatus_sql = async (order_id, order_status) => {
   const sql = "update orders set order_status = ? where order_id = ?";
   const [rows, fields] = await db.query(sql, [order_status, order_id]);

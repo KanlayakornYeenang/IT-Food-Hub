@@ -138,6 +138,7 @@
                         </v-col>
                     </v-col>
                 </v-col>
+
         </div>
 </template>
 <script>
@@ -154,6 +155,7 @@ export default {
   },
   props:["user"],
 beforeMount(){
+    beforeMount(){
     this.getAllcarts()
   },
   methods: {
@@ -167,7 +169,6 @@ beforeMount(){
         }catch(err){
             console.log(err)
         }
-    },
     },
 mounted() {
     const socket = io('http://localhost:4114'); // replace with your backend server URL
