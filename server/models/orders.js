@@ -40,9 +40,22 @@ const updateOrderStatus_sql = async (order_id, order_status) => {
   const [rows, fields] = await db.query(sql, [order_status, order_id]);
   return rows;
 };
+
 const showState = async (order_id) => {
   const sql = "select order_status from orders where order_id = ?";
   const [rows, fields] = await db.query(sql,  order_id);
+  return rows;
+};
+
+const getAllOrder = async () => {
+  const sql = "SELECT * FROM orders\
+  JOIN orders_detail\
+  USING (order_id)\
+  JOIN menu\
+  USING (menu_id)\
+  JOIN restaurants\
+  USING (rst_id)"
+  const [rows, fields] = await db.query(sql);
   return rows;
 };
 
@@ -53,5 +66,6 @@ module.exports = {
   getAllCarts,
   updateOrderStatus_sql,
   showState,
-  gerOrderThatUserIsDelivered 
+  gerOrderThatUserIsDelivered,
+  getAllOrder
 };
