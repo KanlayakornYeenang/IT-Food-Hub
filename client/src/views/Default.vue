@@ -4,6 +4,7 @@
       <PrivateNav :user="user" />
       <v-main>
         <router-view :user="user" />
+        <!-- <Footer /> -->
       </v-main>
     </v-layout>
   </v-card>
@@ -11,6 +12,7 @@
 
 <script setup>
 import PrivateNav from "@/components/nav/PrivateNav.vue";
+import Footer from "@/components/footer/Footer.vue";
 </script>
 
 <script>
@@ -26,7 +28,6 @@ export default {
     axios
       .get("api/user")
       .then((res) => {
-        console.log(res)
         this.user = res.data;
       })
       .catch((err) => {

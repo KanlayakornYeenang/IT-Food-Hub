@@ -11,7 +11,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Prompt:wght@500;600&display=swap');
 
-.v-card, .v-container, .v-list-item {
+.v-card, .v-container, .v-list-item, .v-tooltip {
     * {
         font-family: 'Poppins', 'Prompt', sans-serif !important;
         line-height: 1.5;
@@ -45,4 +45,8 @@ a {
 
 .v-expansion-panel-text__wrapper {
     padding: 0 !important;
+}
+
+.v-timeline--vertical.v-timeline.v-timeline--side-end .v-timeline-item .v-timeline-item__body {
+    padding-inline-start: 10px !important;
 }

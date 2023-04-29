@@ -8,16 +8,11 @@ const getUserByNameAndPasword = async (email, password) => {
 
 const getUserDetailById = async (user_id) => {
   const sql =
-    "SELECT user_email, user_fname, user_lname, user_phone FROM users WHERE user_id = ?";
+    "SELECT user_email, user_fname, user_lname, user_phone, user_locat FROM users WHERE user_id = ?";
   const [rows, fields] = await db.query(sql, [user_id]);
   return rows[0];
 };
 
-const getAllRestaurant = async () => {
-  const sql = "SELECT * FROM restaurants";
-  const [rows, fields] = await db.query(sql);
-  return rows;
-};
 const getAllUser = async () => {
   const sql = "SELECT * FROM users";
   const [rows, fields] = await db.query(sql);
@@ -64,7 +59,6 @@ const updateRoleUser = async (user_id, role, file_name) => {
 module.exports = { 
   getUserByNameAndPasword, 
   getUserDetailById, 
-  getAllRestaurant, 
   registerUser, 
   getAllUser, 
   updatePassword, 

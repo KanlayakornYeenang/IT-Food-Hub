@@ -51,18 +51,14 @@ const routes = [
       {
         path:"checkout",
         component: () => import("@/views/Checkout.vue"),
-        children:
-        [
-          {
-            path:":order_Id",
-            component: ()=>import("@/components/checkout/CheckoutDetail.vue"),
-          }
-
-        ]
       },
       {
-        path:"getorder",
-        component: () => import("@/views/GetOrder.vue"),
+        path:"pickorder",
+        component: () => import("@/views/PickOrder.vue"),
+      },
+      {
+        path:"myrestaurant",
+        component: () => import("@/views/MyRestaurant.vue"),
       }
     ],
   },

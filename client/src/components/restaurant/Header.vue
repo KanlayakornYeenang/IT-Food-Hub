@@ -3,7 +3,7 @@
     <v-col cols="8" class="bg-white banner d-flex rounded-lg">
       <v-card class="w-100" elevation="0">
         <v-card-item v-if="restaurant" class="pa-0">
-          <v-breadcrumbs v-if="items" :items="items" class="pa-0 my-1">
+          <v-breadcrumbs :items="items" class="pa-0 my-1">
             <template v-slot:divider>
               <v-icon icon="mdi-chevron-right"></v-icon>
             </template>
@@ -11,21 +11,20 @@
           <v-card-title>
             <p class="text-h3 fw-600">
               {{ restaurant.rst_name }}
-            </p></v-card-title
-          >
+            </p>
+          </v-card-title>
           <v-chip-group>
             <v-chip>TEST</v-chip>
-            <v-chip>TEST</v-chip> </v-chip-group
-          ><v-card-subtitle class="d-flex my-1">
+            <v-chip>TEST</v-chip> </v-chip-group><v-card-subtitle class="d-flex my-1">
             <v-icon class="mr-1">mdi-clock-time-four</v-icon>
-            <span class="d-flex"
-              ><p class="fw-600 text-black">เวลาเปิดให้บริการ</p>
+            <span class="d-flex">
+              <p class="fw-600 text-black">เวลาเปิดให้บริการ</p>
               <div class="mx-2"></div>
-              วันนี้ TEST-TEST</span
-            >
+              วันนี้ TEST-TEST
+            </span>
           </v-card-subtitle>
         </v-card-item>
-        <Category />
+        <Category :categories="categories"/>
       </v-card>
     </v-col>
   </div>
@@ -42,26 +41,29 @@ export default {
       type: Object,
       required: true,
     },
+    categories: {
+      type: Array
+    }
   },
   data() {
     return {
-      items: null,
+      //
     };
   },
-  mounted() {
-    if (this.restaurant) {
-      this.items = [
+  computed: {
+    items() {
+      return [
         {
           title: "หน้าแรก",
           disabled: false,
           href: "/itfoodhub",
         },
         {
-          title: this.restaurant.rst_name,
+          title: this.restaurant ? this.restaurant.rst_name : "กำลังโหลด...",
           disabled: true,
         },
       ];
-    }
+    },
   },
 };
 </script>

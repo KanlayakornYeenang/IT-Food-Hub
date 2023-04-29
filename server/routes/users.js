@@ -4,15 +4,13 @@ const verify = require("../middleware/verify");
 const requireRole = require("../middleware/requireRole");
 const { users } = require("../controllers/auth");
 const upload = require("../middleware/multer");
-const {customer} = require("../controllers/customer")
+const { customers } = require("../controllers/customers");
+
 // for user login
 router.post("/login", users.login);
 
 // for get user detail
 router.get("/user", verify, users.getDetail);
-
-// for send all restaurants to user
-router.get("/itfoodhub", verify, users.getRestaurant);
 
 // for register user
 router.post("/register", users.registerOfUser);
@@ -36,12 +34,27 @@ router.put(
 );
 
 // for create orders
-router.post("/placeOrder", verify, customer.placeOrder);
+router.post("/placeOrder", verify, customers.placeOrder);
 
 // for get all cart items
-router.get("/getcarts", verify,customer.getCart)
+router.get("/getcarts", verify, customers.getCart);
 
 // for get Order By id
-router.get("/getcheckoutbyparams/:orderID", verify, customer.getCheckoutByOrder)
+router.get(
+  "/getcheckoutbyparams/:orderID",
+  verify,
+  customers.getCheckoutByOrder
+);
+
+// for user add to cart
+router.post("/addToCart", verify, customers.addToCart);
+
+router.get("/cart", verify, customers.createCart);
+
+router.patch("/updateQuantity", verify, customers.updateQuantity);
+
+router.delete("/deleteMenu", verify, customers.deleteMenu)
+
+router.post("/placeOrder", verify, customers.placeOrder)
 
 module.exports = router;

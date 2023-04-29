@@ -21,7 +21,7 @@
               *
             </p>
           </v-card-title><v-card-subtitle class="pa-0 pt-1 d-flex">
-            <p v-if="option.option_type == 'require'">ต้องเลือก</p>
+            <p v-if="option.option_type == 'require'">เลือก</p>
             <p v-else>เลือกได้สูงสุด</p>
             <p class="mx-1">{{ option.max_optional }}</p>
           </v-card-subtitle>
