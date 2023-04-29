@@ -7,7 +7,7 @@
       <v-divider></v-divider>
       <div class="py-5">
         <div class="d-flex justify-center align-center py-5" v-for="category, category_index in categories"
-          :key="category_index" :ref="'category' + category_index" :id="'category' + category_index">
+          :key="category_index" :ref="category.menu_cat" :id="category.menu_cat">
           <v-col cols="8">
             <v-card class="w-100 mb-6" color="transparent" elevation="0">
               <v-card-item class="pa-0">
@@ -55,7 +55,6 @@ export default {
       .then((res) => {
         this.restaurant = res.data.restaurant;
         this.categories = res.data.category
-        console.log(res.data.category);
       })
       .catch((err) => {
         this.$router.push("/");
@@ -63,7 +62,6 @@ export default {
       });
     eventbus.on('updateCategory', category => {
       const targetDiv = document.getElementById(category);
-      console.log(targetDiv);
       targetDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
     })
   },

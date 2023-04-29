@@ -2,6 +2,7 @@ const {
   getAllRestaurants,
   getRestaurantById,
   getMenuById,
+  getMyRestaurantByUserId
 } = require("../../models/restaurants");
 
 const { groupOptions } = require("../../hook/groupOptions");
@@ -33,8 +34,19 @@ const getMenu = async (req, res) => {
   }
 };
 
+const getMyRestaurant = async (req, res) => {
+  try {
+    const result = await getMyRestaurantByUserId(req.user.user_id);
+    const myRestaurant = await getRestaurantById(result.rst_id)
+    return res.json(myRestaurant);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+}
+
 module.exports = {
   getRestaurants,
   getRestaurant,
   getMenu,
+  getMyRestaurant
 };

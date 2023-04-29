@@ -5,12 +5,20 @@ const {
     updateDelivery_order,
     getAllOrderThatHaveDelivered,
     gerOrderThatUserIsDelivered
+    getAllOrderThatHaveDelivered
   } = require("../../models/orders");
 
 const  { gropMenu } = require("../../hook/groupedmenu")
 
 
-
+const showOrder = async(req, res) =>{
+    try{
+        const result = await getAllOrderThatNotDelivered()
+        res.send(result)
+    }catch(err){
+        res.status(500).send(err)
+    }
+}
 
 const updateDeliveryOrder = async(req, res)=>{
     // กดรับ orderปุ๊ป ก็ส่ง id ของ order เข้ามาใน params เลย
@@ -50,3 +58,4 @@ const viewOrderThatUserIsDelivered = async (req, res)=>{
 }
 
 module.exports = {updateDeliveryOrder, viewOrder, viewOrderThatUserIsDelivered};
+
