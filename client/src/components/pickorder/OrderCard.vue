@@ -5,7 +5,7 @@
                 <v-col class="pa-0">
                     <v-timeline side="end">
                         <v-timeline-item size="x-small" dot-color="it">
-                            <div v-for="menu, res in order.rst_name">
+                            <div v-for="menu, res in order.rst_name" :key="res">
                                 <p>{{res}}</p>
 
                             </div>
