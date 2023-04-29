@@ -60,11 +60,12 @@ const routes = [
         path:"pickorder/:orderid",
         component:()=>import("@/views/OrderDelivery.vue")
       },
+      {
         path:"myrestaurant",
         component: () => import("@/views/MyRestaurant.vue"),
       }
     ],
-  },
+  }
 ];
 
 const router = createRouter({

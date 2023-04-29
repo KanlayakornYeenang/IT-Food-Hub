@@ -1,13 +1,9 @@
 const { request } = require("express");
 const {
     getAllOrderThatNotDelivered,
-    getAllOrder,
     updateDelivery_order,
-    getAllOrderThatHaveDelivered,
-    gerOrderThatUserIsDelivered
-    getAllOrderThatHaveDelivered
+    gerOrderThatUserIsDelivered,
   } = require("../../models/orders");
-
 const  { gropMenu } = require("../../hook/groupedmenu")
 
 
