@@ -6,7 +6,7 @@
           <div class="py-4">
             <p class="text-h3 fw-600">
               Pick Order
-              <v-icon size="x-small"><v-img src="@/assets/pushpin.png"></v-img></v-icon>
+              <v-icon size="x-small"><v-img src="@/assets/take-away.png"></v-img></v-icon>
             </p>
             <p>
               เรากำลังมองหาคนส่งอาหารที่มีความสามารถและความกระตือรือร้นในการให้บริการมาเข้าร่วมกับเรา!

@@ -46,3 +46,7 @@ a {
 .v-expansion-panel-text__wrapper {
     padding: 0 !important;
 }
+
+.v-list-item__prepend > .v-icon {
+    margin-inline-end: 15px !important
+}

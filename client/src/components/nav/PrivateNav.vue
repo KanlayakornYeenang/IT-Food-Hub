@@ -22,7 +22,7 @@
           </v-btn>
           <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
-              <v-btn size="small" prepend-icon="mdi-account" id="menu-activator" v-bind="props">
+              <v-btn size="small" prepend-icon="mdi-account-circle" id="menu-activator" v-bind="props">
                 <p class="text-body-1 fw-600">{{ user.user_fname }}</p>
               </v-btn>
             </template>

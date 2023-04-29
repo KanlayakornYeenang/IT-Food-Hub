@@ -1,35 +1,25 @@
 <template>
-    <div class="d-flex justify-center align-center" v-if="user">
+    <div class="d-flex justify-center align-center bg-grey-lighten-4" v-if="user">
         <v-col cols="8" class="d-flex my-3">
-          <v-row>
-            <v-col cols="2" >
-              <v-row>
-                <v-col cols="4">
-                    <v-avatar color="info">
-                        <v-icon icon="mdi-account-circle"></v-icon>
-                    </v-avatar>
-                </v-col>
-                <v-col>
-                    <v-sheet
-                    >
-                        <div 
-                            style="font-size: 20px;"
-                        >
-                           {{ user.user_fname}}
-                        </div>
-                        <div
-                            style="font-size: 10px; color:grey;padding-bottom:0.7vh"
-                        >
-                            <div variant="plain"
-                            >
-                                <v-icon 
-                                icon="mdi-pencil"></v-icon>
-                                แก้ไขข้อมูลส่วนตัว
-                            </div>
-                        </div>
-                    </v-sheet>
-                </v-col>
-                <v-col>
+            <v-row>
+                <v-col cols="2">
+                    <v-row class="align-center">
+                        <v-col cols="4">
+                            <v-avatar color="info">
+
+                            </v-avatar>
+                        </v-col>
+                        <v-col>
+                            <v-row>
+                                <v-col class="pa-0">{{ user.user_fname }}</v-col>
+                                <v-col class="pa-0"> <v-card-subtitle class="pa-0">
+                                        <v-icon size="x-small" icon="mdi-pencil"></v-icon>
+                                        แก้ไขข้อมูลส่วนตัว
+                                    </v-card-subtitle></v-col>
+                            </v-row>
+                        </v-col>
+                        <Group />
+                        <!-- <v-col>
                     <v-row>
                         <v-col cols="3">
                             <v-icon 
@@ -71,25 +61,31 @@
                                 >รายการที่ต้องส่ง</v-btn>
                             </div>  
                         </div>
+                </v-col> -->
+                    </v-row>
                 </v-col>
-              </v-row>
-            </v-col>
-            <v-col>
-                <div style=" width:100vh; height:100%" v-if="user">
+                <v-col>
+                    <div style=" width:100vh; height:100%" v-if="user">
                         <router-view :key="$route.fullPath" :user="user"></router-view>
-                </div>
-            </v-col>
-          </v-row>
+                    </div>
+                </v-col>
+            </v-row>
         </v-col>
-      </div>
+    </div>
 </template>
+
+<script setup>
+import Group from "@/components/user/Group.vue"
+</script>
+
+
 <script>
 export default {
-  props: {
-    user: {
-      type: Object,
+    props: {
+        user: {
+            type: Object,
+        },
     },
-  },
-  
+
 };
 </script>   
