@@ -8,8 +8,10 @@ const {
   deleteFromCart,
   addOrder,
   addOrderDetail,
+  getAllMyOrderByUserId
 } = require("../../models/customers");
 const { gropMenu } = require("../../hook/groupedmenu");
+const { groupedCart } = require("../../hook/groupedCart");
 const db = require("../../models/db");
 
 const addToCart = async (req, res) => {
@@ -46,7 +48,7 @@ const createCart = async (req, res) => {
   try {
     const user_id = req.user.user_id;
     const result = await getAllMenusInCart(user_id);
-    return res.json(result);
+    return res.json(groupedCart(result));
   } catch (error) {
     res.status(500).send(error);
   }
@@ -79,7 +81,7 @@ const placeOrder = async (req, res) => {
       for (const item of cart) {
         for (let i = 0; i < item.menu.length; i++) {
           // add order detail
-          await addOrderDetail(db, result1.insertId, item.menu[i].menu_id, item.menu[i].quantity, item.menu[i].item);
+          await addOrderDetail(db, result1.insertId, item.menu[i].menu_id, item.menu[i].quantity, item.menu[i].item_id);
           // delete from cart
           await deleteFromCart(item.menu[i].cart_id);
         }
@@ -101,35 +103,48 @@ const placeOrder = async (req, res) => {
   }
 };
 
-const getCart = async (req, res) => {
+// const getCart = async (req, res) => {
+//   const user_id = req.user.user_id;
+//   try {
+//     const result = await getAllCarts(user_id);
+//     const cartGroped = gropMenu(result);
+//     res.status(200).json(cartGroped);
+//   } catch (err) {
+//     res.send(err);
+//   }
+// };
+
+// แสดงออเดอร์ของฉันตาม order_id ใน params
+const getMyOrderByOrderId = async (req, res) => {
   const user_id = req.user.user_id;
+  const order_id = req.params.order_id;
   try {
-    const result = await getAllCarts(user_id);
-    const cartGroped = gropMenu(result);
-    res.status(200).json(cartGroped);
+    const result = await getOrderByParams(user_id, order_id);
+    return res.json(result);
   } catch (err) {
     res.send(err);
   }
 };
 
-const getCheckoutByOrder = async (req, res) => {
-  const user_Id = req.user.user_id;
-  const order_id = req.params.orderID;
+const getAllMyOrder = async (req, res) => {
+  const user_id = req.user.user_id;
   try {
-    const result = await getOrderByParams(user_Id, order_id);
-    const cartGroped = gropMenu(result);
-    res.status(200).json(cartGroped);
-  } catch (err) {
+    const result = await getAllMyOrderByUserId(user_id)
+    const orders = gropMenu(result)
+    orders.sort((a, b) => b.order_id - a.order_id);
+    return res.json(orders);
+  }
+  catch (err) {
     res.send(err);
   }
-};
+}
 
 module.exports = {
   addToCart,
   createCart,
   placeOrder,
-  getCart,
   updateQuantity,
-  getCheckoutByOrder,
   deleteMenu,
+  getMyOrderByOrderId,
+  getAllMyOrder
 };

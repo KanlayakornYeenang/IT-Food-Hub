@@ -45,6 +45,14 @@ const routes = [
           {
             path: "myorder",
             component: () => import("@/components/user/MyOrder.vue")
+          },
+          {
+            path: "myorder/:order_id",
+            component: () => import("@/components/user/MyOrderById.vue")
+          },
+          {
+            path: "mydelivery",
+            component: () => import("@/components/user/MyDelivery.vue")
           }
         ]
       },

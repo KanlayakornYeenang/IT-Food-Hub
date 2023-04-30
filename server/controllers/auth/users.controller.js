@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const {
   getUserByNameAndPasword,
   getUserDetailById,
-  getAllRestaurant,
   registerUser,
   getAllUser,
   updatePassword,
@@ -120,6 +119,7 @@ const changeRoleUser = async (req, res) => {
     res.status(404).send(err);
   }
 };
+
 
 module.exports = {
   login,

@@ -1,153 +1,63 @@
 <template>
-    <div v-if="user"
-        style="padding-left: 2vh; padding-right: 2vh;"
-        >
-        <div style="margin-bottom: 6vh; border-bottom: 1px solid grey;">
-            <v-col>
-                <div
-                    style="font-size: 20px;"
-                >
-                    ข้อมูลของฉัน
-                </div>
-                <div
-                    style="font-size: 12px; margin-bottom:1px solid black; font-weight:lighter"
-                >
-                    จัดการข้อมูลส่วนตัวคุณเพื่อความปลอดภัยของบัญชีผู้ใช้นี้
-                </div>
+    <v-card v-if="user">
+        <v-col class="ma-4 mx-5">
+            <p class="text-h5">
+                ข้อมูลของฉัน
+            </p>
+            <v-card-subtitle class="pa-0">จัดการข้อมูลส่วนตัวคุณได้ที่นี่</v-card-subtitle>
+        </v-col>
+        <v-divider class="my-4 ma-8"></v-divider>
+        <v-row>
+            <v-col class="mt-12 mb-16 pa-0">
+                <v-row>
+                    <v-col class="text-right text-grey">ชื่อ-นามสกุล</v-col>
+                    <v-col class="text-left px-16">{{ user_detail.user_fname }} {{ user_detail.user_lname }}</v-col>
+                </v-row>
+                <v-row>
+                    <v-col class="text-right text-grey">หมายเลขโทรศัพท์</v-col>
+                    <v-col class="px-16 d-flex align-center">
+                        <p>{{ user_detail.user_phone }}</p>
+                        <v-btn class="mx-5 text-red" size="x-small">เปลี่ยน</v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col class="text-right text-grey">อีเมลล์</v-col>
+                    <v-col class="px-16 d-flex align-center">
+                        <p>{{ user_detail.user_email }}</p>
+                        <v-btn class="mx-5 text-red" size="x-small">เปลี่ยน</v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col class="text-right text-grey">รหัสผ่าน</v-col>
+                    <v-col class="px-16 d-flex align-center">
+                        <p>●●●●●●●●</p>
+                        <v-btn class="mx-5 text-red" size="x-small">เปลี่ยน</v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col class="text-right text-grey"></v-col>
+                    <v-col class="text-left px-16"><v-btn color="it">บันทึก</v-btn></v-col>
+                </v-row>
             </v-col>
-        </div>
-        <div >
-            <v-row
-            >
-                <v-col cols="6"
-                style="border-right: 1px solid grey"
-                >
-                    <div style="padding-left: 3vh;">
-                           <div
-                                class="detail"
-                            >
-                                <v-row>
-                                    <v-col cols="5"
-                                        style="display: flex; justify-content: end"
-                                    >
-                                    <span
-                                        style="color: grey;"
-                                    >ชื่อผู้ใช้</span>
-                                    </v-col>
-                                    <v-col >
-                                        <div>
-                                            {{user_detail.user_fname}} {{ user_detail.user_lname }}
-                                        </div>
-                                    </v-col>
-                                </v-row>
-                           </div>
-                           <div
-                            class="detail"
-                            >
-                                <v-row>
-                                    <v-col 
-                                        style="display: flex; justify-content: end;align-items: center"
-                                    cols="5">
-                                    <span
-                                        style="color: grey; "
-                                    >หมายเลขโทรศัพท์</span>
-                                    </v-col>
-                                    <v-col>
-                                        <div 
-                                            style="display: flex; align-items: center"
-                                        >
-                                            
-                                            <div >
-                                                    {{ user.user_phone }}
-                                            </div>
-                                            <v-btn variant="text" style="color: red;">
-                                                เปลี่ยน
-                                            </v-btn>
-                                        </div>
-                                    </v-col>
-                                </v-row>  
-                           </div>
-                           <div
-                            class="detail"
-                            >
-                                <v-row>
-                                    <v-col 
-                                        style="display: flex; justify-content: end"
-                                    cols="5">
-                                        <span
-                                            style="color: grey;"
-                                        >อีเมล</span>
-                                    </v-col>
-                                    <v-col>
-                                        <div>
-                                            {{user_detail.user_email}}
-                                        </div>
-                                    </v-col>
-                                </v-row>  
-                           </div>
-                           <div
-                            class="detail"
-                            >
-                                <v-row>
-                                    <v-col 
-                                        style="display: flex; justify-content: end"
-                                    cols="5">
-                                        <span
-                                            style="color: grey;"
-                                        ></span>
-                                    </v-col>
-                                    <v-col>
-                                        <v-btn
-                                        variant="outlined"
-                                        >บันทึก</v-btn>
-                                    </v-col>
-                                </v-row>  
-                           </div>
-                    </div>
-                </v-col>
-                <v-col>
-                    <div>
-                        <div class="d-flex justify-center align-center"
-                            style="margin-bottom: 4vh;"
-                        >
-                            <v-avatar color="info" size="150">
-                                <v-icon icon="mdi-account-circle"></v-icon>
-                            </v-avatar>
-                        </div>
-                        <div class="d-flex justify-center align-center">
-                            <div>
-                                <v-file-input
-                                    style="width: 30vh; height:5vh"
-                                    hide-details
-                                    label="เลือกรูป"
-                                    variant="underlined"
-                                    prepend-icon="mdi-camera"
-                                ></v-file-input>
-                            </div>
-                        </div>
-                    </div>
-                </v-col>
-            </v-row>
-        </div>
-    </div>
+            <v-col cols="4" class="pa-0 d-flex align-center">
+                <v-avatar size="100" color="it"></v-avatar>
+            </v-col>
+        </v-row>
+    </v-card>
 </template>
-<style>
-.detail{
-    margin-bottom: 3vh;
-}
-</style>
+
 <script>
 export default {
-  props: {
-    user: {
-      type: Object,
+    props: {
+        user: {
+            type: Object,
+        },
     },
-  },
-  data() {
-    return {
-      user_detail: this.user,
-    };
-  },
-  
+    data() {
+        return {
+            user_detail: this.user,
+        };
+    },
+
 };
 </script>

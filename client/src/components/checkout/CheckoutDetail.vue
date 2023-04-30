@@ -7,7 +7,7 @@
                     <v-col class="bg-white rounded-lg">
                         <v-col class="pa-2">
                             <div>
-                                <DeliveryInfo :user="user" @updateDialog="updateDialog"/>
+                                <DeliveryInfo :user="user" @updateDialog="updateDialog" :show="true"/>
                                 <v-divider class="mb-3"></v-divider>
                                 <v-sheet class="pa-3" v-for="restaurant, rst_index in cart" :key="rst_index">
                                     <RestaurantCart :restaurant="restaurant" />
@@ -47,7 +47,8 @@ import PaymentInfo from "@/components/checkout/PaymentInfo.vue";
 
 <script>
 import axios from '@/plugins/axios';
-// import eventbus from '@/plugins/eventBus';
+import eventbus from '@/plugins/eventBus';
+
 export default {
     data() {
         return {
@@ -70,7 +71,8 @@ export default {
             }
             axios.post("api/placeOrder", schema).then((res) => {
                 const order_id = res.data.order_id
-                this.$router.push("/itfoodhub/orders/"+order_id);
+                eventbus.emit('update-cart', []);
+                this.$router.push("/itfoodhub/user/myorder/"+order_id);
             })
         },
         goBack() {

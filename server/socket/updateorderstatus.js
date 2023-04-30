@@ -14,7 +14,7 @@ const updateOrderStatus =  async (io) =>{
             console.log(`Order ${orderId} status: ${status}`);
             io.emit('show_order_status', { orderId, status });
         });
-        socket.on('update_order_Status', async ({orderId, newState}) => {
+        socket.on('update_order_status', async ({orderId, newState}) => {
                 console.log("newState",newState)
             // code to update order Status 
                 const update = await updateOrderStatus_sql(orderId, newState)

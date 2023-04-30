@@ -50,3 +50,7 @@ a {
 .v-list-item__prepend > .v-icon {
     margin-inline-end: 15px !important
 }
+
+.v-btn--size-default {
+    min-width: none !important;
+}

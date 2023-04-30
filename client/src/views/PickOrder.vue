@@ -19,17 +19,17 @@
     </v-container>
     <v-container fluid class="pa-0 bg-grey-lighten-4">
       <v-divider></v-divider>
-      <div class="my-3">
+      <div class="py-3">
         <v-col cols="8" class="pa-0 d-flex my-3 mt-6 pl-3 mx-auto">
-          <p class="text-h5 fw-600">{{ orders.length }} คำสั่งซื้อ</p>
+          <p class="text-h5 fw-600">{{ orders.length || 0 }} คำสั่งซื้อ</p>
         </v-col>
-          <v-col cols="8" class="d-flex my-3 mx-auto">
-            <v-row v-if="user"> 
-              <v-col class="pa-2" v-for="order in orders" :key="order" cols="12" xl="3" lg="6" md="6">
-                <OrderCard :user_id="user.user_id" :order="order" />
-              </v-col>
-            </v-row>
-          </v-col>
+        <v-col cols="8" class="d-flex my-3 mx-auto">
+          <v-row v-if="user && orders.length > 0">
+            <v-col class="pa-2" v-for="order in orders" :key="order" cols="12" xl="3" lg="6" md="6">
+              <OrderCard :user_id="user.user_id" :order="order" />
+            </v-col>
+          </v-row>
+        </v-col>
       </div>
     </v-container>
   </div>
@@ -50,28 +50,27 @@ import OrderCard from "@/components/pickorder/OrderCard.vue";
 <script>
 import axios from "@/plugins/axios";
 export default {
-props: {
+  props: {
     user: {
       type: Object,
     },
   },
   data() {
     return {
-      orders:[]
+      orders: []
     };
   },
-  mounted(){
+  mounted() {
     this.getAllcarts()
   },
   methods: {
-   async getAllcarts(){
-        try{
-            const res = await axios.get("api/getOrder");
-            this.orders = res.data
-        }catch(err){
-            console.log(err)
-        }
+    getAllcarts() {
+      axios.get("api/getOrder").then((res) => {
+        this.orders = res.data
+      }).catch((err) => {
+        this.$router.push("/itfoodhub/user/mydelivery")
+      })
     },
-    }
+  }
 };
 </script>

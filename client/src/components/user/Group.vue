@@ -1,35 +1,45 @@
 <template>
-    <v-card class="mx-auto" width="300" elevation="0" style="background: transparent;">
-        <v-list v-model:opened="open" style="background: transparent;">
-            <v-list-group value="บัญชีของฉัน">
-                <template v-slot:activator="{ props }">
-                    <v-list-item v-bind="props" prepend-icon="mdi-account-circle">
-                        <v-list-item-title style="white-space: pre-wrap;">
-                            <p class="text-body-2">บัญชีของฉัน</p>
-                        </v-list-item-title>
-                    </v-list-item>
-                </template>
-                <v-list-item>
-                    <p class="text-body-2">ข้อมูลส่วนตัว</p>
-                </v-list-item>
-                <v-list-item>
-                    <p class="text-body-2">เปลี่ยนอีเมลล์และรหัสผ่าน</p>
-                </v-list-item>
-            </v-list-group>
-            <v-list-item prepend-icon="mdi-receipt-text"><v-list-item-title style="white-space: pre-wrap;">
-                    <p class="text-body-2">รายการของฉัน</p>
-                </v-list-item-title></v-list-item>
-                <v-list-item prepend-icon="mdi-pin"><v-list-item-title style="white-space: pre-wrap;">
-                    <p class="text-body-2">รายการที่ต้องจัดส่ง</p>
-                </v-list-item-title></v-list-item>
-        </v-list>
-    </v-card>
+    <v-btn-toggle mandatory v-model="click" rounded="0" class="d-flex flex-column h-100">
+        <router-link to="/itfoodhub/user" style="text-decoration: none;">
+            <v-btn class="py-2 my-1 text-body-1 rounded-lg w-100 d-flex justify-space-between" style="width: fit-content;"
+                value="บัญชีของฉัน">
+                <v-icon class="pr-4">mdi-account-circle</v-icon>
+                บัญชีของฉัน
+            </v-btn>
+        </router-link>
+        <router-link to="/itfoodhub/user/myorder" style="text-decoration: none;"> <v-btn
+                class="py-2 my-1 text-body-1 rounded-lg w-100 d-flex justify-space-between" style="width: fit-content;"
+                value="myorder">
+                <v-icon class="pr-4">mdi-receipt-text</v-icon>
+                รายการสั่งซื้อของฉัน
+            </v-btn></router-link>
+        <router-link to="/itfoodhub/user/mydelivery" style="text-decoration: none;"> <v-btn
+                class="py-2 my-1 text-body-1 rounded-lg w-100 d-flex justify-space-between" style="width: fit-content;"
+                value="mydelivery">
+                <v-icon class="pr-4">mdi-pin</v-icon>
+                รายการที่ต้องจัดส่ง
+            </v-btn></router-link>
+
+    </v-btn-toggle>
 </template>
 
 <script>
 export default {
-    data: () => ({
-        open: ['บัญชีของฉัน'],
-    }),
+    data() {
+        return {
+            //
+        }
+    },
+    computed: {
+        click() {
+            if (this.$route.path.split('/').length == 4) {
+                return this.$route.path.split('/')[3]
+            }
+            if (this.$route.path.split('/').length == 5) {
+                return undefined
+            }
+            return "บัญชีของฉัน"
+        }
+    }
 }
 </script>

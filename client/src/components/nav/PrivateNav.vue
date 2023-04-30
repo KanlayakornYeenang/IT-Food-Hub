@@ -14,7 +14,7 @@
           <v-btn size="small" prepend-icon="mdi-chat-processing">
             <p class="text-body-1 fw-600">ข้อความ</p>
           </v-btn>
-          <v-btn size="small" prepend-icon="mdi-receipt-text">
+          <v-btn size="small" prepend-icon="mdi-receipt-text" to="/itfoodhub/user/myorder">
             <p class="text-body-1 fw-600">รายการสั่งซื้อ</p>
           </v-btn>
           <v-btn size="small" prepend-icon="mdi-bell">

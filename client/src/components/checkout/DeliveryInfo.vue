@@ -1,5 +1,5 @@
 <template>
-    <v-sheet class="d-flex flex-column pa-1">
+    <v-sheet class="d-flex flex-column py-1">
         <div class="d-flex align-center text-foodhub"> <v-icon>mdi-map-marker</v-icon>
             <div class="px-1"></div>
             <p class="text-h5">ข้อมูลในการจัดส่ง</p>
@@ -9,10 +9,10 @@
             <p class="mx-2">{{ user.user_phone }}</p>
             <p>{{ user.user_locat }}</p>
             <div class="px-2"></div>
-            <v-btn size="small" class="text-it fw-600" @click="updateDialog(true)">แก้ไข</v-btn>
+            <v-btn v-if="show || false" size="small" class="text-it fw-600" @click="updateDialog(true)">แก้ไข</v-btn>
         </div>
-        <v-dialog v-model="dialog" persistent max-width="600" scroll-strategy="close">
-            <EditCard @updateDialog="updateDialog"/>
+        <v-dialog v-model="dialog" max-width="600" scroll-strategy="close">
+            <EditCard @updateDialog="updateDialog" />
         </v-dialog>
     </v-sheet>
 </template>
@@ -25,12 +25,15 @@ import EditCard from "@/components/checkout/EditCard.vue";
 export default {
     data() {
         return {
-            dialog: false
+            dialog: false,
         }
     },
     props: {
         user: {
             type: Object
+        },
+        show: {
+            type: Boolean
         }
     },
     methods: {

@@ -55,13 +55,12 @@ const updateRoleUser = async (user_id, role, file_name) => {
   return rows;
 };
 
-
-module.exports = { 
-  getUserByNameAndPasword, 
-  getUserDetailById, 
-  registerUser, 
-  getAllUser, 
-  updatePassword, 
+module.exports = {
+  getUserByNameAndPasword,
+  getUserDetailById,
+  registerUser,
+  getAllUser,
+  updatePassword,
   insertProfilePicture,
   updateRoleUser,
 };

@@ -10,6 +10,8 @@ router.get("/getOrder", verify, delivery.viewOrder)
 // for delivery to accept order
 router.put("/acceptOrderDelivery/:id", verify, delivery.updateDeliveryOrder)
 
-router.get("/myorder", verify, delivery.viewOrderThatUserIsDelivered)
+router.get("/myDelivery", verify, delivery.getMyDelivery)
+
+// router.get("/myorder", verify, delivery.viewOrderThatUserIsDelivered)
 
 module.exports = router;
