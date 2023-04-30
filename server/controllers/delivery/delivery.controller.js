@@ -31,7 +31,7 @@ const updateDeliveryOrder = async (req, res) => {
       return res.status(400).json({ message: 'คุณได้รับรายการสั่งซื้อไปแล้ว ไม่สามารถรับรายการสั่งซื้อใหม่ได้อีก' });
     }
 
-    if (orderStatus == 3) {
+    if (orderStatus > 0) {
       return res.status(400).json({ message: 'กรุณาเลือกรายการสั่งซื้อใหม่ เนื่องจากรายการสั่งซื้อนี้ถูกรับไปแล้ว' });
     }
     
