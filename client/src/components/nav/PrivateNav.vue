@@ -3,9 +3,14 @@
     <v-col cols="8" class="d-flex flex-column mx-auto">
       <div class="d-flex justify-space-between my-2">
         <div>
-          <v-btn size="small">
+          <v-btn size="small" v-if="user.user_role != 'restaurant'">
             <p class="text-body-1 fw-600">สมัครเป็นพาร์ทเนอร์ร้านอาหาร</p>
           </v-btn>
+          <router-link v-else to="/itfoodhub/myrestaurant" style="text-decoration: none; color: inherit;">
+            <v-btn size="small">
+              <p class="text-body-1 fw-600">ไปยังร้านอาหารของฉัน</p>
+            </v-btn>
+          </router-link>
           <v-btn size="small" to="/itfoodhub/pickorder">
             <p class="text-body-1 fw-600">รับออเดอร์ส่งอาหาร</p>
           </v-btn>
