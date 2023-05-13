@@ -24,10 +24,10 @@
                         </v-row>
                     </v-col>
                 </div>
-                <v-dialog v-model="addCategory" scroll-strategy="close" width="600">
+                <v-dialog v-model="addCategory" scroll-strategy="none" width="600">
                     <AddMenuCategory @updateAddCategory="updateAddCategory"/>
                 </v-dialog>
-                <v-dialog v-model="addMenu" scroll-strategy="close" width="750">
+                <v-dialog v-model="addMenu" scroll-strategy="none" width="750">
                     <AddMenu @updateAddMenu="updateAddMenu" :categories="categories"/>
                 </v-dialog>
             </div>
