@@ -27,8 +27,8 @@
                 <v-dialog v-model="addCategory" scroll-strategy="close" width="600">
                     <AddMenuCategory @updateAddCategory="updateAddCategory"/>
                 </v-dialog>
-                <v-dialog v-model="addMenu" scroll-strategy="close" width="600">
-                    <AddMenu @updateAddMenu="updateAddMenu"/>
+                <v-dialog v-model="addMenu" scroll-strategy="close" width="750">
+                    <AddMenu @updateAddMenu="updateAddMenu" :categories="categories"/>
                 </v-dialog>
             </div>
         </v-container>
@@ -59,31 +59,15 @@ export default {
             orders: null,
             tabs: [{ "menu_cat": "คำสั่งซื้อ" }, { "menu_cat": "แก้ไขร้านอาหาร" }],
             tab_click: "คำสั่งซื้อ",
-            button_click: null,
+            addMenu: false,
         };
-    },
-    computed: {
-        addCategory() {
-            if (this.button_click == "เพิ่มหมวดหมู่") {
-                return true
-            }
-            return false
-        },
-        addMenu() {
-            if (this.button_click == "เพิ่มเมนู") {
-                return true
-            }
-            return false
-        },
     },
     methods: {
         updateAddCategory(bool) {
             this.addCategory = bool
-            this.button_click = null
         },
         updateAddMenu(bool) {
             this.addMenu = bool
-            this.button_click = null
         }
     },
     mounted() {
@@ -104,7 +88,12 @@ export default {
         })
 
         eventbus.on('updateButton', button => {
-            this.button_click = button
+            if (button == "เพิ่มเมนู") {
+                this.addMenu = true
+            }
+            if (button == "เพิ่มหมวดหมู่") {
+                this.addCategory = true
+            }
         })
     },
 };
