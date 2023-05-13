@@ -3,11 +3,9 @@ const {
   getRestaurantById,
   getMenuById,
   getMyRestaurantByUserId,
-  getAllMyOrderByRstID
+  getAllMyOrderByRstID,
+  getOrderDetailByOrderID
 } = require("../../models/restaurants");
-const {
-  getOrderDetailByOrderID,
-} = require("../../models/customers");
 const {
   getUserDetailById,
 } = require("../../models/users");

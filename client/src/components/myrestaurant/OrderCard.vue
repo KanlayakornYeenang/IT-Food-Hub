@@ -53,7 +53,7 @@
                     <v-divider></v-divider>
                 </div>
             </v-card>
-            <v-card class="text-center pb-3 d-flex align-center justify-center">
+            <v-card class="text-center pb-4 pt-1 d-flex align-center justify-center">
                 <p v-if="order.order_status == 1">กำลังทำอาหาร...</p>
                 <p v-else>เสร็จสิ้น</p>
                 <v-btn class="mx-3" style="position:absolute; right: 0;" color="error" size="small">ยกเลิก</v-btn>

@@ -43,10 +43,25 @@ const getAllMyOrderByRstID = async (rst_id) => {
   return result;
 };
 
+const getOrderDetailByOrderID = async (order_id, rst_id) => {
+  const sql =
+    "SELECT rst_id, rst_name, menu_id, menu_name, menu_desc, menu_price, GROUP_CONCAT(menu_item.item_name ORDER BY menu_item.item_id ASC SEPARATOR ' ') `item`, quantity, IFNULL(menu_price+SUM(item_price), menu_price) `price`\
+  FROM orders\
+  JOIN orders_detail USING (order_id)\
+  JOIN menu USING (menu_id)\
+  LEFT JOIN menu_item ON FIND_IN_SET(menu_item.item_id, option_detail)\
+  JOIN restaurants USING (rst_id)\
+  WHERE order_id = ? and rst_id = ?\
+  GROUP BY rst_id, menu_id";
+  const [result] = await db.query(sql, [order_id, rst_id]);
+  return groupedCart(result)[0].menu;
+};
+
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
   getMenuById,
   getMyRestaurantByUserId,
-  getAllMyOrderByRstID
+  getAllMyOrderByRstID,
+  getOrderDetailByOrderID
 };
