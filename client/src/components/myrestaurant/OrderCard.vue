@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card rounded="lg">
+        <v-card rounded="lg" :disabled="order.order_status > 1">
             <v-card elevation="0"><v-card-item>
                     <div>
                         <div class="d-flex align-center justify-space-between my-2">
@@ -33,8 +33,8 @@
                         </div>
                     </div>
                 </v-card-item></v-card>
-            <v-card rounded="lg" color="#edf4ff" class="text-center mx-3 mb-3">
-                <div v-for="item, i in menu" :key="i">
+            <v-card rounded="lg" class="text-center mx-3 mb-3">
+                <div v-for="item, i in menu" :key="i" :style="checkbox[i] ? 'background:#DCEDC8' : 'background:#edf4ff'">
                     <div class="pa-3">
                         <div class="d-flex justify-justify-between align-center text-it fw-600 text-h6">
                             <v-checkbox v-model="checkbox[i]" hide-details>
