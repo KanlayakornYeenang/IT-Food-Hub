@@ -79,15 +79,17 @@ const placeOrder = async (req, res) => {
     await db.beginTransaction();
 
     // add the order
-    const result1 = await addOrder(db, order_total_price, user_id, order_dest);
+    const order_id = await addOrder(db, order_total_price, user_id, order_dest);
 
     try {
       for (const item of cart) {
         for (let i = 0; i < item.menu.length; i++) {
           // add order detail
+          const orders_detail_id = order_id+'-'+item.menu[i].menu_id+i
           await addOrderDetail(
             db,
-            result1.insertId,
+            orders_detail_id,
+            order_id,
             item.menu[i].menu_id,
             item.menu[i].quantity,
             item.menu[i].item_id
@@ -108,7 +110,7 @@ const placeOrder = async (req, res) => {
     await db.commit();
 
     res.status(200).json({
-      order_id: result1.insertId,
+      order_id: order_id,
       message: "Order placed successfully",
     });
   } catch (err) {

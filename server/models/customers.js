@@ -1,25 +1,34 @@
 const db = require("./db");
 const { groupedCart } = require("../hook/groupedCart");
+const { createOrderID } = require("../hook/createOrderID");
 
 const addOrder = async (connection, order_total_price, user_id, order_dest) => {
-  const sql = `INSERT INTO orders (order_total_price, cus_id, order_dest, order_date_time) VALUES (?, ?, ?, NOW())`;
+  const sqlnow =
+    "SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s') AS formatted_date";
+  let [now] = await db.query(sqlnow);
+  const order_id = user_id + "-" + createOrderID(now[0].formatted_date);
+
+  const sql = `INSERT INTO orders (order_id, order_total_price, cus_id, order_dest, order_date_time) VALUES (?, ?, ?, ?, NOW())`;
   const [result] = await connection.query(sql, [
+    order_id,
     order_total_price,
     user_id,
     order_dest,
   ]);
-  return result;
+  return order_id;
 };
 
 const addOrderDetail = async (
   connection,
+  orders_detail_id,
   order_id,
   menu_id,
   quantity,
   option_detail
 ) => {
-  const sql = `INSERT INTO orders_detail (order_id, menu_id, quantity, option_detail) VALUES (?, ?, ?, ?)`;
+  const sql = `INSERT INTO orders_detail (order_detail_id, order_id, menu_id, quantity, option_detail) VALUES (?, ?, ?, ?, ?)`;
   const result = await connection.query(sql, [
+    orders_detail_id,
     order_id,
     menu_id,
     quantity,
@@ -90,23 +99,25 @@ const getOrderByParams = async (user_id, order_id) => {
 };
 
 const getAllMyOrderByUserId = async (user_id) => {
-  const sql = "SELECT order_id, order_status, order_total_price, cus_id, dlv_id, order_dest, order_date_time FROM orders WHERE cus_id = ?"
+  const sql =
+    "SELECT order_id, order_status, order_total_price, cus_id, dlv_id, order_dest, order_date_time FROM orders WHERE cus_id = ?";
   const [result] = await db.query(sql, user_id);
   return result;
 };
 
 const getOrderDetailByOrderID = async (order_id, rst_id) => {
-  const sql = "SELECT rst_id, rst_name, menu_id, menu_name, menu_desc, menu_price, GROUP_CONCAT(menu_item.item_name ORDER BY menu_item.item_id ASC SEPARATOR ' ') `item`, quantity, IFNULL(menu_price+SUM(item_price), menu_price) `price`\
+  const sql =
+    "SELECT rst_id, rst_name, menu_id, menu_name, menu_desc, menu_price, GROUP_CONCAT(menu_item.item_name ORDER BY menu_item.item_id ASC SEPARATOR ' ') `item`, quantity, IFNULL(menu_price+SUM(item_price), menu_price) `price`\
   FROM orders\
   JOIN orders_detail USING (order_id)\
   JOIN menu USING (menu_id)\
   LEFT JOIN menu_item ON FIND_IN_SET(menu_item.item_id, option_detail)\
   JOIN restaurants USING (rst_id)\
   WHERE order_id = ? and rst_id = ?\
-  GROUP BY rst_id, menu_id"
+  GROUP BY rst_id, menu_id";
   const [result] = await db.query(sql, [order_id, rst_id]);
   return groupedCart(result)[0].menu;
-}
+};
 
 module.exports = {
   addMenuToCart,
@@ -118,5 +129,5 @@ module.exports = {
   addOrder,
   addOrderDetail,
   getAllMyOrderByUserId,
-  getOrderDetailByOrderID
+  getOrderDetailByOrderID,
 };
