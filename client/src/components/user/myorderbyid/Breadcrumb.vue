@@ -3,7 +3,7 @@
         <div class="d-flex justify-space-between py-3">
             <v-breadcrumbs class="py-0 px-2">
                 <router-link to="/itfoodhub/user/myorder">
-                    <v-breadcrumbs-item class="text-deco text-black">{{ status(order.order_status) }}</v-breadcrumbs-item>
+                    <v-breadcrumbs-item class="text-deco text-black">รายการสั่งซื้อของฉัน</v-breadcrumbs-item>
                 </router-link>
                 <v-breadcrumbs-divider><v-icon icon="mdi-chevron-right"></v-icon></v-breadcrumbs-divider>
                 <v-breadcrumbs-item disabled>หมายเลขรายการสั่งซื้อ {{ order.order_id }}</v-breadcrumbs-item>

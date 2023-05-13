@@ -8,9 +8,12 @@ const {
   deleteFromCart,
   addOrder,
   addOrderDetail,
-  getAllMyOrderByUserId
+  getAllMyOrderByUserId,
+  getOrderDetailByOrderID,
 } = require("../../models/customers");
-const { gropMenu } = require("../../hook/groupedmenu");
+const {
+  getUserDetailById,
+} = require("../../models/users");
 const { groupedCart } = require("../../hook/groupedCart");
 const db = require("../../models/db");
 
@@ -48,6 +51,7 @@ const createCart = async (req, res) => {
   try {
     const user_id = req.user.user_id;
     const result = await getAllMenusInCart(user_id);
+
     return res.json(groupedCart(result));
   } catch (error) {
     res.status(500).send(error);
@@ -81,7 +85,13 @@ const placeOrder = async (req, res) => {
       for (const item of cart) {
         for (let i = 0; i < item.menu.length; i++) {
           // add order detail
-          await addOrderDetail(db, result1.insertId, item.menu[i].menu_id, item.menu[i].quantity, item.menu[i].item_id);
+          await addOrderDetail(
+            db,
+            result1.insertId,
+            item.menu[i].menu_id,
+            item.menu[i].quantity,
+            item.menu[i].item_id
+          );
           // delete from cart
           await deleteFromCart(item.menu[i].cart_id);
         }
@@ -89,17 +99,22 @@ const placeOrder = async (req, res) => {
     } catch (err) {
       // rollback
       await db.rollback();
-      return res.status(500).json({ message: 'Error adding order details', error: err });
+      return res
+        .status(500)
+        .json({ message: "Error adding order details", error: err });
     }
 
     // commit
     await db.commit();
 
-    res.status(200).json({ order_id: result1.insertId, message: 'Order placed successfully' });
+    res.status(200).json({
+      order_id: result1.insertId,
+      message: "Order placed successfully",
+    });
   } catch (err) {
     // rollback
     await db.rollback();
-    res.status(500).json({ message: 'Error placing the order', error: err });
+    res.status(500).json({ message: "Error placing the order", error: err });
   }
 };
 
@@ -129,15 +144,21 @@ const getMyOrderByOrderId = async (req, res) => {
 const getAllMyOrder = async (req, res) => {
   const user_id = req.user.user_id;
   try {
-    const result = await getAllMyOrderByUserId(user_id)
-    const orders = gropMenu(result)
-    orders.sort((a, b) => b.order_id - a.order_id);
-    return res.json(orders);
-  }
-  catch (err) {
+    const orders = await getAllMyOrderByUserId(user_id);
+    let ordersList = [];
+    for (let i = 0; i < orders.length; i++) {
+      let order = {
+        order: orders[i],
+        order_detail: await getOrderDetailByOrderID(orders[i].order_id),
+        delivery_person: await getUserDetailById(orders[i].dlv_id),
+      };
+      ordersList.push(order);
+    }
+    return res.json(ordersList);
+  } catch (err) {
     res.send(err);
   }
-}
+};
 
 module.exports = {
   addToCart,
@@ -146,5 +167,5 @@ module.exports = {
   updateQuantity,
   deleteMenu,
   getMyOrderByOrderId,
-  getAllMyOrder
+  getAllMyOrder,
 };
