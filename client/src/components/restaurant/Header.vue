@@ -27,7 +27,7 @@
         </v-card-item>
 
         <div class="align-self-start mt-auto">
-          <Category :categories="categories"/>
+          <Category :categories="categories" :buttons="buttons"/>
         </div>
 
       </v-card>
@@ -47,6 +47,9 @@ export default {
       required: true,
     },
     categories: {
+      type: Array
+    },
+    buttons: {
       type: Array
     }
   },

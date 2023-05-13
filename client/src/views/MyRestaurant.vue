@@ -1,12 +1,13 @@
 <template>
     <div>
         <v-container fluid class="pa-0">
-            <Header v-if="restaurant" :restaurant="restaurant" :categories="tabs" />
+            <Header v-if="restaurant" :restaurant="restaurant" :categories="tabs"
+                :buttons="['เพิ่มหมวดหมู่', 'เพิ่มเมนู']" />
         </v-container>
         <v-container fluid class="pa-0 bg-grey-lighten-4">
             <v-divider></v-divider>
             <div class="py-5">
-                <div class="d-flex justify-center align-center py-5" v-if="tab_click == 'คำสั่งซื้อ'">
+                <div v-if="tab_click == 'คำสั่งซื้อ'" class="d-flex justify-center align-center py-5">
                     <v-col cols="8">
                         <v-card class="w-100 mb-6" color="transparent" elevation="0">
                             <v-card-item class="pa-0">
@@ -17,23 +18,18 @@
                         </v-card>
                         <v-row class="py-2">
                             <v-col cols="12" sm="4" v-for="(order, i) in orders" :key="i">
-                                <OrderCard :order="order.order" :menu="order.order_detail" :delivery_person="order.delivery_person"/>
+                                <OrderCard :order="order.order" :menu="order.order_detail"
+                                    :delivery_person="order.delivery_person" />
                             </v-col>
                         </v-row>
                     </v-col>
                 </div>
-
-                <div class="d-flex justify-center align-center py-5" v-if="tab_click == 'ไว้ก่อน'">
-                    <v-col cols="8">
-                        <v-card class="w-100 mb-6" color="transparent" elevation="0">
-                            <v-card-item class="pa-0">
-                                <v-card-title>
-                                    <p class="text-h3 fw-600">ไว้ก่อน</p>
-                                </v-card-title>
-                            </v-card-item>
-                        </v-card>
-                    </v-col>
-                </div>
+                <v-dialog v-model="addCategory" scroll-strategy="close" width="600">
+                    <AddMenuCategory @updateAddCategory="updateAddCategory"/>
+                </v-dialog>
+                <v-dialog v-model="addMenu" scroll-strategy="close" width="600">
+                    <AddMenu @updateAddMenu="updateAddMenu"/>
+                </v-dialog>
             </div>
         </v-container>
     </div>
@@ -42,6 +38,8 @@
 <script setup>
 import Header from "@/components/restaurant/Header.vue";
 import OrderCard from "@/components/myrestaurant/OrderCard.vue";
+import AddMenuCategory from "@/components/myrestaurant/AddMenuCategory.vue";
+import AddMenu from "@/components/myrestaurant/AddMenu.vue";
 </script>
   
 <script>
@@ -61,7 +59,32 @@ export default {
             orders: null,
             tabs: [{ "menu_cat": "คำสั่งซื้อ" }, { "menu_cat": "แก้ไขร้านอาหาร" }],
             tab_click: "คำสั่งซื้อ",
+            button_click: null,
         };
+    },
+    computed: {
+        addCategory() {
+            if (this.button_click == "เพิ่มหมวดหมู่") {
+                return true
+            }
+            return false
+        },
+        addMenu() {
+            if (this.button_click == "เพิ่มเมนู") {
+                return true
+            }
+            return false
+        },
+    },
+    methods: {
+        updateAddCategory(bool) {
+            this.addCategory = bool
+            this.button_click = null
+        },
+        updateAddMenu(bool) {
+            this.addMenu = bool
+            this.button_click = null
+        }
     },
     mounted() {
         // ร้านอาหารของ user
@@ -75,9 +98,13 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
-        
+
         eventbus.on('updateCategory', tab => {
             this.tab_click = tab
+        })
+
+        eventbus.on('updateButton', button => {
+            this.button_click = button
         })
     },
 };
