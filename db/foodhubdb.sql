@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `quantity` int(11) NOT NULL,
   `item_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cart_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table foodhub.cart: ~0 rows (approximately)
 
@@ -96,7 +96,7 @@ INSERT INTO `menu_option` (`option_id`, `menu_id`, `option_name`, `option_type`,
 
 -- Dumping structure for table foodhub.orders
 CREATE TABLE IF NOT EXISTS `orders` (
-  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(45) NOT NULL,
   `order_status` int(11) NOT NULL DEFAULT 0,
   `order_total_price` decimal(5,2) DEFAULT 0.00,
   `cus_id` varchar(45) NOT NULL,
@@ -104,21 +104,26 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `order_dest` varchar(45) NOT NULL,
   `order_date_time` datetime NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table foodhub.orders: ~0 rows (approximately)
+-- Dumping data for table foodhub.orders: ~1 rows (approximately)
+INSERT INTO `orders` (`order_id`, `order_status`, `order_total_price`, `cus_id`, `dlv_id`, `order_dest`, `order_date_time`) VALUES
+	('2-230513162930', 1, 135.00, '2', '3', 'Common Room', '2023-05-13 16:29:30');
 
 -- Dumping structure for table foodhub.orders_detail
 CREATE TABLE IF NOT EXISTS `orders_detail` (
-  `order_detail_id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL,
+  `order_detail_id` varchar(45) NOT NULL,
+  `order_id` varchar(45) NOT NULL,
   `menu_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `option_detail` longtext DEFAULT NULL,
   PRIMARY KEY (`order_detail_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table foodhub.orders_detail: ~0 rows (approximately)
+-- Dumping data for table foodhub.orders_detail: ~2 rows (approximately)
+INSERT INTO `orders_detail` (`order_detail_id`, `order_id`, `menu_id`, `quantity`, `option_detail`) VALUES
+	('2-230513162930-10', '2-230513162930', 1, 3, ''),
+	('2-230513162930-30', '2-230513162930', 3, 1, '');
 
 -- Dumping structure for table foodhub.restaurants
 CREATE TABLE IF NOT EXISTS `restaurants` (
@@ -162,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Dumping data for table foodhub.users: ~2 rows (approximately)
 INSERT INTO `users` (`user_id`, `user_role`, `user_email`, `user_password`, `user_fname`, `user_lname`, `user_phone`, `user_locat`) VALUES
-	(1, 'customer', 'vorawee@gmail.com', 'vorawee', 'Vorawee', 'Wirawan', NULL, NULL),
+	(1, 'customer', 'vorawee@gmail.com', 'vorawee', 'Vorawee', 'Wirawan', '0916988234', NULL),
 	(2, 'customer', 'mhuukrob@gmail.com', 'mhuukrob', 'Kanlayakorn', 'Yeenang', '0839163049', 'Common Room'),
 	(3, 'restaurant', 'test', 'test', 'test', 'test', '123', 'test');
 
