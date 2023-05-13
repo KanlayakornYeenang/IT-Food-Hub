@@ -2,8 +2,15 @@ const {
   getAllRestaurants,
   getRestaurantById,
   getMenuById,
-  getMyRestaurantByUserId
+  getMyRestaurantByUserId,
+  getAllMyOrderByRstID
 } = require("../../models/restaurants");
+const {
+  getOrderDetailByOrderID,
+} = require("../../models/customers");
+const {
+  getUserDetailById,
+} = require("../../models/users");
 
 const { groupOptions } = require("../../hook/groupOptions");
 
@@ -36,17 +43,47 @@ const getMenu = async (req, res) => {
 
 const getMyRestaurant = async (req, res) => {
   try {
-    const result = await getMyRestaurantByUserId(req.user.user_id);
-    const myRestaurant = await getRestaurantById(result.rst_id)
+    const restaurant = await getMyRestaurantByUserId(req.user.user_id);
+    let myRestaurant = await getRestaurantById(restaurant.rst_id)
+    const orders = await getAllMyOrderByRstID(restaurant.rst_id);
+    let ordersList = [];
+    for (let i = 0; i < orders.length; i++) {
+      let order = {
+        order: orders[i],
+        order_detail: await getOrderDetailByOrderID(orders[i].order_id, restaurant.rst_id),
+        delivery_person: await getUserDetailById(orders[i].dlv_id),
+      };
+      ordersList.push(order);
+    }
+    myRestaurant = Object.assign(myRestaurant, {orders:ordersList})
     return res.json(myRestaurant);
   } catch (error) {
     res.status(404).send(error);
   }
 }
 
+const getAllMyOrder = async (req, res) => {
+  const user_id = req.user.user_id;
+  try {
+    const orders = await getAllMyOrderByRstID(user_id);
+    let ordersList = [];
+    for (let i = 0; i < orders.length; i++) {
+      let order = {
+        order: orders[i],
+        order_detail: await getOrderDetailByOrderID(orders[i].order_id),
+        delivery_person: await getUserDetailById(orders[i].dlv_id),
+      };
+      ordersList.push(order);
+    }
+    return res.json(ordersList);
+  } catch (err) {
+    res.send(err);
+  }
+};
+
 module.exports = {
   getRestaurants,
   getRestaurant,
   getMenu,
-  getMyRestaurant
+  getMyRestaurant,
 };
