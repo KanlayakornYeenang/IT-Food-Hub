@@ -16,7 +16,7 @@
             </div>
             <div class="d-flex align-center py-2 mb-3">
                 <v-col class="d-flex pa-0" cols="4">
-                    <p class="text-h6 fw-600 text-it">ตัวเลือกสินค้า</p>
+                    <p class="text-h6 fw-600 text-it">กลุ่มตัวเลือกสินค้า</p>
                 </v-col>
                 <v-col class="d-flex pa-0">
                     <AddFoodOption />

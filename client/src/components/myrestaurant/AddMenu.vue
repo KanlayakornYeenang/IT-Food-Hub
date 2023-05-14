@@ -11,12 +11,17 @@
                 </v-card-title>
             </v-card-items>
         </v-card>
-        <v-card class="pa-2 overflow-y-auto" color="itlight">
+        <v-card class="pa-2 overflow-y-auto" color="itlight" style="height:65.5vh">
             <v-card-items>
                 <AddImageSection />
                 <AddFoodNameSection />
                 <AddFoodDetailSection />
                 <FoodOptionsSection :categories="categories"/>
+            </v-card-items>
+        </v-card>
+        <v-card elevation="0" class="pa-2 ma-2">
+            <v-card-items class="d-flex justify-center">
+                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0">ยืนยัน</v-btn>
             </v-card-items>
         </v-card>
     </v-card>
@@ -30,6 +35,7 @@ import FoodOptionsSection from "@/components/myrestaurant/FoodOptionsSection.vue
 </script>
 
 <script>
+import eventbus from "@/plugins/eventBus";
 export default {
     data() {
         return {
@@ -43,12 +49,8 @@ export default {
     },
     methods: {
         handleClose() {
-            this.$emit("updateAddMenu", false);
+            eventbus.emit('updateButton', 'close')
         }
     },
-    mounted() {
-        //
-    },
-    components: { AddFoodNameSection }
 }
 </script>

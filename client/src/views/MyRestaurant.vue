@@ -24,11 +24,11 @@
                         </v-row>
                     </v-col>
                 </div>
-                <v-dialog v-model="addCategory" scroll-strategy="none" width="600">
-                    <AddMenuCategory @updateAddCategory="updateAddCategory"/>
+                <v-dialog v-model="addMenuCategory" scroll-strategy="none" width="600">
+                    <AddMenuCategory :categories="categories"/>
                 </v-dialog>
                 <v-dialog v-model="addMenu" scroll-strategy="none" width="750">
-                    <AddMenu @updateAddMenu="updateAddMenu" :categories="categories"/>
+                    <AddMenu :categories="categories"/>
                 </v-dialog>
             </div>
         </v-container>
@@ -59,16 +59,9 @@ export default {
             orders: null,
             tabs: [{ "menu_cat": "คำสั่งซื้อ" }, { "menu_cat": "แก้ไขร้านอาหาร" }],
             tab_click: "คำสั่งซื้อ",
+            addMenuCategory: false,
             addMenu: false,
         };
-    },
-    methods: {
-        updateAddCategory(bool) {
-            this.addCategory = bool
-        },
-        updateAddMenu(bool) {
-            this.addMenu = bool
-        }
     },
     mounted() {
         // ร้านอาหารของ user
@@ -91,8 +84,12 @@ export default {
             if (button == "เพิ่มเมนู") {
                 this.addMenu = true
             }
-            if (button == "เพิ่มหมวดหมู่") {
-                this.addCategory = true
+            else if (button == "เพิ่มหมวดหมู่") {
+                this.addMenuCategory = true
+            }
+            else {
+                this.addMenu = false
+                this.addMenuCategory = false
             }
         })
     },

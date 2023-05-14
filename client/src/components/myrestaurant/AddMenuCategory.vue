@@ -11,18 +11,21 @@
 </template>
 
 <script>
+import eventbus from '@/plugins/eventBus';
 export default {
     data() {
         return {
-
+            //
         }
     },
     props: {
-
+        categories: {
+            type: Object
+        }
     },
     methods: {
         handleClose() {
-            this.$emit('updateAddCategory', false)
+            eventbus.emit('updateButton', 'close')
         }
     }
 }
