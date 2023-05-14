@@ -11,7 +11,7 @@
                 </v-card-title>
             </v-card-items>
         </v-card>
-        <v-card class="pa-2 overflow-y-auto" color="itlight" style="height:65.5vh">
+        <v-card class="pa-2 overflow-y-auto" color="itlight" elevation="0" style="height:63.5vh">
             <v-card-items>
                 <AddImageSection />
                 <AddFoodNameSection />
@@ -21,7 +21,7 @@
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
             <v-card-items class="d-flex justify-center">
-                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0">ยืนยัน</v-btn>
+                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0">ตรวจสอบเมนู</v-btn>
             </v-card-items>
         </v-card>
     </v-card>

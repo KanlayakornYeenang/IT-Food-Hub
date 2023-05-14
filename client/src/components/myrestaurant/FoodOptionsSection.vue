@@ -7,7 +7,7 @@
                 </v-col>
                 <v-col class="d-flex pa-0">
                     <v-select v-if="categories" hide-details density="compact"
-                        :items="categories.map(item => item.menu_cat)" variant="solo">
+                        :items="items" variant="solo">
                         <template v-slot:label>
                             <p class="text-grey fw-400">เลือกหมวดหมู่</p>
                         </template>
@@ -41,10 +41,18 @@ import AddFoodOption from "@/components/myrestaurant/AddFoodOption.vue";
 
 <script>
 export default {
+    data() {
+        return {
+            items: null
+        }
+    },
     props: {
         categories: {
             type: Object
         }
+    },
+    mounted() {
+        this.items = this.categories.map(item => item.menu_cat)
     }
 }
 </script>
