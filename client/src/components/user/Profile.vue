@@ -17,21 +17,21 @@
                     <v-col class="text-right text-grey">หมายเลขโทรศัพท์</v-col>
                     <v-col class="px-16 d-flex align-center">
                         <p>{{ user_detail.user_phone }}</p>
-                        <v-btn class="mx-5 text-red" size="x-small">เปลี่ยน</v-btn>
+                        <v-btn class="mx-5 text-red" size="x-small" @click="$router.push('/itfoodhub/user/phone')">เปลี่ยน</v-btn>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col class="text-right text-grey">อีเมลล์</v-col>
                     <v-col class="px-16 d-flex align-center">
                         <p>{{ user_detail.user_email }}</p>
-                        <v-btn class="mx-5 text-red" size="x-small">เปลี่ยน</v-btn>
+                        <v-btn class="mx-5 text-red" size="x-small" @click="$router.push('/itfoodhub/user/email')">เปลี่ยน</v-btn>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col class="text-right text-grey">รหัสผ่าน</v-col>
                     <v-col class="px-16 d-flex align-center">
                         <p>●●●●●●●●</p>
-                        <v-btn class="mx-5 text-red" size="x-small">เปลี่ยน</v-btn>
+                        <v-btn class="mx-5 text-red" size="x-small" @click="$router.push('/itfoodhub/user/password')">เปลี่ยน</v-btn>
                     </v-col>
                 </v-row>
                 <v-row>
