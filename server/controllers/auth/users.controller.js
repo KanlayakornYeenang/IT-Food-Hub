@@ -85,7 +85,6 @@ const changePasswordUser = async (req, res) => {
 
 const insertPictureProfile = async (req, res) => {
   const file = req.file;
-
   id = 1;
   if (!file) {
     const error = new Error("Please upload a file");
