@@ -8,7 +8,7 @@ const getUserByNameAndPasword = async (email, password) => {
 
 const getUserDetailById = async (user_id) => {
   const sql =
-    "SELECT user_id, user_email, user_fname, user_lname, user_role, user_phone, user_locat FROM users WHERE user_id = ?";
+    "SELECT user_id, user_email, user_password,user_fname, user_lname, user_role, user_phone, user_locat FROM users WHERE user_id = ?";
   const [rows, fields] = await db.query(sql, [user_id]);
   return rows[0];
 };

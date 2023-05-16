@@ -45,7 +45,7 @@
                                         border-bottom-right-radius: 5px;
                                         border-bottom-left-radius: 5px;
                                       ">
-              <v-btn variant="plain"> ออกจากระบบ </v-btn>
+              <v-btn variant="plain" @click="logOut"> ออกจากระบบ </v-btn>
             </div>
           </v-menu>
         </div>
@@ -112,6 +112,10 @@ export default {
     },
     updateCancle(cancle) {
       this.cancle = cancle
+    },
+    logOut(){
+      localStorage.removeItem('token')
+      this.$router.push('/')
     }
   },
   computed: {
