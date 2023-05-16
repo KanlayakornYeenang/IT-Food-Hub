@@ -43,6 +43,7 @@ const getMyRestaurant = async (req, res) => {
   try {
     const restaurant = await getMyRestaurantByUserId(req.user.user_id);
     let myRestaurant = await getRestaurantById(restaurant.rst_id)
+
     const orders = await getAllMyOrderByRstID(restaurant.rst_id);
     let ordersList = [];
     for (let i = 0; i < orders.length; i++) {
@@ -52,11 +53,12 @@ const getMyRestaurant = async (req, res) => {
         delivery_person: await getUserDetailById(orders[i].dlv_id),
       };
       ordersList.push(order);
+
     }
     myRestaurant = Object.assign(myRestaurant, {orders:ordersList})
     return res.json(myRestaurant);
   } catch (error) {
-    res.status(404).send(error);
+    return res.status(404).send(error);
   }
 }
 

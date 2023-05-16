@@ -52,7 +52,7 @@ const getOrderDetailByOrderID = async (order_id, rst_id) => {
   LEFT JOIN menu_item ON FIND_IN_SET(menu_item.item_id, option_detail)\
   JOIN restaurants USING (rst_id)\
   WHERE order_id = ? and rst_id = ?\
-  GROUP BY rst_id, menu_id";
+  GROUP BY rst_id, menu_id, quantity";
   const [result] = await db.query(sql, [order_id, rst_id]);
   return groupedCart(result)[0].menu;
 };
