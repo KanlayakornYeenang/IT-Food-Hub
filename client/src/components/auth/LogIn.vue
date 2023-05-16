@@ -14,7 +14,7 @@
             ></v-img>
           </div>
         </div>
-        <p class="my-3">ยังไม่มีบัญชี ? <a href="#">สมัครเลย</a></p>
+        <p class="my-3">ยังไม่มีบัญชี ? <a :href="'/register'">สมัครเลย</a></p>
       </div>
       <v-form @submit.prevent="login">
         <div class="mt-8 mb-4">
@@ -63,6 +63,10 @@ export default {
         //
       }
     },
+    register(){
+      console.log("register")
+      this.$router.push("/register")
+    }
   },
 };
 </script>

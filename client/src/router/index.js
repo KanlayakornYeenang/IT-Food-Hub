@@ -11,6 +11,10 @@ const routes = [
     component: () => import("@/views/LogIn.vue"),
   },
   {
+    path: "/register",
+    component: () => import("@/views/Register.vue"),
+  },
+  {
     path: "/itfoodhub",
     component: () => import("@/views/Default.vue"),
     children: [
@@ -35,12 +39,12 @@ const routes = [
             component: ()=>import("@/components/user/ChangePassword.vue"),
           },
           {
-            path:"cart",
-            component: ()=>import("@/components/user/cart/Cart.vue"),
+            path:"phone",
+            component: ()=>import("@/components/user/ChangePhone.vue"),
           },
           {
-            path:"cart/order/:orderid",
-            component: () => import("@/components/user/cart/CartDetail.vue")
+            path:"email",
+            component: ()=>import("@/components/user/ChangeEmail.vue"),
           },
           {
             path: "myorder",
@@ -53,7 +57,7 @@ const routes = [
           {
             path: "mydelivery",
             component: () => import("@/components/user/MyDelivery.vue")
-          }
+          },
         ]
       },
       {
