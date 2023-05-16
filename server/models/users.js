@@ -39,8 +39,8 @@ const updatePassword = async (user_id, password) => {
 };
 
 // test uplaad to table testimage ถ้าจะ upจริงๆ ให้ไปสร้าง table ใหม่ ตอนนี้ยังไม่มี
-const insertProfilePicture = async (image_id, file_name) => {
-  const sql = "insert into testimages(image_id, file_path) values(?,?)";
+const insertProfilePicture = async (file_path, picture_type, restaurant_id, user_id) => {
+  const sql = "insert into image(file_path, picture_type, user_id) values(?,?,?)";
   const [rows, fields] = await db.query(sql, [image_id, file_name]);
   return rows;
 };

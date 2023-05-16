@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const db = require("./db");
 const {
   getUserByNameAndPasword,
   getUserDetailById,
@@ -84,19 +85,24 @@ const changePasswordUser = async (req, res) => {
 };
 
 const insertPictureProfile = async (req, res) => {
+  const user_id = req.params.id
   const file = req.file;
-  id = 1;
-  if (!file) {
-    const error = new Error("Please upload a file");
-    error.httpStatusCode = 400;
-    return res.json(error);
-  }
-  try{
-    result = await insertProfilePicture(id, file.path.substr(6))
-    res.send(result)
-  }catch(error){
-    res.send(error)
-  }
+  return res.send(file)
+  // if (!file) {
+  //   const error = new Error("Please upload a file");
+  //   error.httpStatusCode = 400;
+  //   return res.json(error);
+  // }
+  // else{
+  //   const conn = await db.getConnection();
+  //   await conn.beginTransaction();
+  //   try{
+  //     result = await insertProfilePicture(user_id, )
+  //     res.send(result)
+  //   }catch(error){
+  //     res.send(error)
+  //   }
+  // }
 };
 
 const changeRoleUser = async (req, res) => {

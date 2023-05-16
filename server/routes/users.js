@@ -20,7 +20,7 @@ router.put("/updatepassword", verify, users.changePasswordUser);
 
 // for upload profile picture /test
 router.post(
-  "/uploadprofile",
+  "/uploadprofile/:id",
   upload.single("image"),
   users.insertPictureProfile
 );
