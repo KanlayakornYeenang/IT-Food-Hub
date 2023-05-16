@@ -22,9 +22,11 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `quantity` int(11) NOT NULL,
   `item_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cart_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table foodhub.cart: ~0 rows (approximately)
+INSERT INTO `cart` (`cart_id`, `user_id`, `menu_id`, `quantity`, `item_id`) VALUES
+	(120, 3, 3, 1, '');
 
 -- Dumping structure for table foodhub.category
 CREATE TABLE IF NOT EXISTS `category` (
@@ -86,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `menu_option` (
   `option_type` enum('optional','require') NOT NULL,
   `max_optional` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table foodhub.menu_option: ~3 rows (approximately)
 INSERT INTO `menu_option` (`option_id`, `menu_id`, `option_name`, `option_type`, `max_optional`) VALUES
@@ -106,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table foodhub.orders: ~1 rows (approximately)
+-- Dumping data for table foodhub.orders: ~0 rows (approximately)
 INSERT INTO `orders` (`order_id`, `order_status`, `order_total_price`, `cus_id`, `dlv_id`, `order_dest`, `order_date_time`) VALUES
 	('2-230513162930', 1, 135.00, '2', '3', 'Common Room', '2023-05-13 16:29:30');
 
