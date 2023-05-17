@@ -36,11 +36,11 @@
                 </v-row>
                 <v-row>
                     <v-col class="text-right text-grey"></v-col>
-                    <v-col class="text-left px-16"><v-btn color="it">บันทึก</v-btn></v-col>
+                    <v-col class="text-left px-16"><v-btn color="it">บันทึก{{file_path}}</v-btn></v-col>
                 </v-row>
             </v-col>
             <v-col cols="4" class="pa-0 d-flex align-center">
-                <v-avatar size="100" color="it"></v-avatar>
+                <v-avatar size="100" color="it"><v-img :src=file_path></v-img></v-avatar>
             </v-col>
         </v-row>
     </v-card>
@@ -56,6 +56,7 @@ export default {
     data() {
         return {
             user_detail: this.user,
+            file_path: 'http://localhost:5000/static'+ this.user.file_path,
         };
     },
 

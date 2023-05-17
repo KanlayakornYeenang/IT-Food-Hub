@@ -8,7 +8,7 @@ const getUserByNameAndPasword = async (email, password) => {
 
 const getUserDetailById = async (user_id) => {
   const sql =
-    "SELECT user_id, user_email, user_password,user_fname, user_lname, user_role, user_phone, user_locat FROM users WHERE user_id = ?";
+    "SELECT user_id, user_email, user_password,user_fname, user_lname, user_role, user_phone, user_locat, file_path FROM users join(image) using(user_id) WHERE user_id = ?";
   const [rows, fields] = await db.query(sql, [user_id]);
   return rows[0];
 };
@@ -39,9 +39,9 @@ const updatePassword = async (user_id, password) => {
 };
 
 // test uplaad to table testimage ถ้าจะ upจริงๆ ให้ไปสร้าง table ใหม่ ตอนนี้ยังไม่มี
-const insertProfilePicture = async (file_path, picture_type, restaurant_id, user_id) => {
+const insertProfilePicture = async (file_path, picture_type, user_id) => {
   const sql = "insert into image(file_path, picture_type, user_id) values(?,?,?)";
-  const [rows, fields] = await db.query(sql, [image_id, file_name]);
+  const [rows, fields] = await db.query(sql, [file_path, picture_type, user_id]);
   return rows;
 };
 
