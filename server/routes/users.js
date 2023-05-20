@@ -5,7 +5,7 @@ const requireRole = require("../middleware/requireRole");
 const { users } = require("../controllers/auth");
 const upload = require("../middleware/multer");
 const { customers } = require("../controllers/customers");
-
+const {notification} = require("../controllers/notification");
 // for user login
 router.post("/login", users.login);
 
@@ -50,6 +50,8 @@ router.post("/placeOrder", verify, customers.placeOrder)
 router.get("/myOrder", verify, customers.getAllMyOrder)
 
 router.get("/myOrder/:order_id", verify, customers.getMyOrderByOrderId)
+
+router.get("/notifyOrder", verify, notification.getAllNotifi)
 
 module.exports = router;
 

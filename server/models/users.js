@@ -8,10 +8,15 @@ const getUserByNameAndPasword = async (email, password) => {
 
 const getUserDetailById = async (user_id) => {
   const sql =
-    "SELECT user_id, user_email, user_password,user_fname, user_lname, user_role, user_phone, user_locat, file_path FROM users join(image) using(user_id) WHERE user_id = ?";
-  const [rows, fields] = await db.query(sql, [user_id]);
+    "SELECT user_id, user_email, user_password, user_fname, user_lname, user_role, user_phone, user_locat, \
+    IFNULL(file_path, '') AS file_path\
+    FROM users \
+    LEFT JOIN image using (user_id) \
+    WHERE user_id = ?";
+  const [rows, fields] = await db.query(sql, [user_id]);0
   return rows[0];
 };
+
 
 const getAllUser = async () => {
   const sql = "SELECT * FROM users";

@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       user: null,
+      noti: null
     };
   },
   mounted() {
@@ -33,6 +34,7 @@ export default {
       .catch((err) => {
         this.$router.push("/login");
       });
+    localStorage.setItem("noti", 0)
   },
 };
-</script>
+</script> 

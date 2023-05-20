@@ -1,5 +1,5 @@
-const { updateOrderStatus_sql, showState} = require("../models/orders")
-
+const { updateOrderStatus_sql, showState,  getCustomerId } = require("../models/orders")
+const {insertNoti}= require("../models/notification")
 const updateOrderStatus =  async (io) =>{
     console.log(
         "Socket is ready.... waiting for connection!"
@@ -19,12 +19,21 @@ const updateOrderStatus =  async (io) =>{
             // code to update order Status 
                 const update = await updateOrderStatus_sql(orderId, newState)
                 const status = await showState(orderId)
+
+                const customerId = await getCustomerId(orderId)
+                const cus_id = customerId[0].cus_id
             //
             console.log(`Order ${orderId} state updated to ${newState}`);
             console.log("status",status[0].order_status)
             const status_updated = status[0].order_status
             io.emit('order_updated', {orderId,status_updated});
+
+            // for notification updated
+            const updatenotification = await insertNoti(cus_id, orderId,status_updated)
+            io.emit('notification_updated', {orderId,status, cus_id})
         });
+
+
 
         socket.on('disconnect', () => {
             console.log('Client disconnected');

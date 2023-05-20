@@ -46,6 +46,7 @@ const getDetail = async (req, res) => {
   try {
     const user_id = req.user.user_id
     const result = await getUserDetailById(user_id);
+    console.log("result: " + result)
     return res.json(result);
   } catch (err) {
     res.status(500).send(err);

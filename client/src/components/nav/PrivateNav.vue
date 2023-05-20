@@ -22,8 +22,11 @@
           <v-btn size="small" prepend-icon="mdi-receipt-text" to="/itfoodhub/user/myorder">
             <p class="text-body-1 fw-600">รายการสั่งซื้อ</p>
           </v-btn>
-          <v-btn size="small" prepend-icon="mdi-bell">
+          <v-btn size="small" prepend-icon="mdi-bell" v-if="noti == '0'" @click="openDrawer"> 
             <p class="text-body-1 fw-600">การแจ้งเตือน</p>
+          </v-btn>
+          <v-btn size="small" prepend-icon="mdi-bell-alert-outline" v-if="noti == '1'">
+            <p class="text-body-1 fw-600" @click="openDrawer">การแจ้งเตือน</p>
           </v-btn>
           <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
@@ -72,21 +75,31 @@
       </v-dialog>
     </v-col>
   </v-app-bar>
+  <v-navigation-drawer
+    v-model="drawer"
+    temporary
+    location="right">
+    <ItemNoti :user="user"></ItemNoti>
+  </v-navigation-drawer>>
 </template>
 
 <script setup>
 import Cart from "@/components/cart/Cart.vue";
+import ItemNoti from "@/components/ืืnotification/ItemNoti.vue"
 </script>
 
 <script>
 import eventbus from "@/plugins/eventBus";
 import axios from "@/plugins/axios.js";
+
 export default {
   data() {
     return {
       dialog: false,
       cart: null,
       cancle: [],
+      drawer:null,
+      noti:null
     };
   },
   props: {
@@ -95,6 +108,9 @@ export default {
     },
   },
   methods: {
+    openDrawer(){
+        this.drawer = !this.drawer;
+    },
     updateCart(cart) {
       this.cart = cart;
     },
@@ -133,6 +149,7 @@ export default {
     }
   },
   mounted() {
+    this.noti = localStorage.getItem('noti')
     axios
       .get('api/cart')
       .then((res) => {
