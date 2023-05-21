@@ -28,8 +28,7 @@
         </div>
         <v-card-text class="pr-0 pl-2 py-0">
           <div v-if="
-            (option.option_type == 'optional' && option.max_optional == 1) ||
-            option.max_optional > 1
+            (option.option_type == 0)
           ">
             <Checkbox :option_id="option.option_id" :option="option.item" @update-checkbox="update" />
           </div>

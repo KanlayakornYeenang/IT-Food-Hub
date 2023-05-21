@@ -11,12 +11,13 @@
                 </v-card-title>
             </v-card-items>
         </v-card>
-        <v-card class="pa-2 overflow-y-auto" color="itlight" elevation="0" style="height:63.5vh">
+        <v-card class="pa-2 overflow-y-auto" elevation="0" style="height:63.5vh">
             <v-card-items>
                 <AddImageSection />
-                <AddFoodNameSection />
-                <AddFoodDetailSection />
-                <FoodOptionsSection :categories="categories"/>
+                <AddFoodNameSection @updateMenuSchema="updateMenuSchema"/>
+                <AddFoodDescriptionSection @updateMenuSchema="updateMenuSchema"/>
+                <FoodOptionsSection :categories="categories" @updateMenuSchema="updateMenuSchema"/>
+                <p>{{ menuSchema }}</p>
             </v-card-items>
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
@@ -30,16 +31,17 @@
 <script setup>
 import AddImageSection from "@/components/myrestaurant/AddImageSection.vue";
 import AddFoodNameSection from "@/components/myrestaurant/AddFoodNameSection.vue";
-import AddFoodDetailSection from "@/components/myrestaurant/AddFoodDetailSection.vue";
+import AddFoodDescriptionSection from "@/components/myrestaurant/AddFoodDescriptionSection.vue";
 import FoodOptionsSection from "@/components/myrestaurant/FoodOptionsSection.vue";
 </script>
 
 <script>
 import eventbus from "@/plugins/eventBus";
+
 export default {
     data() {
         return {
-        //
+            menuSchema: { image: null, name: null, description: null, category: null, options: [], price: null }
         };
     },
     props: {
@@ -50,6 +52,9 @@ export default {
     methods: {
         handleClose() {
             eventbus.emit('updateButton', 'close')
+        },
+        updateMenuSchema(menuSchema) {
+            this.menuSchema = Object.assign(this.menuSchema, menuSchema)
         }
     },
 }

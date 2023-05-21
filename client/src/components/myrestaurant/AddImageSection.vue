@@ -4,7 +4,7 @@
             <div>
                 <p class="text-h6 fw-600 text-it">เพิ่มรูปภาพ</p>
                 <div class="py-2">
-                    <v-file-input hide-details variant="solo" prepend-icon="mdi-camera">
+                    <v-file-input hide-details prepend-icon="mdi-camera">
                         <template v-slot:label>
                             <p class="fw-400 text-grey">เลือกรูปภาพ</p>
                         </template>

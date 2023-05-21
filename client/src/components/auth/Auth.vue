@@ -22,8 +22,8 @@
 </style>
 
 <script setup>
-import Banner from "@/components/Auth/Banner.vue";
-import LogIn from "@/components/Auth/LogIn.vue";
+import Banner from "@/components/auth/Banner.vue";
+import LogIn from "@/components/auth/LogIn.vue";
 </script>
 
 <script>

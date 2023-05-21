@@ -37,13 +37,18 @@
             </v-row>
             <v-row class="d-flex flex-column bg-grey-lighten-4 rounded">
                 <v-col>
+                    <p>{{ options }}</p>
                     <p class="fw-400">ลูกค้าจำเป็นต้องเลือกตัวเลือกนี้หรือไม่ ?</p>
                     <v-radio-group hide-details>
                         <v-radio value="0">
-                            <template v-slot:label><p class="fw-400">ไม่จำเป็น</p></template>
+                            <template v-slot:label>
+                                <p class="fw-400">ไม่จำเป็น</p>
+                            </template>
                         </v-radio>
                         <v-radio value="1">
-                            <template v-slot:label><p class="fw-400">จำเป็น</p></template>
+                            <template v-slot:label>
+                                <p class="fw-400">จำเป็น</p>
+                            </template>
                         </v-radio>
                     </v-radio-group>
                 </v-col>
@@ -52,10 +57,14 @@
                     <p class="fw-400">ลูกค้าสามารถเลือกตัวเลือกย่อยได้กี่อย่าง ?</p>
                     <v-radio-group hide-details>
                         <v-radio value="0">
-                            <template v-slot:label><p class="fw-400">หลายอย่าง</p></template>
+                            <template v-slot:label>
+                                <p class="fw-400">หลายอย่าง</p>
+                            </template>
                         </v-radio>
                         <v-radio value="1">
-                            <template v-slot:label><p class="fw-400">1 อย่าง</p></template>
+                            <template v-slot:label>
+                                <p class="fw-400">1 อย่าง</p>
+                            </template>
                         </v-radio>
                     </v-radio-group>
                 </v-col>
