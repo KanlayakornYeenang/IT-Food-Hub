@@ -12,6 +12,9 @@
             <v-col cols="3" v-for="restaurant,i in filteredRes" :key="i">
               <RestaurantCard :restaurant="restaurant"/>
             </v-col>
+            <div v-if="filteredRes.length == 0" style="display: flex; align-items:center; justify-content:center">
+              no restaurant found
+            </div>
           </v-row>
         </v-col>
       </div>
