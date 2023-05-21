@@ -110,7 +110,7 @@ export default {
   data() {
     return {
       cart: null,
-      cancle: [],
+      cancel: [],
     };
   },
   methods: {
@@ -124,11 +124,11 @@ export default {
       if (restaurant.menu.length == 0) {
         this.cart.splice(rst_index, 1)
       }
-      this.cancle.push(menu.cart_id)
+      this.cancel.push(menu.cart_id)
     },
     updateDialog() {
       this.$emit("updateDialog", false);
-      this.$emit("updateCancle", this.cancle);
+      this.$emit("updateCancel", this.cancel);
     },
     refreshCart() {
       axios

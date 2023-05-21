@@ -69,7 +69,7 @@
       </div>
 
       <v-dialog v-model="dialog" width="600" scroll-strategy="close">
-        <Cart @updateDialog="updateDialog" @updateCart="updateCart" @updateCancle="updateCancle" />
+        <Cart @updateDialog="updateDialog" @updateCart="updateCart" @updateCancel="updateCancel" />
       </v-dialog>
     </v-col>
   </v-app-bar>
@@ -97,7 +97,7 @@ export default {
     return {
       dialog: false,
       cart: null,
-      cancle: [],
+      cancel: [],
       drawer:null,
       noti:null
     };
@@ -119,7 +119,7 @@ export default {
       for (let i = 0; i < this.cart.length; i++) {
         for (let j = 0; j < this.cart[i].menu.length; j++) {
           let menu = this.cart[i].menu[j]
-          if (parseFloat(menu.quantity) == 0 && !this.cancle.includes(menu.cart_id)) {
+          if (parseFloat(menu.quantity) == 0 && !this.cancel.includes(menu.cart_id)) {
             menu.quantity++
             axios.patch("api/updateQuantity", { cart_id: menu.cart_id, quantity: menu.quantity })
           }
@@ -127,8 +127,8 @@ export default {
       }
       this.dialog = dialog;
     },
-    updateCancle(cancle) {
-      this.cancle = cancle
+    updateCancel(cancel) {
+      this.cancel = cancel
     },
     logOut(){
       localStorage.removeItem('token')
