@@ -17,12 +17,12 @@
                 <AddFoodNameSection @updateMenuSchema="updateMenuSchema"/>
                 <AddFoodDescriptionSection @updateMenuSchema="updateMenuSchema"/>
                 <FoodOptionsSection :categories="categories" @updateMenuSchema="updateMenuSchema"/>
-                <p>{{ menuSchema }}</p>
             </v-card-items>
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
+            <p>{{ menuSchema }}</p>
             <v-card-items class="d-flex justify-center">
-                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0">ตรวจสอบเมนู</v-btn>
+                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0" @click="createMenu">ยืนยัน</v-btn>
             </v-card-items>
         </v-card>
     </v-card>
@@ -37,11 +37,12 @@ import FoodOptionsSection from "@/components/myrestaurant/FoodOptionsSection.vue
 
 <script>
 import eventbus from "@/plugins/eventBus";
+import axios from "@/plugins/axios";
 
 export default {
     data() {
         return {
-            menuSchema: { image: null, name: null, description: null, category: null, options: [], price: null }
+            menuSchema: { menu_name: null, menu_desc: null, menu_cat: null, options: [], menu_price: null }
         };
     },
     props: {
@@ -55,7 +56,15 @@ export default {
         },
         updateMenuSchema(menuSchema) {
             this.menuSchema = Object.assign(this.menuSchema, menuSchema)
+        },
+        createMenu() {
+            axios.post("partner/createMenu", this.menuSchema)
         }
     },
+    mounted() {
+        eventbus.on('updateMenuSchema', options => {
+            this.menuSchema = Object.assign(this.menuSchema, {options:options})
+        })
+    }
 }
 </script>

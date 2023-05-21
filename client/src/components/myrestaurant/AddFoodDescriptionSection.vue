@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         updateMenuSchema(value, error) {
-            const menuSchema = { description: value }
+            const menuSchema = { menu_desc: value }
             if (!error) {
                 this.$emit('updateMenuSchema', menuSchema)
             }

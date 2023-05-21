@@ -6,9 +6,14 @@
                     <p class="text-h6 fw-600 text-it">หมวดหมู่อาหาร <span class="text-red">*</span></p>
                 </v-col>
                 <v-col class="d-flex pa-0">
-                    <v-combobox v-model="state.category" @input="v$.category.$touch();" @blur=" v$.category.$touch(); "
+                    <!-- <v-combobox v-model="state.category" @input="v$.category.$touch();" @blur=" v$.category.$touch(); "
                         :error-messages="v$.category.$errors.map(e => e.$message)"
                         :items="this.categories.map(item => item.menu_cat)" density="compact">
+                        <template v-slot:label>
+                            <p class="text-grey fw-400">เลือกหมวดหมู่</p>
+                        </template>
+                    </v-combobox> -->
+                    <v-combobox v-model="category" :items="this.categories.map(item => item.menu_cat)" density="compact">
                         <template v-slot:label>
                             <p class="text-grey fw-400">เลือกหมวดหมู่</p>
                         </template>
@@ -29,9 +34,9 @@
                     <p class="text-h6 fw-600 text-it">ราคา <span class="text-red">*</span></p>
                 </v-col>
                 <v-col class="d-flex pa-0">
-                    <v-text-field v-model=" state.price "
-                        @input=" v$.price.$touch(); updateMenuSchema(state.price, v$.price.$error) " @blur=" v$.price.$touch "
-                        :error-messages=" v$.price.$errors.map(e => e.$message) " required placeholder="ระบุราคา"
+                    <v-text-field v-model="state.price"
+                        @input="v$.price.$touch(); updatePrice(state.price, v$.price.$error) " @blur=" v$.price.$touch "
+                        :error-messages="v$.price.$errors.map(e => e.$message)" required placeholder="ระบุราคา"
                         density="compact"></v-text-field>
                 </v-col>
             </div>
@@ -77,7 +82,8 @@ const v$ = useVuelidate(rules, state)
 export default {
     data() {
         return {
-            items: null
+            items: null,
+            category: null,
         }
     },
     props: {
@@ -85,9 +91,15 @@ export default {
             type: Object
         }
     },
+    watch: {
+        category(newVal) {
+            const menuSchema = { menu_cat: newVal }
+            this.$emit('updateMenuSchema', menuSchema)
+        }
+    },
     methods: {
-        updateMenuSchema(value, error) {
-            const menuSchema = { price: value }
+        updatePrice(value, error) {
+            const menuSchema = { menu_price: value }
             if (!error) {
                 this.$emit('updateMenuSchema', menuSchema)
             }

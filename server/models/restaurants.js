@@ -35,10 +35,11 @@ const getMyRestaurantByUserId = async (user_id) => {
 };
 
 const getAllMyOrderByRstID = async (rst_id) => {
-  const sql = "SELECT distinct order_id, order_status, order_total_price, rst_id, cus_id, dlv_id, order_dest, DATE_FORMAT(order_date_time, '%Y-%m-%d %H:%i:%s') `order_date_time` FROM orders\
+  const sql =
+    "SELECT distinct order_id, order_status, order_total_price, rst_id, cus_id, dlv_id, order_dest, DATE_FORMAT(order_date_time, '%Y-%m-%d %H:%i:%s') `order_date_time` FROM orders\
   JOIN orders_detail USING (order_id)\
   JOIN menu USING (menu_id)\
-  WHERE rst_id = ?"
+  WHERE rst_id = ?";
   const [result] = await db.query(sql, rst_id);
   return result;
 };
@@ -57,11 +58,57 @@ const getOrderDetailByOrderID = async (order_id, rst_id) => {
   return groupedCart(result)[0].menu;
 };
 
+const insertMenu = async (
+  rst_id,
+  menu_name,
+  menu_desc,
+  menu_cat,
+  menu_price
+) => {
+  const sql =
+    "INSERT INTO menu(rst_id, menu_name, menu_cat, menu_desc, menu_price) VALUES(?, ?, ?, ?, ?)";
+  const [result] = await db.query(sql, [
+    rst_id,
+    menu_name,
+    menu_cat,
+    menu_desc,
+    menu_price,
+  ]);
+  return result;
+};
+
+const insertMenuOption = async (
+  menu_id,
+  option_name,
+  option_type,
+  max_optional
+) => {
+  const sql =
+    "INSERT INTO menu_option(menu_id, option_name, option_type, max_optional) VALUES(?, ?, ?, ?)";
+  const [result] = await db.query(sql, [
+    menu_id,
+    option_name,
+    option_type,
+    max_optional,
+  ]);
+  return result;
+};
+
+const insertMenuItem = async (option_id, item_name, item_price) => {
+  const sql =
+    "INSERT INTO menu_item(option_id, item_name, item_price) VALUES(?, ?, ?)";
+  const [result] = await db.query(sql, [option_id, item_name, item_price]);
+  return result;
+};
+
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
   getMenuById,
   getMyRestaurantByUserId,
   getAllMyOrderByRstID,
-  getOrderDetailByOrderID
+  getOrderDetailByOrderID,
+  insertMenu,
+  insertMenuOption,
+  insertMenuItem,
 };

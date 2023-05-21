@@ -8,4 +8,6 @@ const upload = require("../../middleware/multer")
 // for show restaurant owner
 router.get("/myrestaurant", verify, restaurants.getMyRestaurant)
 
+router.post("/createMenu", verify, restaurants.createMenu)
+
 module.exports = router;
