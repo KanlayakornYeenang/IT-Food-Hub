@@ -8,7 +8,10 @@ const {
   insertProfilePicture,
   updateRoleUser,
   updateEmail,
-  updatePhone
+  updatePhone,
+  merchant,
+  insertResPicture,
+  selectIdRest
 } = require("../../models/users");
 
 
@@ -102,6 +105,7 @@ const changeRoleUser = async (req, res) => {
 // --------------------------------- update Detial user
 
 const Joi = require('joi');
+const { request } = require("express");
 
 const passwordValidator = (value, helpers) => {
     if (value.length < 8) {
@@ -132,6 +136,40 @@ const emailSchema = Joi.object({
 const phoneSchema = Joi.object({
   mobile: Joi.string().required().pattern(/0[0-9]{9}/),
 })
+
+const RegisterPartner = Joi.object({
+  rest_name : Joi.string().required().min(5),
+  first_name : Joi.string().required().min(5),
+  last_name : Joi.string().required().min(5),
+  location : Joi.string().required().min(2),
+  phone: Joi.string().required().pattern(/0[0-9]{9}/),
+})
+
+const registermerchant =  async (req, res) => {
+  const user_id = req.user.user_id
+  const file = req.file
+  console.log(file)
+  if(!file){
+    return res.status(400).json({ message: "Please upload a file" });
+  }
+  try {
+    await RegisterPartner.validateAsync(req.body, { abortEarly: false })
+  } catch (err) {
+    res.status(400).send(err);
+  }
+  const file_path = file.path.substring(6)
+  const rest_name = req.body.rest_name
+  const location = req.body.location
+  try{
+    result = await merchant(user_id, rest_name, location)
+    const rest_id = await selectIdRest(user_id)
+    picture = await insertResPicture(file_path,"restaurant",rest_id.rst_id)
+    changeRole = await updateRoleUser(user_id,"restaurant")
+    return res.status(200).send("success")
+  }catch(err){
+     res.status(400).send(err)
+  }
+}
 
 const changePasswordUser = async (req, res) => {
   const user_id = req.user.user_id;
@@ -209,5 +247,6 @@ module.exports = {
   insertPictureProfile,
   changeRoleUser,
   changeEmail,
-  changePhone
+  changePhone,
+  registermerchant
 };

@@ -64,14 +64,28 @@ const insertProfilePicture = async (file_path, picture_type, user_id) => {
 };
 
 // update role  user // note yet
-const updateRoleUser = async (user_id, role, file_name) => {
-  console.log("update role user");
+const updateRoleUser = async (user_id, role) => {
   const sql = "update users set user_role = ? where user_id = ?";
   const [rows, fields] = await db.query(sql, [role, user_id]);
   // test
-  insertProfilePicture(2, file_name);
   return rows;
 };
+
+const merchant = async (owner_id, rst_name, rst_locat)=>{
+  const sql = "insert into restaurants(owner_id, rst_name, rst_locat) values(?,?,?)"
+  const [rows, fields] = await db.query(sql, [owner_id, rst_name, rst_locat]);
+}
+const insertResPicture = async (file_path, picture_type, restaurant_id) => {
+  const sql = "insert into image(file_path, picture_type, restaurant_id) values(?,?,?)";
+  const [rows, fields] = await db.query(sql, [file_path, picture_type, restaurant_id]);
+  return rows;
+};
+
+const selectIdRest = async(user_id)=>{
+  const sql = "select rst_id from restaurants where owner_id = ?"
+  const [rows, fields] = await db.query(sql, user_id);
+  return rows[0]
+}
 
 module.exports = {
   getUserByNameAndPasword,
@@ -83,5 +97,8 @@ module.exports = {
   updateRoleUser,
   updateEmail,
   updatePassword,
-  updatePhone
+  updatePhone,
+  merchant,
+  insertResPicture,
+  selectIdRest
 };

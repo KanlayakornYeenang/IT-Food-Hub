@@ -75,6 +75,10 @@ const routes = [
       {
         path:"myrestaurant",
         component: () => import("@/views/MyRestaurant.vue"),
+      },
+      {
+        path:"merchant",
+        component: ()=>import("@/components/register/Partner.vue")
       }
     ],
   }

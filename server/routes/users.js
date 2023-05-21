@@ -27,6 +27,8 @@ router.post(
   upload.single("image"),
   users.insertPictureProfile
 );
+// for register merchant
+router.post("/registermerchant",verify, upload.single("file"), users.registermerchant)
 
 // for update role
 router.put(
