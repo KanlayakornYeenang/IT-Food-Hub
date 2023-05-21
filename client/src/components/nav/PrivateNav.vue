@@ -22,11 +22,9 @@
           <v-btn size="small" prepend-icon="mdi-receipt-text" to="/itfoodhub/user/myorder">
             <p class="text-body-1 fw-600">รายการสั่งซื้อ</p>
           </v-btn>
-          <v-btn size="small" prepend-icon="mdi-bell" v-if="noti == '0'" @click="openDrawer"> 
+          <v-btn size="small" prepend-icon="mdi-bell"  @click="openDrawer"> 
             <p class="text-body-1 fw-600">การแจ้งเตือน</p>
-          </v-btn>
-          <v-btn size="small" prepend-icon="mdi-bell-alert-outline" v-if="noti == '1'">
-            <p class="text-body-1 fw-600" @click="openDrawer">การแจ้งเตือน</p>
+            <v-icon v-if="noti == '1'" icon="mdi-exclamation-thick"></v-icon>
           </v-btn>
           <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
@@ -89,8 +87,10 @@ import ItemNoti from "@/components/ืืnotification/ItemNoti.vue"
 </script>
 
 <script>
+import io from 'socket.io-client';
 import eventbus from "@/plugins/eventBus";
 import axios from "@/plugins/axios.js";
+import { toHandlers } from "vue";
 
 export default {
   data() {
@@ -110,6 +110,7 @@ export default {
   methods: {
     openDrawer(){
         this.drawer = !this.drawer;
+        this.noti = "0"
     },
     updateCart(cart) {
       this.cart = cart;
@@ -149,7 +150,7 @@ export default {
     }
   },
   mounted() {
-    this.noti = localStorage.getItem('noti')
+    this.noti = localStorage.getItem("noti")
     axios
       .get('api/cart')
       .then((res) => {
@@ -166,6 +167,13 @@ export default {
     //     this.dialog = dialog;
     //   }, 1500);
     // })
+    this.socket = io('http://localhost:4114'); // Replace with your socket server URL
+      // Listen for the 'notification_updated' event
+      this.socket.on('notification_updated', ({ getNoti, cus_id }) => {
+        if(cus_id == this.user.user_id){
+          this.noti = localStorage.getItem('noti')
+        }
+    })
   }
 };
 </script>

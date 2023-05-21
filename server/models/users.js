@@ -24,15 +24,18 @@ const getAllUser = async () => {
   return rows;
 };
 
-const registerUser = async (fname, lname, email, password) => {
+const registerUser = async (user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat) => {
+  console.log(user_email)
   const sql =
-    "insert into users(user_fname, user_lname, user_email, user_password, user_role) values(?,?,?,?,?)";
+    "insert into users(user_role, user_email, user_password, user_fname, user_lname,user_phone,user_locat) values(?,?,?,?,?,?,?)";
   const [rows, fields] = await db.query(sql, [
-    fname,
-    lname,
-    email,
-    password,
-    "customer",
+    user_role,
+    user_email,
+    user_password,
+    user_fname,
+    user_lname,
+    user_phone,
+    user_locat
   ]);
   return rows;
 };
@@ -42,6 +45,16 @@ const updatePassword = async (user_id, password) => {
   const [rows, fields] = await db.query(sql, [password, user_id]);
   return rows;
 };
+const updateEmail = async  (user_id, email) =>{
+  const sql = "update users set user_email= ? where user_id = ?";
+  const [rows, fields] = await db.query(sql, [email, user_id]);
+  return rows;
+}
+const updatePhone = async (user_id, phone) =>{
+  const sql = "update users set user_phone= ? where user_id = ?";
+  const [rows, fields] = await db.query(sql, [phone, user_id]);
+  return rows;
+}
 
 // test uplaad to table testimage ถ้าจะ upจริงๆ ให้ไปสร้าง table ใหม่ ตอนนี้ยังไม่มี
 const insertProfilePicture = async (file_path, picture_type, user_id) => {
@@ -68,4 +81,7 @@ module.exports = {
   updatePassword,
   insertProfilePicture,
   updateRoleUser,
+  updateEmail,
+  updatePassword,
+  updatePhone
 };

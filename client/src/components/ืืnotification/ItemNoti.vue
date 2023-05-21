@@ -15,8 +15,9 @@
         <v-col>
           <div>
 
-              <div style="font-size: 12px;">หมายเลขการสั้งซื้อ{{i.order_id}}</div>
-              <div style="font-size: 12px;color:gray">สถานะอัพเดท {{i.order_status}}</div>
+              <div style="font-size: 12px;">หมายเลขการสั้งซื้อ{{i.order_Id}}</div>
+              <div style="font-size: 12px;color:gray">สถานะอัพเดท {{i.message}}</div>
+              <div style="font-size :10px; color:blue">{{i.time_stamp}}</div>
           </div>
         </v-col>
       </v-row>
@@ -47,38 +48,16 @@ export default {
       axios.get("api/notifyOrder").then((res)=>{
             this.saveNoti = res.data
       })
-      this.saveNoti = JSON.parse(localStorage.getItem('noti'))
       // Connect to the socket server
       this.socket = io('http://localhost:4114'); // Replace with your socket server URL
       // Listen for the 'notification_updated' event
-      this.socket.on('notification_updated', ({ orderId, status, cus_id }) => {
+      this.socket.on('notification_updated', ({ getNoti, cus_id }) => {
         if(cus_id == this.user.user_id){
-          this.orderId = orderId
-          this.status = status
-          if (status == 0) {
-                  this.status_text = "กำลังรอคนรับรายการ"
-          }
-          if (status == 1) {
-                  this.status_text = "กำลังจัดเตรียมอาหาร"
-          }
-          if (status == 2) {
-                  this.status_text = "กำลังไปจัดส่งอาหาร"
-          }
-          if (status == 3) {
-                  this.status_text = "จัดส่งเรียบร้อย"
-          }
-          axios.get("api/notifyOrder").then((res)=>{
-            this.saveNoti = res.data
-            localStorage.setItem("noti", 1);
-          })
+          this.saveNoti = getNoti
+          localStorage.setItem('noti','1')
         }
-        const notidetail = {
-          'order_id' : this.orderId,
-          'order_status' : this.status_text
-        }
-        this.saveNoti.push(notidetail)
-        }
-      );
+      }
+    );
   },
   beforeUnmount() {
     // Disconnect the socket when the component is unmounted

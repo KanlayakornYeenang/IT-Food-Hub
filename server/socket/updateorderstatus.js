@@ -1,5 +1,5 @@
 const { updateOrderStatus_sql, showState,  getCustomerId } = require("../models/orders")
-const {insertNoti}= require("../models/notification")
+const {insertNoti, getNotiById}= require("../models/notification")
 const updateOrderStatus =  async (io) =>{
     console.log(
         "Socket is ready.... waiting for connection!"
@@ -30,7 +30,8 @@ const updateOrderStatus =  async (io) =>{
 
             // for notification updated
             const updatenotification = await insertNoti(cus_id, orderId,status_updated)
-            io.emit('notification_updated', {orderId,status, cus_id})
+            const getNoti  = await getNotiById(cus_id)
+            io.emit('notification_updated', {getNoti, cus_id})
         });
 
 

@@ -17,7 +17,10 @@ router.post("/register", users.registerOfUser);
 
 // for update password
 router.put("/updatepassword", verify, users.changePasswordUser);
-
+// for update email
+router.put("/updateemail", verify, users.changeEmail)
+// for update phone
+router.put("/updatephone", verify, users.changePhone)
 // for upload profile picture /test
 router.post(
   "/uploadprofile/:id",

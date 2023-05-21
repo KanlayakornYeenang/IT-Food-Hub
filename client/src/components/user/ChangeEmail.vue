@@ -7,7 +7,7 @@
                 <div
                     style="font-size: 20px;"
                 >
-                    เปลี่ยนอีเมล์
+                    เปลี่ยนอีเมล์ {{ user.user_email }}
                 </div>
                 <div
                     style="font-size: 12px; margin-bottom:1px solid black; font-weight:lighter"
@@ -59,6 +59,7 @@
                         <div>
                             <v-btn
                             variant="outlined"
+                            @click="submit"
                             >ยืนยัน</v-btn>
                         </div>  
                     </v-col>
@@ -99,5 +100,21 @@ export default {
     setup(){
         return {v$: useVuelidate()}
     },
+    methods: {
+        submit() {
+            this.v$.$touch();
+            if (!this.v$.$invalid) {
+                let data = {
+                   email: this.email,
+                }
+                axios.put("api/updateemail", data).then(res => {
+                    console.log(res)
+                    this.$router.go() 
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
+        }
+    }
 };
 </script>
