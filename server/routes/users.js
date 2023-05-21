@@ -31,7 +31,7 @@ router.post(
   user.insertPictureProfile
 );
 // for register merchant
-router.post("/registermerchant",verify, upload.single("file"), users.registermerchant)
+router.post("/registermerchant",verify, upload.single("file"), user.registermerchant)
 
 // for update role
 router.put(
