@@ -30,12 +30,9 @@ const updateOrderStatus =  async (io) =>{
 
             // for notification updated
             const updatenotification = await insertNoti(cus_id, orderId,status_updated)
-            const getNoti  = await getNotiById(cus_id)
-            io.emit('notification_updated', {getNoti, cus_id})
+            const getAllnotifications = await getNotiById(cus_id)
+            io.emit('notification_updated', {getAllnotifications, cus_id})
         });
-
-
-
         socket.on('disconnect', () => {
             console.log('Client disconnected');
         });

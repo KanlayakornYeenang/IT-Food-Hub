@@ -36,7 +36,6 @@ export default {
             status:'',
             cus_id:'',
             status_text:'',
-            new_Noti :[],
         }
     },
     props: {
