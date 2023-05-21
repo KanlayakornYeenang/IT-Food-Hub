@@ -1,5 +1,5 @@
 import App from './App.vue'
-import { createApp } from 'vue'
+import { createApp, provide} from 'vue'
 import { registerPlugins } from '@/plugins'
 import eventbus from '@/plugins/eventBus'
 

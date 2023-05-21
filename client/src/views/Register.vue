@@ -192,6 +192,11 @@ export default {
                     email:this.email,
                     location:this.location
                 }
+                axios.post("api/register", data).then(res=>{
+                    console.log(res)
+                }).catch(err=>{
+                    console.log(err)
+                })
             }
         }
     }

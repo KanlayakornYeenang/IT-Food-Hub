@@ -3,8 +3,8 @@
         <v-col cols="8" class="d-flex my-3">
             <v-row>
                 <v-col cols="2" class="mt-3">
-                    <div class="d-flex align-center mb-3"><v-avatar color="it"></v-avatar>
-                        <p class="ml-2">{{ user.user_fname }}</p>
+                    <div class="d-flex align-center mb-3"><v-avatar color="it"><v-img :src=imagePath(user.file_path)></v-img></v-avatar>
+                        <p class="ml-2">{{ this.user.user_fname}}</p>
                     </div>
                     <Group />
                 </v-col>
@@ -30,6 +30,22 @@ export default {
             type: Object,
         },
     },
+    data() {
+        return {
+            user_detail: this.user,
+        };
+    },
+    methods:{
+        imagePath(file_path) {
+            if (file_path) {
+                return "http://localhost:5000/" + file_path;
+            } else {
+                return "http://localhost:5000/" + file_path;
+            }
+        },
+    }
+    
+
 
 };
 </script>   

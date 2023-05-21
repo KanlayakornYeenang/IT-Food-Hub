@@ -8,10 +8,15 @@ const getUserByNameAndPasword = async (email, password) => {
 
 const getUserDetailById = async (user_id) => {
   const sql =
-    "SELECT user_id, user_email, user_password,user_fname, user_lname, user_role, user_phone, user_locat FROM users WHERE user_id = ?";
-  const [rows, fields] = await db.query(sql, [user_id]);
+    "SELECT user_id, user_email, user_password, user_fname, user_lname, user_role, user_phone, user_locat, \
+    IFNULL(file_path, '') AS file_path\
+    FROM users \
+    LEFT JOIN image using (user_id) \
+    WHERE user_id = ?";
+  const [rows, fields] = await db.query(sql, [user_id]);0
   return rows[0];
 };
+
 
 const getAllUser = async () => {
   const sql = "SELECT * FROM users";
@@ -19,15 +24,18 @@ const getAllUser = async () => {
   return rows;
 };
 
-const registerUser = async (fname, lname, email, password) => {
+const registerUser = async (user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat) => {
+  console.log(user_email)
   const sql =
-    "insert into users(user_fname, user_lname, user_email, user_password, user_role) values(?,?,?,?,?)";
+    "insert into users(user_role, user_email, user_password, user_fname, user_lname,user_phone,user_locat) values(?,?,?,?,?,?,?)";
   const [rows, fields] = await db.query(sql, [
-    fname,
-    lname,
-    email,
-    password,
-    "customer",
+    user_role,
+    user_email,
+    user_password,
+    user_fname,
+    user_lname,
+    user_phone,
+    user_locat
   ]);
   return rows;
 };
@@ -37,11 +45,21 @@ const updatePassword = async (user_id, password) => {
   const [rows, fields] = await db.query(sql, [password, user_id]);
   return rows;
 };
+const updateEmail = async  (user_id, email) =>{
+  const sql = "update users set user_email= ? where user_id = ?";
+  const [rows, fields] = await db.query(sql, [email, user_id]);
+  return rows;
+}
+const updatePhone = async (user_id, phone) =>{
+  const sql = "update users set user_phone= ? where user_id = ?";
+  const [rows, fields] = await db.query(sql, [phone, user_id]);
+  return rows;
+}
 
 // test uplaad to table testimage ถ้าจะ upจริงๆ ให้ไปสร้าง table ใหม่ ตอนนี้ยังไม่มี
-const insertProfilePicture = async (image_id, file_name) => {
-  const sql = "insert into testimages(image_id, file_path) values(?,?)";
-  const [rows, fields] = await db.query(sql, [image_id, file_name]);
+const insertProfilePicture = async (file_path, picture_type, user_id) => {
+  const sql = "insert into image(file_path, picture_type, user_id) values(?,?,?)";
+  const [rows, fields] = await db.query(sql, [file_path, picture_type, user_id]);
   return rows;
 };
 
@@ -63,4 +81,7 @@ module.exports = {
   updatePassword,
   insertProfilePicture,
   updateRoleUser,
+  updateEmail,
+  updatePassword,
+  updatePhone
 };

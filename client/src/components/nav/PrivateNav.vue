@@ -22,8 +22,9 @@
           <v-btn size="small" prepend-icon="mdi-receipt-text" to="/itfoodhub/user/myorder">
             <p class="text-body-1 fw-600">รายการสั่งซื้อ</p>
           </v-btn>
-          <v-btn size="small" prepend-icon="mdi-bell">
+          <v-btn size="small" prepend-icon="mdi-bell"  @click="openDrawer"> 
             <p class="text-body-1 fw-600">การแจ้งเตือน</p>
+            <v-icon v-if="noti == '1'" icon="mdi-exclamation-thick"></v-icon>
           </v-btn>
           <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
@@ -72,21 +73,33 @@
       </v-dialog>
     </v-col>
   </v-app-bar>
+  <v-navigation-drawer
+    v-model="drawer"
+    temporary
+    location="right">
+    <ItemNoti :user="user"></ItemNoti>
+  </v-navigation-drawer>>
 </template>
 
 <script setup>
 import Cart from "@/components/cart/Cart.vue";
+import ItemNoti from "@/components/ืืnotification/ItemNoti.vue"
 </script>
 
 <script>
+import io from 'socket.io-client';
 import eventbus from "@/plugins/eventBus";
 import axios from "@/plugins/axios.js";
+import { toHandlers } from "vue";
+
 export default {
   data() {
     return {
       dialog: false,
       cart: null,
       cancle: [],
+      drawer:null,
+      noti:null
     };
   },
   props: {
@@ -95,6 +108,10 @@ export default {
     },
   },
   methods: {
+    openDrawer(){
+        this.drawer = !this.drawer;
+        this.noti = "0"
+    },
     updateCart(cart) {
       this.cart = cart;
     },
@@ -133,6 +150,7 @@ export default {
     }
   },
   mounted() {
+    this.noti = localStorage.getItem("noti")
     axios
       .get('api/cart')
       .then((res) => {
@@ -149,6 +167,13 @@ export default {
     //     this.dialog = dialog;
     //   }, 1500);
     // })
+    this.socket = io('http://localhost:4114'); // Replace with your socket server URL
+      // Listen for the 'notification_updated' event
+      this.socket.on('notification_updated', ({ getNoti, cus_id }) => {
+        if(cus_id == this.user.user_id){
+          this.noti = localStorage.getItem('noti')
+        }
+    })
   }
 };
 </script>

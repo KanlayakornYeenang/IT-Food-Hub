@@ -49,6 +49,12 @@ const showState = async (order_id) => {
   return rows;
 };
 
+const getCustomerId = async (order_id, user_id) => {
+  const sql = "select cus_id from orders where order_id = ?"
+  const [rows, fields] = await db.query(sql, order_id);
+  return rows
+}
+
 const isOrderReceived = async (user_id) => {
   const sql = "SELECT * FROM orders WHERE dlv_id = ? and order_status != 3";
   const [rows, fields] = await db.query(sql, user_id);
@@ -104,5 +110,6 @@ module.exports = {
   // gerOrderThatUserIsDelivered,
   getAllOrder,
   getMyDeliveryByDeliveryId,
-  isOrderReceived
+  isOrderReceived,
+  getCustomerId 
 };

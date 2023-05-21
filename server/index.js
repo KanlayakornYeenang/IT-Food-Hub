@@ -9,7 +9,7 @@ const port = 5000;
 // use socket.io
 updateOrderStatus(io)
 
-
+app.use(express.static('static'))
 app.use(cors());
 app.use(express.json());
 

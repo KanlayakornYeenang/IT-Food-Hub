@@ -40,7 +40,7 @@
                 </v-row>
             </v-col>
             <v-col cols="4" class="pa-0 d-flex align-center">
-                <v-avatar size="100" color="it"></v-avatar>
+                <v-avatar size="100" color="it"><v-img :src=file_path></v-img></v-avatar>
             </v-col>
         </v-row>
     </v-card>
@@ -56,6 +56,7 @@ export default {
     data() {
         return {
             user_detail: this.user,
+            file_path: 'http://localhost:5000'+ this.user.file_path,
         };
     },
 

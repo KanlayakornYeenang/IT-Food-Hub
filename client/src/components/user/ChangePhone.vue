@@ -102,8 +102,14 @@ export default {
             this.v$.$touch();
             if(!this.v$.$invalid){
                 let data ={
-                  phone: this.phone
+                  mobile: this.phone
                 }
+                axios.put("api/updatephone", data).then(res => {
+                    console.log(res)
+                    this.$router.go() 
+                }).catch(err=>{
+                    console.log(err)
+                })
             }
         }
     }
