@@ -11,17 +11,18 @@
                 </v-card-title>
             </v-card-items>
         </v-card>
-        <v-card class="pa-2 overflow-y-auto" color="itlight" elevation="0" style="height:63.5vh">
+        <v-card class="pa-2 overflow-y-auto" elevation="0" style="height:63.5vh">
             <v-card-items>
                 <AddImageSection />
-                <AddFoodNameSection />
-                <AddFoodDetailSection />
-                <FoodOptionsSection :categories="categories"/>
+                <AddFoodNameSection @updateMenuSchema="updateMenuSchema"/>
+                <AddFoodDescriptionSection @updateMenuSchema="updateMenuSchema"/>
+                <FoodOptionsSection :categories="categories" @updateMenuSchema="updateMenuSchema"/>
             </v-card-items>
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
+            <p>{{ menuSchema }}</p>
             <v-card-items class="d-flex justify-center">
-                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0">ตรวจสอบเมนู</v-btn>
+                <v-btn size="large" class="text-success text-h5 fw-600" elevation="0" @click="createMenu">ยืนยัน</v-btn>
             </v-card-items>
         </v-card>
     </v-card>
@@ -30,16 +31,18 @@
 <script setup>
 import AddImageSection from "@/components/myrestaurant/AddImageSection.vue";
 import AddFoodNameSection from "@/components/myrestaurant/AddFoodNameSection.vue";
-import AddFoodDetailSection from "@/components/myrestaurant/AddFoodDetailSection.vue";
+import AddFoodDescriptionSection from "@/components/myrestaurant/AddFoodDescriptionSection.vue";
 import FoodOptionsSection from "@/components/myrestaurant/FoodOptionsSection.vue";
 </script>
 
 <script>
 import eventbus from "@/plugins/eventBus";
+import axios from "@/plugins/axios";
+
 export default {
     data() {
         return {
-        //
+            menuSchema: { menu_name: null, menu_desc: null, menu_cat: null, options: [], menu_price: null }
         };
     },
     props: {
@@ -50,7 +53,18 @@ export default {
     methods: {
         handleClose() {
             eventbus.emit('updateButton', 'close')
+        },
+        updateMenuSchema(menuSchema) {
+            this.menuSchema = Object.assign(this.menuSchema, menuSchema)
+        },
+        createMenu() {
+            axios.post("partner/createMenu", this.menuSchema)
         }
     },
+    mounted() {
+        eventbus.on('updateMenuSchema', options => {
+            this.menuSchema = Object.assign(this.menuSchema, {options:options})
+        })
+    }
 }
 </script>

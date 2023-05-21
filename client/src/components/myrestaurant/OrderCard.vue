@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="delivery_person">
         <v-card rounded="lg" :disabled="order.order_status > 1">
             <v-card elevation="0"><v-card-item>
                     <div>
@@ -9,13 +9,14 @@
                             </div>
                             <div class="d-flex align-center">
                                 <div class="d-flex align-center mx-1">
-                                <v-icon size="small" class="text-grey mr-1">mdi-account-circle</v-icon>
-                                <p class="fw-600">{{ delivery_person.user_fname + " " + delivery_person.user_lname }}</p>
-                            </div>
-                            <div class="d-flex align-center ml-1">
-                                <v-icon size="x-small" class="text-grey mr-1">mdi-phone</v-icon>
-                                <p class="fw-600">{{ delivery_person.user_phone }}</p>
-                            </div>
+                                    <v-icon size="small" class="text-grey mr-1">mdi-account-circle</v-icon>
+                                    <p class="fw-600">{{ delivery_person.user_fname + " " + delivery_person.user_lname }}
+                                    </p>
+                                </div>
+                                <div class="d-flex align-center ml-1">
+                                    <v-icon size="x-small" class="text-grey mr-1">mdi-phone</v-icon>
+                                    <p class="fw-600">{{ delivery_person.user_phone }}</p>
+                                </div>
                             </div>
                         </div>
                         <div class="d-flex align-center justify-space-between my-2">
@@ -85,8 +86,8 @@ export default {
         }
     },
     mounted() {
-        for (let i = 0; i < this.order.length; i++) {
-            this.checkbox.push(false)
+        for (let i = 0; i < this.menu.length; i++) {
+            this.checkbox.push(this.order.order_status > 1);
         }
         this.convertTime();
         this.addTime();

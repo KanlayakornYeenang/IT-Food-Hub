@@ -1,8 +1,7 @@
 <template>
     <div>
         <v-container fluid class="pa-0">
-            <Header v-if="restaurant" :restaurant="restaurant" :categories="tabs"
-                :buttons="['เพิ่มหมวดหมู่', 'เพิ่มเมนู']" />
+            <Header v-if="restaurant" :restaurant="restaurant" :categories="tabs" :buttons="['เพิ่มเมนู']" />
         </v-container>
         <v-container fluid class="pa-0 bg-grey-lighten-4">
             <v-divider></v-divider>
@@ -24,11 +23,8 @@
                         </v-row>
                     </v-col>
                 </div>
-                <v-dialog v-model="addMenuCategory" scroll-strategy="none" width="600">
-                    <AddMenuCategory :categories="categories"/>
-                </v-dialog>
                 <v-dialog v-model="addMenu" scroll-strategy="none" width="750">
-                    <AddMenu :categories="categories"/>
+                    <AddMenu :categories="categories" />
                 </v-dialog>
             </div>
         </v-container>
@@ -38,7 +34,6 @@
 <script setup>
 import Header from "@/components/restaurant/Header.vue";
 import OrderCard from "@/components/myrestaurant/OrderCard.vue";
-import AddMenuCategory from "@/components/myrestaurant/AddMenuCategory.vue";
 import AddMenu from "@/components/myrestaurant/AddMenu.vue";
 </script>
   
@@ -57,9 +52,8 @@ export default {
             restaurant: null,
             categories: null,
             orders: null,
-            tabs: [{ "menu_cat": "คำสั่งซื้อ" }, { "menu_cat": "แก้ไขร้านอาหาร" }],
+            tabs: [{ "menu_cat": "คำสั่งซื้อ" }],
             tab_click: "คำสั่งซื้อ",
-            addMenuCategory: false,
             addMenu: false,
         };
     },
@@ -84,12 +78,8 @@ export default {
             if (button == "เพิ่มเมนู") {
                 this.addMenu = true
             }
-            else if (button == "เพิ่มหมวดหมู่") {
-                this.addMenuCategory = true
-            }
             else {
                 this.addMenu = false
-                this.addMenuCategory = false
             }
         })
     },

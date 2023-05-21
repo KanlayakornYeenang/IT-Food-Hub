@@ -1,6 +1,6 @@
 <template>
     <div class="w-100">
-        <v-card class="w-100 pa-5 my-3" v-for="option, option_index in options" :key="option_index">
+        <v-card color="itlight" class="w-100 pa-5 my-3" v-for="option, option_index in options" :key="option_index">
             <v-row class="align-center">
                 <v-col cols="4">
                     <p class="fw-400">ชื่อกลุ่มตัวเลือก</p>
@@ -38,24 +38,32 @@
             <v-row class="d-flex flex-column bg-grey-lighten-4 rounded">
                 <v-col>
                     <p class="fw-400">ลูกค้าจำเป็นต้องเลือกตัวเลือกนี้หรือไม่ ?</p>
-                    <v-radio-group hide-details>
-                        <v-radio value="0">
-                            <template v-slot:label><p class="fw-400">ไม่จำเป็น</p></template>
+                    <v-radio-group hide-details v-model="option.option_type">
+                        <v-radio :value=0>
+                            <template v-slot:label>
+                                <p class="fw-400">ไม่จำเป็น</p>
+                            </template>
                         </v-radio>
-                        <v-radio value="1">
-                            <template v-slot:label><p class="fw-400">จำเป็น</p></template>
+                        <v-radio :value=1>
+                            <template v-slot:label>
+                                <p class="fw-400">จำเป็น</p>
+                            </template>
                         </v-radio>
                     </v-radio-group>
                 </v-col>
                 <v-divider></v-divider>
                 <v-col>
                     <p class="fw-400">ลูกค้าสามารถเลือกตัวเลือกย่อยได้กี่อย่าง ?</p>
-                    <v-radio-group hide-details>
-                        <v-radio value="0">
-                            <template v-slot:label><p class="fw-400">หลายอย่าง</p></template>
+                    <v-radio-group hide-details v-model="option.max_optional">
+                        <v-radio :value=0>
+                            <template v-slot:label>
+                                <p class="fw-400">หลายอย่าง</p>
+                            </template>
                         </v-radio>
-                        <v-radio value="1">
-                            <template v-slot:label><p class="fw-400">1 อย่าง</p></template>
+                        <v-radio :value=1>
+                            <template v-slot:label>
+                                <p class="fw-400">1 อย่าง</p>
+                            </template>
                         </v-radio>
                     </v-radio-group>
                 </v-col>
@@ -66,6 +74,7 @@
 </template>
 
 <script>
+import eventbus from '@/plugins/eventBus';
 export default {
     data() {
         return {
@@ -74,7 +83,7 @@ export default {
     },
     methods: {
         addOption() {
-            this.options.push({ option_name: null, items: [{ item_name: null, item_price: null }] });
+            this.options.push({ option_name: null, items: [{ item_name: null, item_price: null }], option_type:0, max_optional:0});
         },
         addItem(index) {
             this.options[index].items.push({ item_name: null, item_price: null })
@@ -87,6 +96,7 @@ export default {
             if (this.options[option_index].items[last_index_item].item_name.length > 0) {
                 this.addItem(option_index)
             }
+            eventbus.emit('updateMenuSchema', this.options)
         },
         removeItem(option_index, item_index) {
             this.options[option_index].items.splice(item_index, 1);

@@ -1,4 +1,3 @@
-const { createOrder, getAllCarts } = require("../../models/orders");
 const {
   addMenuToCart,
   findCartItem,
@@ -119,17 +118,6 @@ const placeOrder = async (req, res) => {
     res.status(500).json({ message: "Error placing the order", error: err });
   }
 };
-
-// const getCart = async (req, res) => {
-//   const user_id = req.user.user_id;
-//   try {
-//     const result = await getAllCarts(user_id);
-//     const cartGroped = gropMenu(result);
-//     res.status(200).json(cartGroped);
-//   } catch (err) {
-//     res.send(err);
-//   }
-// };
 
 // แสดงออเดอร์ของฉันตาม order_id ใน params
 const getMyOrderByOrderId = async (req, res) => {
