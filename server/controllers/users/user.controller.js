@@ -1,83 +1,14 @@
-const jwt = require("jsonwebtoken");
+const Joi = require('joi');
+const shortid = require('shortid');
 const {
-  getUserByNameAndPasword,
   getUserDetailById,
   registerUser,
-  getAllUser,
   updatePassword,
   insertProfilePicture,
   updateRoleUser,
   updateEmail,
   updatePhone
 } = require("../../models/users");
-
-
-const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const result = await getUserByNameAndPasword(email, password);
-
-    if (result) {
-      const user = result;
-      const token = jwt.sign(
-        {
-          user_id: user.user_id,
-          user_role: user.user_role,
-          user_email: user.user_email,
-        },
-        "mySecretKey",
-        {
-          expiresIn: "1d",
-        }
-      );
-      return res.json({
-        success: true,
-        message: "Login successful",
-        token,
-        user_detail: user,
-      });
-    }
-    return res
-      .status(401)
-      .json({ success: false, message: "Invalid email or password" });
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
-
-const getDetail = async (req, res) => {
-  try {
-    const user_id = req.user.user_id
-    const result = await getUserDetailById(user_id);
-    console.log("result: " + result)
-    return res.json(result);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
-
-
-
-
-const insertPictureProfile = async (req, res) => {
-  const user_id = req.params.id
-  const file = req.file;
-  if (!file) {
-    const error = new Error("Please upload a file");
-    error.httpStatusCode = 400;
-    return res.json(error);
-  }
-  else{
-    try{
-      const file_path = file.path.substring(6)
-      result = await insertProfilePicture(file_path,"profile",user_id)
-      return res.send(result)
-    }catch(error){
-      res.send(error)
-    }
-  }
-};
 
 const changeRoleUser = async (req, res) => {
   const file = req.file;
@@ -99,19 +30,46 @@ const changeRoleUser = async (req, res) => {
   }
 };
 
-// --------------------------------- update Detial user
+const getDetail = async (req, res) => {
+  try {
+    const user_id = req.user.user_id
+    const result = await getUserDetailById(user_id);
+    console.log("result: " + result)
+    return res.json(result);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
 
-const Joi = require('joi');
+const insertPictureProfile = async (req, res) => {
+  const user_id = req.params.id
+  const file = req.file;
+  if (!file) {
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return res.json(error);
+  }
+  else{
+    try{
+      const file_path = file.path.substring(6)
+      result = await insertProfilePicture(file_path,"profile",user_id)
+      return res.send(result)
+    }catch(error){
+      res.send(error)
+    }
+  }
+};
 
 const passwordValidator = (value, helpers) => {
-    if (value.length < 8) {
-        throw new Joi.ValidationError('Password must contain at least 8 characters')
-    }
-    if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
-        throw new Joi.ValidationError('Password must be harder')
-     }
-     return value
+  if (value.length < 8) {
+      throw new Joi.ValidationError('Password must contain at least 8 characters')
+  }
+  if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
+      throw new Joi.ValidationError('Password must be harder')
+   }
+   return value
 }
+
 const registerSchema = Joi.object({
   first_name : Joi.string().required().min(5),
   last_name : Joi.string().required().min(5),
@@ -180,7 +138,6 @@ const changePhone = async (req, res) =>{
 }
 
 const registerOfUser = async (req, res) => {
-  console.log(req.body)
   try{
     await registerSchema.validateAsync(req.body, {abortEarly: false})
   }catch(err){
@@ -193,8 +150,17 @@ const registerOfUser = async (req, res) => {
   const user_lname = req.body.last_name
   const user_phone = req.body.phone
   const user_locat = req.body.location
+
+  let generatedId;
+  let isIDExist = true;
+  while (isIDExist) {
+    const desiredLength = 5;
+    generatedId = shortid.generate().substring(0, desiredLength);
+    isIDExist = await getUserDetailById(generatedId);
+  }
+  
   try{
-    const result = await registerUser(user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat)
+    const result = await registerUser(generatedId, user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat)
     res.status(200).send(result)
   }catch(err){
     res.status(404).send(err.message)
@@ -202,7 +168,6 @@ const registerOfUser = async (req, res) => {
 };
 
 module.exports = {
-  login,
   getDetail,
   registerOfUser,
   changePasswordUser,

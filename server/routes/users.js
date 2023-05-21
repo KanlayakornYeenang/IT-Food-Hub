@@ -1,31 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const verify = require("../middleware/verify");
-const requireRole = require("../middleware/requireRole");
-const { users } = require("../controllers/auth");
+const { login, user } = require("../controllers/users");
 const upload = require("../middleware/multer");
 const { customers } = require("../controllers/customers");
-const {notification} = require("../controllers/notification");
+const { notification } = require("../controllers/notification");
+
 // for user login
-router.post("/login", users.login);
+router.post("/login", login);
 
 // for get user detail
-router.get("/user", verify, users.getDetail);
+router.get("/user", verify, user.getDetail);
 
 // for register user
-router.post("/register", users.registerOfUser);
+router.post("/register", user.registerOfUser);
 
 // for update password
-router.put("/updatepassword", verify, users.changePasswordUser);
+router.put("/updatepassword", verify, user.changePasswordUser);
+
 // for update email
-router.put("/updateemail", verify, users.changeEmail)
+router.put("/updateemail", verify, user.changeEmail);
+
 // for update phone
-router.put("/updatephone", verify, users.changePhone)
+router.put("/updatephone", verify, user.changePhone);
+
 // for upload profile picture /test
 router.post(
   "/uploadprofile/:id",
   upload.single("image"),
-  users.insertPictureProfile
+  user.insertPictureProfile
 );
 
 // for update role
@@ -33,7 +36,7 @@ router.put(
   "/updaterole/:role",
   verify,
   upload.single("image"),
-  users.changeRoleUser
+  user.changeRoleUser
 );
 
 // for create orders
@@ -46,24 +49,14 @@ router.get("/cart", verify, customers.createCart);
 
 router.patch("/updateQuantity", verify, customers.updateQuantity);
 
-router.delete("/deleteMenu", verify, customers.deleteMenu)
+router.delete("/deleteMenu", verify, customers.deleteMenu);
 
-router.post("/placeOrder", verify, customers.placeOrder)
+router.post("/placeOrder", verify, customers.placeOrder);
 
-router.get("/myOrder", verify, customers.getAllMyOrder)
+router.get("/myOrder", verify, customers.getAllMyOrder);
 
-router.get("/myOrder/:order_id", verify, customers.getMyOrderByOrderId)
+router.get("/myOrder/:order_id", verify, customers.getMyOrderByOrderId);
 
-router.get("/notifyOrder", verify, notification.getAllNotifi)
+router.get("/notifyOrder", verify, notification.getAllNotifi);
 
 module.exports = router;
-
-// for get all cart items
-// router.get("/getcarts", verify, customers.getCart);
-
-// for get Order By id
-// router.get(
-//   "/getcheckoutbyparams/:orderID",
-//   verify,
-//   customers.getCheckoutByOrder
-// );
