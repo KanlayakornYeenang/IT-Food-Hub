@@ -30,7 +30,6 @@ router.post(
   upload.single("image"),
   user.insertPictureProfile
 );
-
 // for register merchant
 router.post("/registermerchant",verify, upload.single("file"), user.registermerchant)
 

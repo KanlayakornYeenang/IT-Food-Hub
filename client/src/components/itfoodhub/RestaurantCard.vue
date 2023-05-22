@@ -9,7 +9,7 @@
     <v-img
       cover
       height="180"
-      :src="(restaurant.file_path !=null) ? file_path :second_file_path"
+      src="https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon-614x460.png"
     ></v-img>
     <v-card-item class="pa-3">
       <v-card-title class="d-flex justify-space-between"
@@ -28,8 +28,7 @@
 export default {
   data() {
     return {
-      file_path: 'http://localhost:5000'+ this.restaurant.file_path,
-      second_file_path: 'https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon-614x460.png'
+      //
     };
   },
   props: {

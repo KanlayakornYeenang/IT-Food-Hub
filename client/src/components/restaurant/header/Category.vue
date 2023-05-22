@@ -35,7 +35,6 @@ export default {
       eventbus.emit('updateCategory', category)
     },
     updateButton(button) {
-      console.log(button)
       eventbus.emit('updateButton', button)
     }
   },

@@ -17,11 +17,12 @@ const getUserDetailById = async (user_id) => {
   return rows[0];
 };
 
-const registerUser = async ( user_id,user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat) => {
+const registerUser = async (user_id, user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat) => {
   console.log(user_email)
   const sql =
-    "insert into users(user_id, user_role, user_email, user_password, user_fname, user_lname,user_phone,user_locat) values( ?,?,?,?,?,?,?)";
+    "insert into users(user_id, user_role, user_email, user_password, user_fname, user_lname,user_phone,user_locat) values(?, ?,?,?,?,?,?,?)";
   const [rows, fields] = await db.query(sql, [
+    user_id,
     user_role,
     user_email,
     user_password,

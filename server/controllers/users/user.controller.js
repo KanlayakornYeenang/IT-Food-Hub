@@ -10,7 +10,6 @@ const {
   insertResPicture,
   selectIdRest
 } = require("../../models/users");
-const shortid = require('shortid');
 
 const getDetail = async (req, res) => {
   try {
@@ -182,6 +181,7 @@ const changePhone = async (req, res) =>{
 }
 
 const registerOfUser = async (req, res) => {
+  console.log(req.body)
   try{
     await registerSchema.validateAsync(req.body, {abortEarly: false})
   }catch(err){
@@ -194,17 +194,8 @@ const registerOfUser = async (req, res) => {
   const user_lname = req.body.last_name
   const user_phone = req.body.phone
   const user_locat = req.body.location
-
-  let generatedId;
-  let isIDExist = true;
-  while (isIDExist) {
-    const desiredLength = 5;
-    generatedId = shortid.generate().substring(0, desiredLength);
-    isIDExist = await getUserDetailById(generatedId);
-  }
-  
   try{
-    const result = await registerUser(generatedId, user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat)
+    const result = await registerUser(user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat)
     res.status(200).send(result)
   }catch(err){
     res.status(404).send(err.message)

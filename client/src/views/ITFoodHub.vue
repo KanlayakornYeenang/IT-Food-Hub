@@ -1,7 +1,8 @@
 <template>
   <div >
     <v-container fluid class="pa-0" style="height:390px">
-      <Header  @categorySelected2="handleCategorySelected2"/>
+      <Header />
+
     </v-container>
     <v-container fluid class="pa-0 bg-grey-lighten-4">
       <v-divider></v-divider>
@@ -33,7 +34,6 @@ export default {
   data() {
     return {
       restaurants: null,
-      cate:null,
     };
   },
   props: {
@@ -53,28 +53,12 @@ export default {
         this.$router.push("/");
       });
   },
-  methods: {
-    handleCategorySelected2(category) {
-      this.cate = category
-      console.log(this.cate )
-      // this.restaurants = this.restaurants.filter(res => res.cat_name.toLowerCase().includes(this.cate.toLowerCase()))
-    }
-  },
   computed:{
     filteredRes(){
       if(!this.restaurants){
         return []
       }
-      if(this.restaurants){
-        if(this.cate!= null){
-          return this.restaurants.filter(res => res.cat_name == this.cate)
-        }
-        if(this.cate == null){
-          console.log("null")
-          return this.restaurants
-        }
-        return this.restaurants.filter(res => res.rst_name.toLowerCase().includes(this.searchText.toLowerCase()))
-      }
+      return this.restaurants.filter(res => res.rst_name.toLowerCase().includes(this.searchText.toLowerCase()))
     }
   },
 };

@@ -8,8 +8,6 @@ const {
   insertMenu,
   insertMenuOption,
   insertMenuItem,
-  insertPicMenu,
-  getMenuItem
   updateMenu,
   updateMenuOption,
   updateMenuItem,
@@ -76,14 +74,9 @@ const getMyRestaurant = async (req, res) => {
 };
 
 const createMenu = async (req, res) => {
-
-  const user_id = req.user.user_id
-  const file = req.file
-  if(!file){
-    return res.status(400).json({ message: "Please upload a file" });
-  }
   try {
     const { menu_name, menu_desc, menu_cat, options, menu_price } = req.body;
+
     const restaurant = await getMyRestaurantByUserId(req.user.user_id);
     const add_menu = await insertMenu(
       restaurant.rst_id,
@@ -92,10 +85,6 @@ const createMenu = async (req, res) => {
       menu_cat,
       menu_price || 0
     );
-    //ใส่ส่รูป
-    const file_path = file.path.substring(6)
-    console.log(file_path)
-    const picture = await insertPicMenu(file_path, "menu", add_menu.insertId,)
 
     for (let i = 0; i < options.length; i++) {
       const add_menu_option = await insertMenuOption(
@@ -114,7 +103,7 @@ const createMenu = async (req, res) => {
       }
     }
   } catch (err) {
-    res.send(err.message)
+    console.log(err);
   }
 };
 
