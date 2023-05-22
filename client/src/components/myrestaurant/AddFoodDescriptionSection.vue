@@ -17,9 +17,14 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers, maxLength } from '@vuelidate/validators'
 
 export default {
-    setup() {
+    props: {
+        menu_desc: {
+            type: String
+        }
+    },
+    setup(props) {
         const menuSchema = {
-            description: '',
+            description: props.menu_desc,
         }
         const state = reactive({
             ...menuSchema,
