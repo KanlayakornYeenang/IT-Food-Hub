@@ -55,6 +55,7 @@ export default {
       .then((res) => {
         this.restaurant = res.data.restaurant;
         this.categories = res.data.category
+        console.log(this.categories)
       })
       .catch((err) => {
         this.$router.push("/");

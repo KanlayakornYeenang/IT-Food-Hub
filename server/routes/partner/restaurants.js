@@ -8,7 +8,7 @@ const upload = require("../../middleware/multer")
 // for show restaurant owner
 router.get("/myrestaurant", verify, restaurants.getMyRestaurant)
 
-router.post("/createMenu", verify, restaurants.createMenu)
+router.post("/createMenu", verify,upload.single("file"), restaurants.createMenu)
 
 router.patch("/editMenu", verify, restaurants.editMenu)
 
