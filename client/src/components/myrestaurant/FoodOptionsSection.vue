@@ -25,13 +25,13 @@
                     <p class="text-h6 fw-600 text-it">กลุ่มตัวเลือกสินค้า</p>
                 </v-col>
                 <v-col class="d-flex pa-0">
-                    <AddFoodOptionComponent :options="options"/>
+                    <AddFoodOption />
                 </v-col>
             </div>
             <v-divider></v-divider>
-            <div class="d-flex py-2 my-3">
+            <div class="d-flex align-center py-2 my-3">
                 <v-col class="d-flex pa-0" cols="4">
-                    <p class="text-h6 fw-600 text-it mt-2">ราคา <span class="text-red">*</span></p>
+                    <p class="text-h6 fw-600 text-it">ราคา <span class="text-red">*</span></p>
                 </v-col>
                 <v-col class="d-flex pa-0">
                     <v-text-field v-model="state.price"
@@ -44,67 +44,51 @@
     </v-col>
 </template>
 
-<script>
+<script setup>
+import AddFoodOption from "@/components/myrestaurant/AddFoodOption.vue";
 import { reactive, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers, numeric, between, maxLength } from '@vuelidate/validators'
-import AddFoodOption from "@/components/myrestaurant/AddFoodOption.vue";
 
-export default {
-    props: {
-        categories: {
-            type: Object
-        },
-        menu_cat: {
-            type: String
-        },
-        menu_price: {
-            type: Number
-        },
-        options: {
-            type: Array
-        }
+const menuSchema = {
+    category: '',
+    price: '',
+}
+const state = reactive({
+    ...menuSchema,
+})
+const rules = {
+    category: {
+        required: helpers.withMessage('กรุณากรอกหมวดหมู่', required),
+        maxLength: helpers.withMessage('กรุณากรอกไม่เกิน 20 ตัวอักษร', maxLength(20)),
     },
-    components: {
-        AddFoodOptionComponent: AddFoodOption
-    },
-    setup(props) {
-        const menuSchema = {
-            category: props.menu_cat,
-            price: props.menu_price,
-        }
-        const state = reactive({
-            ...menuSchema,
+    price: {
+        required: helpers.withMessage('กรุณากรอกราคา', required),
+        numeric: helpers.withMessage('กรุณากรอกราคาให้ถูกต้อง', numeric),
+        between: helpers.withMessage('ราคาที่สามารถกรอกได้คือ 0-1000 บาท', between(0, 1000)),
+        decimal: helpers.withMessage('กรุณากรอกราคาให้ถูกต้อง', (value) => {
+            if (value !== null && value !== undefined) {
+                const regex = /^-?\d+(\.\d{1,2})?$/;
+                return regex.test(value.toString())
+            }
+            return true
         })
-        const rules = {
-            category: {
-                required: helpers.withMessage('กรุณากรอกหมวดหมู่', required),
-                maxLength: helpers.withMessage('กรุณากรอกไม่เกิน 20 ตัวอักษร', maxLength(20)),
-            },
-            price: {
-                required: helpers.withMessage('กรุณากรอกราคา', required),
-                numeric: helpers.withMessage('กรุณากรอกราคาให้ถูกต้อง', numeric),
-                between: helpers.withMessage('ราคาที่สามารถกรอกได้คือ 0-1000 บาท', between(0, 1000)),
-                decimal: helpers.withMessage('กรุณากรอกราคาให้ถูกต้อง', (value) => {
-                    if (value !== null && value !== undefined) {
-                        const regex = /^-?\d+(\.\d{1,2})?$/;
-                        return regex.test(value.toString())
-                    }
-                    return true
-                })
-            },
-        }
-        const v$ = useVuelidate(rules, state)
-
-        return {
-            state,
-            v$,
-        }
     },
+}
+const v$ = useVuelidate(rules, state)
+</script>
+
+<script>
+export default {
     data() {
         return {
             items: null,
-            category: this.menu_cat,
+            category: null,
+        }
+    },
+    props: {
+        categories: {
+            type: Object
         }
     },
     watch: {
@@ -120,6 +104,6 @@ export default {
                 this.$emit('updateMenuSchema', menuSchema)
             }
         }
-    },
+    }
 }
 </script>

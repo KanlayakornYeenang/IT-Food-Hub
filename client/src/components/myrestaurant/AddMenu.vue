@@ -13,13 +13,14 @@
         </v-card>
         <v-card class="pa-2 overflow-y-auto" elevation="0" style="height:63.5vh">
             <v-card-items>
-                <AddImageSection @updateMenuSchema="updateMenuSchema"/>
+                <AddImageSection />
                 <AddFoodNameSection @updateMenuSchema="updateMenuSchema"/>
                 <AddFoodDescriptionSection @updateMenuSchema="updateMenuSchema"/>
                 <FoodOptionsSection :categories="categories" @updateMenuSchema="updateMenuSchema"/>
             </v-card-items>
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
+            <p>{{ menuSchema }}</p>
             <v-card-items class="d-flex justify-center">
                 <v-btn size="large" class="text-success text-h5 fw-600" elevation="0" @click="createMenu">ยืนยัน</v-btn>
             </v-card-items>
@@ -41,13 +42,13 @@ import axios from "@/plugins/axios";
 export default {
     data() {
         return {
-            menuSchema: { menu_name: null, menu_desc: null, menu_cat: null, options: [], menu_price: null, file:null }
+            menuSchema: { menu_name: null, menu_desc: null, menu_cat: null, options: [], menu_price: null }
         };
     },
     props: {
         categories: {
             type: Object
-        },
+        }
     },
     methods: {
         handleClose() {
@@ -57,21 +58,12 @@ export default {
             this.menuSchema = Object.assign(this.menuSchema, menuSchema)
         },
         createMenu() {
-            let formData = new FormData();
-                formData.append("menu_name", this.menuSchema.menu_name);
-                formData.append("menu_desc", this.menuSchema.menu_desc);
-                formData.append("menu_cat", this.menuSchema.menu_cat);
-                formData.append("options", this.menuSchema.options);
-                formData.append("menu_price", this.menuSchema.menu_price);  
-                formData.append("file",this.menuSchema.file);  
-                axios.post("partner/createMenu", formData).then(res=>console.log(res)).catch(err=>console.log(err.message))
-            this.handleClose()
             axios.post("partner/createMenu", this.menuSchema)
         }
     },
     mounted() {
         eventbus.on('updateMenuSchema', options => {
-            this.menuSchema = Object.assign(this.menuSchema, { options: options })
+            this.menuSchema = Object.assign(this.menuSchema, {options:options})
         })
     }
 }

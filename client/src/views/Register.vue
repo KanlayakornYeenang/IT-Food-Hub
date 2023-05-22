@@ -193,7 +193,7 @@ export default {
                     location:this.location
                 }
                 axios.post("api/register", data).then(res=>{
-                    window.location.href = "/";
+                    console.log(res)
                 }).catch(err=>{
                     console.log(err)
                 })

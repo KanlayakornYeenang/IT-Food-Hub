@@ -7,17 +7,7 @@ const {
   getOrderDetailByOrderID,
   insertMenu,
   insertMenuOption,
-  insertMenuItem,
-  insertPicMenu,
-  getMenuItem
-  updateMenu,
-  updateMenuOption,
-  updateMenuItem,
-  deleteItem,
-  deleteOption,
-  isOptionExist,
-  isItemExist,
-  deleteMenuByID
+  insertMenuItem
 } = require("../../models/restaurants");
 const { getUserDetailById } = require("../../models/users");
 
@@ -76,26 +66,17 @@ const getMyRestaurant = async (req, res) => {
 };
 
 const createMenu = async (req, res) => {
-
-  const user_id = req.user.user_id
-  const file = req.file
-  if(!file){
-    return res.status(400).json({ message: "Please upload a file" });
-  }
   try {
     const { menu_name, menu_desc, menu_cat, options, menu_price } = req.body;
+
     const restaurant = await getMyRestaurantByUserId(req.user.user_id);
     const add_menu = await insertMenu(
       restaurant.rst_id,
       menu_name,
       menu_desc,
       menu_cat,
-      menu_price || 0
+      menu_price
     );
-    //ใส่ส่รูป
-    const file_path = file.path.substring(6)
-    console.log(file_path)
-    const picture = await insertPicMenu(file_path, "menu", add_menu.insertId,)
 
     for (let i = 0; i < options.length; i++) {
       const add_menu_option = await insertMenuOption(
@@ -113,113 +94,8 @@ const createMenu = async (req, res) => {
         );
       }
     }
-  } catch (err) {
-    res.send(err.message)
-  }
+  } catch (err) {}
 };
-
-const editMenu = async (req, res) => {
-  try {
-    const menu_id = req.body.menu_id;
-    let { menu_name, menu_desc, menu_cat, options, menu_price } =
-      req.body.menuSchema;
-    const editMenu = await updateMenu(
-      menu_id,
-      menu_name,
-      menu_desc,
-      menu_cat,
-      menu_price || 0
-    );
-    for (let i = 0; i < options.length; i++) {
-      const editMenuOption = await updateMenuOption(
-        options[i].option_id,
-        options[i].option_name,
-        options[i].option_type,
-        options[i].max_optional
-      );
-
-      for (let j = 0; j < options[i].items.length; j++) {
-        const editMenuItem = await updateMenuItem(
-          options[i].items[j].item_id,
-          options[i].items[j].item_name,
-          options[i].items[j].item_price
-        );
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const deleteItems = async (req, res) => {
-  const options = req.query;
-  const result = [];
-  for (const key in options) {
-    result.push(options[key]);
-  }
-  for (let i = 0; i < result.length; i++) {
-    const del_item = await deleteItem(result[i].item_id);
-  }
-};
-
-const deleteOptions = async (req, res) => {
-  const options = req.query;
-  const result = [];
-  for (const key in options) {
-    result.push(options[key]);
-  }
-  for (let i = 0; i < result.length; i++) {
-    const del_option = await deleteOption(result[i].option_id);
-  }
-};
-
-const createOption = async (req, res) => {
-  const menu_id = req.body.menu_id;
-  const options = req.body.menuSchema.options;
-  for (let i = 0; i < options.length; i++) {
-    const [checkOption] = await isOptionExist(menu_id, options[i].option_name);
-    if (checkOption == undefined) {
-      const add_menu_option = await insertMenuOption(
-        menu_id,
-        options[i].option_name,
-        options[i].option_type,
-        options[i].max_optional
-      );
-
-      for (let j = 0; j < options[i].items.length; j++) {
-        const [checkItem] = await isItemExist(options[i].option_id, options[i].items[j].item_name);
-        if (checkItem == undefined && options[i].items[j].item_name != null) {
-          const add_menu_item = await insertMenuItem(
-            add_menu_option.insertId,
-            options[i].items[j].item_name,
-            options[i].items[j].item_price || 0
-          );
-        }
-      }
-    }
-  }
-};
-
-const createItem = async (req, res) => {
-  const menu_id = req.body.menu_id;
-  const options = req.body.menuSchema.options;
-  for (let i = 0; i < options.length; i++) {
-      for (let j = 0; j < options[i].items.length; j++) {
-        const [checkItem] = await isItemExist(options[i].option_id, options[i].items[j].item_name);
-        if (checkItem == undefined && options[i].items[j].item_name != null) {
-          const add_menu_item = await insertMenuItem(
-            options[i].option_id,
-            options[i].items[j].item_name,
-            options[i].items[j].item_price || 0
-          );
-        }
-      }
-  }
-};
-
-const deleteMenu = async (req, res) => {
-  const del_menu = await deleteMenuByID(req.query.menu_id)
-}
 
 module.exports = {
   getRestaurants,
@@ -227,10 +103,4 @@ module.exports = {
   getMenu,
   getMyRestaurant,
   createMenu,
-  editMenu,
-  deleteItems,
-  deleteOptions,
-  createOption,
-  createItem,
-  deleteMenu
 };

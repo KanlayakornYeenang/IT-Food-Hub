@@ -8,7 +8,7 @@
       <v-card-items>
         <v-card-title class="mt-2 d-flex justify-space-between">
           <p class="text-h5 fw-600">{{ menu.menu_name }}</p>
-          <p class="text-h5 fw-600">{{ parseFloat(menu.menu_price) }}</p>
+          <p class="text-h5 fw-600">{{ menu.menu_price }}</p>
         </v-card-title>
       </v-card-items>
     </v-card>
@@ -17,32 +17,35 @@
         <div class="d-flex align-center">
           <v-card-title class="d-flex">
             <p>{{ option.option_name }}</p>
-            <p v-if="option.option_type == 1" class="mx-1 text-red">
+            <p v-if="option.option_type == 'require'" class="mx-1 text-red">
               *
             </p>
           </v-card-title><v-card-subtitle class="pa-0 pt-1 d-flex">
-            <p v-if="option.option_type == 1">เลือก</p>
-            <p v-if="option.max_optional == 1" class="mx-1">1</p>
+            <p v-if="option.option_type == 'require'">เลือก</p>
+            <p v-else>เลือกได้สูงสุด</p>
+            <p class="mx-1">{{ option.max_optional }}</p>
           </v-card-subtitle>
         </div>
         <v-card-text class="pr-0 pl-2 py-0">
-          <div v-if="(option.option_type == 1) && option.max_optional == 1">
-            <Radio :option_id="option.option_id" :option="option.item" @update-radio="update" />
+          <div v-if="
+            (option.option_type == 0)
+          ">
+            <Checkbox :option_id="option.option_id" :option="option.item" @update-checkbox="update" />
           </div>
           <div v-else>
-            <Checkbox :option_id="option.option_id" :option="option.item" @update-checkbox="update" />
+            <Radio :option_id="option.option_id" :option="option.item" @update-radio="update" />
           </div>
         </v-card-text>
       </v-card-items>
     </v-card>
     <v-card elevation="0">
-      <!-- <div class="d-flex align-center">
+      <div class="d-flex align-center">
         <v-card-title> หมายเหตุถึงร้านอาหาร </v-card-title><v-card-subtitle
           class="pa-0 pt-1">ไม่จำเป็นต้องระบุ</v-card-subtitle>
       </div>
       <v-text-field class="mx-5 mb-5" hide-details variant="outlined"
         placeholder="ระบุรายละเอียดคำขอ (ขึ้นอยู่กับดุลยพินิจของร้าน)"></v-text-field>
-      <v-divider></v-divider> -->
+      <v-divider></v-divider>
       <v-card-items>
         <v-card-actions class="ma-5">
           <v-col cols="4" class="pa-0 pr-4 d-flex align-center justify-space-between">
