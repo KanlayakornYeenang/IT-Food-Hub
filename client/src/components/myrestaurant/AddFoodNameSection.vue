@@ -16,9 +16,22 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers, maxLength } from '@vuelidate/validators'
 
 export default {
-    setup() {
+    props: {
+        menu_name: {
+            type: String
+        }
+    },
+    methods: {
+        updateMenuSchema(value, error) {
+            const menuSchema = { menu_name: value }
+            if (!error) {
+                this.$emit('updateMenuSchema', menuSchema)
+            }
+        }
+    },
+    setup(props) {
         const menuSchema = {
-            name: '',
+            name: props.menu_name,
         }
         const state = reactive({
             ...menuSchema,
@@ -32,14 +45,6 @@ export default {
         const v$ = useVuelidate(rules, state)
         return { state, v$ }
     },
-    methods: {
-        updateMenuSchema(value, error) {
-            const menuSchema = { menu_name: value }
-            if (!error) {
-                this.$emit('updateMenuSchema', menuSchema)
-            }
-        }
-    }
 }
 </script>
 

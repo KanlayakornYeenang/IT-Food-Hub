@@ -1,6 +1,7 @@
 <template>
     <div class="w-100">
-        <v-card color="itlight" class="w-100 pa-5 my-3" v-for="option, option_index in options" :key="option_index">
+        <v-card color="itlight" class="w-100 pa-5 my-3"
+            v-for="option, option_index in (localOptions.length ? localOptions : options)" :key="option_index">
             <v-row class="align-center">
                 <v-col cols="4">
                     <p class="fw-400">ชื่อกลุ่มตัวเลือก</p>
@@ -11,7 +12,7 @@
                 </v-col>
                 <v-col class="px-0" cols="1">
                     <v-btn elevation="0" size="x-small" icon @click="removeOption(option_index)">
-                        <v-icon size="large">mdi-close</v-icon>
+                        <v-icon class="mt-1" size="large">mdi-close</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -30,9 +31,9 @@
                     <v-text-field v-model="item.item_price" hide-details density="compact"
                         variant="outlined"></v-text-field>
                 </v-col>
-                <v-col cols="1" class="pa-0" v-if="item_index != option.items.length - 1">
+                <v-col cols="1" class="pa-0" v-if="item_index != option.items.length - 1 && option.items.length > 2">
                     <v-btn @click="removeItem(option_index, item_index)" icon size="x-small" elevation="0"><v-icon
-                            size="large">mdi-trash-can-outline</v-icon></v-btn>
+                            class="mt-1" size="large">mdi-trash-can-outline</v-icon></v-btn>
                 </v-col>
             </v-row>
             <v-row class="d-flex flex-column bg-grey-lighten-4 rounded">
@@ -76,30 +77,45 @@
 <script>
 import eventbus from '@/plugins/eventBus';
 export default {
+    props: {
+        options: {
+            type: Array,
+            default: () => []
+        }
+    },
     data() {
         return {
-            options: [],
-        }
+            localOptions: [], // New local data property
+            del_items: [],
+            del_options: [],
+        };
+    },
+    mounted() {
+        this.localOptions = this.options; // Initialize localOptions with the initial options
     },
     methods: {
         addOption() {
-            this.options.push({ option_name: null, items: [{ item_name: null, item_price: null }], option_type:0, max_optional:0});
+            this.localOptions.push({ option_name: null, items: [{ item_name: null, item_price: null }], option_type: 0, max_optional: 0 });
         },
         addItem(index) {
-            this.options[index].items.push({ item_name: null, item_price: null })
+            this.localOptions[index].items.push({ item_name: null, item_price: null })
         },
         removeOption(index) {
-            this.options.splice(index, 1);
+            this.del_options.push(this.localOptions[index])
+            this.localOptions.splice(index, 1);
+            eventbus.emit('updateDelOptions', this.del_options)
         },
         handleInput(event, option_index) {
-            const last_index_item = this.options[option_index].items.length - 1
-            if (this.options[option_index].items[last_index_item].item_name.length > 0) {
+            const last_index_item = this.localOptions[option_index].items.length - 1
+            if (this.localOptions[option_index].items[last_index_item].item_name.length > 0) {
                 this.addItem(option_index)
             }
-            eventbus.emit('updateMenuSchema', this.options)
+            eventbus.emit('updateMenuSchema', this.localOptions)
         },
         removeItem(option_index, item_index) {
-            this.options[option_index].items.splice(item_index, 1);
+            this.del_items.push(this.localOptions[option_index].items[item_index])
+            this.localOptions[option_index].items.splice(item_index, 1);
+            eventbus.emit('updateDelItems', this.del_items)
         }
     },
 }
