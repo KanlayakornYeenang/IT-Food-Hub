@@ -3,7 +3,11 @@ const { groupByAndSort } = require("../hook/groupByAndSort");
 const { groupedCart } = require("../hook/groupedCart");
 
 const getAllRestaurants = async () => {
-  const sql = "SELECT r.*,IFNULL(i.file_path, null) AS file_path FROM restaurants r LEFT JOIN image i on(r.rst_id = i.restaurant_id)";
+  const sql = "SELECT  r.*,IFNULL(i.file_path, null) AS file_path, rc.cat_id, c.cat_name \
+  FROM restaurants r \
+  LEFT JOIN image i on(r.rst_id = i.restaurant_id)\
+  LEFT JOIN restaurants_category rc on(r.rst_id = rc.rst_id)\
+  LEFT JOIN category c on(rc.cat_id = c.cat_id)";
   const [rows, fields] = await db.query(sql);
   return rows;
 };
