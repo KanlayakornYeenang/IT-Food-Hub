@@ -1,9 +1,9 @@
 <template>
   <v-card>
     <v-layout>
-      <PrivateNav :user="user" />
+      <PrivateNav :user="user" @search-text-changed="handleSearchTextChanged" />
       <v-main>
-        <router-view :user="user" />
+        <router-view :user="user" :searchText="searchText"/>
         <!-- <Footer /> -->
       </v-main>
     </v-layout>
@@ -22,8 +22,14 @@ export default {
   data() {
     return {
       user: null,
-      noti: null
+      noti: null,
+      searchText: ''
     };
+  },
+  methods: {
+    handleSearchTextChanged(newText) {
+      this.searchText = newText;
+    },
   },
   mounted() {
     axios
@@ -36,10 +42,5 @@ export default {
       }); 
     localStorage.setItem("noti", 0)
   },
-  computed:{
-    userdetails(){
-      return this.$store.getters.getUser
-    }
-  }
 };
 </script> 

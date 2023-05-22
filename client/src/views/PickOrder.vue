@@ -12,7 +12,7 @@
               เรากำลังมองหาคนส่งอาหารที่มีความสามารถและความกระตือรือร้นในการให้บริการมาเข้าร่วมกับเรา!
             </p>
           </div>
-          <div class="py-4"><v-text-field append-inner-icon="mdi-magnify"
+          <div class="py-4"><v-text-field append-inner-icon="mdi-magnify" v-model="searchText"
               placeholder="Search by restaurant name or desired destination"></v-text-field></div>
         </v-col>
       </div>
@@ -52,12 +52,13 @@ import axios from "@/plugins/axios";
 export default {
   props: {
     user: {
-      type: Object,
+      type: Object
     },
   },
   data() {
     return {
-      orders: []
+      orders: [],
+      searchText: ''
     };
   },
   mounted() {
@@ -71,6 +72,14 @@ export default {
         this.$router.push("/itfoodhub/user/mydelivery")
       })
     },
-  }
+  },
+  computed:{
+    filteredOrder(){
+      if(!this.orders){
+        return []
+      }
+      return this.orders.filter(order => order.order_id.toLowerCase().includes(this.searchText.toLowerCase()))
+    }
+  },
 };
 </script>

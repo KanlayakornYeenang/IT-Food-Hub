@@ -65,7 +65,7 @@
             <p v-if="path == 'checkout'" class="fw-600 text-h6">Checkout</p>
           </v-sheet>
           <v-text-field v-if="path !== 'checkout'" placeholder="Search IT FOOD HUB" variant="solo" hide-details
-            append-inner-icon="mdi-magnify"></v-text-field>
+            append-inner-icon="mdi-magnify" v-model="searchText"></v-text-field>
           <v-btn v-if="path !== 'checkout'" icon class="mx-10" @click="updateDialog(true)">
             <v-badge color="foodhub" v-if="cart" :content="cartLength">
               <v-icon size="x-large">mdi-shopping</v-icon>
@@ -103,6 +103,8 @@ export default {
       cancel: [],
       drawer: null,
       noti: null,
+      searchText: '', 
+      
     };
   },
   props: {
@@ -177,6 +179,12 @@ export default {
         this.noti = localStorage.getItem('noti')
       }
     })
-  }
+  },
+  watch: {
+    searchText(newValue) {
+      this.$emit('search-text-changed', newValue);
+    },
+  },
+
 };
 </script>
