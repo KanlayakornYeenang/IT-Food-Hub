@@ -10,7 +10,7 @@
           </div>
           <div class="d-flex">
             <p v-if="item.item_price != 0">+</p>
-            <p>{{ item.item_price }}</p>
+            <p>{{ parseFloat(item.item_price) }}</p>
           </div>
         </div>
       </template></v-radio>

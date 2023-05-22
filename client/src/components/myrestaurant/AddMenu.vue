@@ -20,7 +20,6 @@
             </v-card-items>
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
-            <p>{{ menuSchema }}</p>
             <v-card-items class="d-flex justify-center">
                 <v-btn size="large" class="text-success text-h5 fw-600" elevation="0" @click="createMenu">ยืนยัน</v-btn>
             </v-card-items>
@@ -48,7 +47,7 @@ export default {
     props: {
         categories: {
             type: Object
-        }
+        },
     },
     methods: {
         handleClose() {
@@ -66,11 +65,13 @@ export default {
                 formData.append("menu_price", this.menuSchema.menu_price);  
                 formData.append("file",this.menuSchema.file);  
                 axios.post("partner/createMenu", formData).then(res=>console.log(res)).catch(err=>console.log(err.message))
+            this.handleClose()
+            axios.post("partner/createMenu", this.menuSchema)
         }
     },
     mounted() {
         eventbus.on('updateMenuSchema', options => {
-            this.menuSchema = Object.assign(this.menuSchema, {options:options})
+            this.menuSchema = Object.assign(this.menuSchema, { options: options })
         })
     }
 }

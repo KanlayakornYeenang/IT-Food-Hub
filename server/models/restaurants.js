@@ -117,6 +117,79 @@ const insertPicMenu = async(file_path, picture_type, menu_id)=>{
   return result;
 }
 
+const updateMenu = async (
+  menu_id,
+  menu_name,
+  menu_desc,
+  menu_cat,
+  menu_price
+) => {
+  const sql =
+    "UPDATE menu SET menu_name = ?, menu_desc = ?, menu_cat = ?, menu_price = ? WHERE menu_id = ?";
+  const [result] = await db.query(sql, [
+    menu_name,
+    menu_desc,
+    menu_cat,
+    menu_price,
+    menu_id,
+  ]);
+  return result;
+};
+
+const updateMenuOption = async (
+  option_id,
+  option_name,
+  option_type,
+  max_optional
+) => {
+  const sql =
+    "UPDATE menu_option SET option_name = ?, option_type = ?, max_optional = ? WHERE option_id = ?";
+  const [result] = await db.query(sql, [
+    option_name,
+    option_type,
+    max_optional,
+    option_id,
+  ]);
+  return result;
+};
+
+const updateMenuItem = async (item_id, item_name, item_price) => {
+  const sql =
+    "UPDATE menu_item SET item_name = ?, item_price = ? WHERE item_id = ?";
+  const [result] = await db.query(sql, [item_name, item_price, item_id]);
+  return result;
+};
+
+const deleteItem = async (item_id) => {
+  const sql = "DELETE FROM menu_item WHERE item_id = ?";
+  const [result] = await db.query(sql, item_id);
+  return result;
+};
+
+const deleteOption = async (option_id) => {
+  const sql = "DELETE FROM menu_option WHERE option_id = ?"
+  const [result] = await db.query(sql, option_id);
+  return result;
+};
+
+const isOptionExist = async (menu_id, option_name) => {
+  const sql = "SELECT * FROM menu_option WHERE menu_option.option_name = ? AND menu_option.menu_id = ?"
+  const [result] = await db.query(sql, [option_name, menu_id]);
+  return result;
+}
+
+const isItemExist = async (option_id, item_name) => {
+  const sql = "SELECT * FROM menu_item WHERE option_id = ? AND item_name = ?"
+  const [result] = await db.query(sql, [option_id, item_name]);
+  return result;
+}
+
+const deleteMenuByID = async (menu_id) => {
+  const sql = "DELETE FROM menu WHERE menu_id = ?"
+  const [result] = await db.query(sql, menu_id);
+  return result;
+};
+
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
@@ -129,4 +202,12 @@ module.exports = {
   insertMenuItem,
   insertPicMenu,
   getMenuItem
+  updateMenu,
+  updateMenuOption,
+  updateMenuItem,
+  deleteItem,
+  deleteOption,
+  isOptionExist,
+  isItemExist,
+  deleteMenuByID
 };

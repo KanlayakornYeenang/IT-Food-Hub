@@ -14,7 +14,7 @@
       <template v-slot:append>
         <div style="opacity: 0.8" class="d-flex">
           <p v-if="item.item_price != 0">+</p>
-          <p>{{ item.item_price }}</p>
+          <p>{{ parseFloat(item.item_price) }}</p>
         </div>
       </template>
     </v-checkbox>
