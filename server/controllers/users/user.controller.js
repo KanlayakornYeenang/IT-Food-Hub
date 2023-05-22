@@ -195,7 +195,7 @@ const registerOfUser = async (req, res) => {
   const user_phone = req.body.phone
   const user_locat = req.body.location
   try{
-    const result = await registerUser(user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat)
+    const result = await registerUser(user_id,user_role, user_email, user_password, user_fname, user_lname, user_phone, user_locat)
     res.status(200).send(result)
   }catch(err){
     res.status(404).send(err.message)
