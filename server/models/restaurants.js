@@ -12,7 +12,7 @@ const getRestaurantById = async (rst_id) => {
   const sql1 = "SELECT * FROM restaurants WHERE rst_id = ?";
   const [restaurant] = await db.query(sql1, rst_id);
 
-  const sql2 = "SELECT * FROM menu WHERE rst_id = ?";
+  const sql2 = "SELECT * ,IFNULL(file_path, null) AS file_path FROM menu LEFT JOIN image using (menu_id) WHERE rst_id = ?";
   const [menu] = await db.query(sql2, rst_id);
 
   return {
@@ -100,6 +100,18 @@ const insertMenuItem = async (option_id, item_name, item_price) => {
   const [result] = await db.query(sql, [option_id, item_name, item_price]);
   return result;
 };
+const getMenuItem = async (menu_name, rst_id) =>{
+  const sql =
+  "select menu_id from menu where menu_name = ? and rst_id = ?";
+const [result] = await db.query(sql, [menu_name, rst_id]);
+return result;
+}
+const insertPicMenu = async(file_path, picture_type, menu_id)=>{
+  const sql =
+  "INSERT INTO image(file_path, picture_type, menu_id) VALUES(?, ?, ?)";
+  const [result] = await db.query(sql, [file_path, picture_type, menu_id]);
+  return result;
+}
 
 module.exports = {
   getAllRestaurants,
@@ -111,4 +123,6 @@ module.exports = {
   insertMenu,
   insertMenuOption,
   insertMenuItem,
+  insertPicMenu,
+  getMenuItem
 };

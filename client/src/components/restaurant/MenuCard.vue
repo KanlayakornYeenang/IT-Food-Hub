@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card @click="dialog = true" rounded="lg" elevation="2" class="overflow-hidden">
-      <v-img src="https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon-614x460.png"></v-img>
+      <v-img v-if="menu.file_paht != '' " :src="(menu.file_path !=null) ? file_path :second_file_path"></v-img>
       <v-card-item>
         <v-card-title>{{ menu.menu_name }}</v-card-title>
         <v-card-subtitle v-if="menu.menu_desc" class="my-2">
@@ -41,6 +41,8 @@ export default {
   data() {
     return {
       dialog: false,
+      file_path: 'http://localhost:5000'+ this.menu.file_path,
+      second_file_path: 'https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon-614x460.png'
     };
   },
   methods: {
