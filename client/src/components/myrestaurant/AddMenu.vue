@@ -14,13 +14,12 @@
         <v-card class="pa-2 overflow-y-auto" elevation="0" style="height:63.5vh">
             <v-card-items>
                 <AddImageSection />
-                <AddFoodNameSection @updateMenuSchema="updateMenuSchema"/>
-                <AddFoodDescriptionSection @updateMenuSchema="updateMenuSchema"/>
-                <FoodOptionsSection :categories="categories" @updateMenuSchema="updateMenuSchema"/>
+                <AddFoodNameSection @updateMenuSchema="updateMenuSchema" />
+                <AddFoodDescriptionSection @updateMenuSchema="updateMenuSchema" />
+                <FoodOptionsSection :categories="categories" @updateMenuSchema="updateMenuSchema" />
             </v-card-items>
         </v-card>
         <v-card elevation="0" class="pa-2 ma-2">
-            <p>{{ menuSchema }}</p>
             <v-card-items class="d-flex justify-center">
                 <v-btn size="large" class="text-success text-h5 fw-600" elevation="0" @click="createMenu">ยืนยัน</v-btn>
             </v-card-items>
@@ -48,7 +47,7 @@ export default {
     props: {
         categories: {
             type: Object
-        }
+        },
     },
     methods: {
         handleClose() {
@@ -58,12 +57,18 @@ export default {
             this.menuSchema = Object.assign(this.menuSchema, menuSchema)
         },
         createMenu() {
+            this.handleClose()
             axios.post("partner/createMenu", this.menuSchema)
+            axios
+                .get("partner/myrestaurant")
+                .then((res) => {
+                    this.categories = res.data.category
+                })
         }
     },
     mounted() {
         eventbus.on('updateMenuSchema', options => {
-            this.menuSchema = Object.assign(this.menuSchema, {options:options})
+            this.menuSchema = Object.assign(this.menuSchema, { options: options })
         })
     }
 }

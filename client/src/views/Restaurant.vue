@@ -12,13 +12,13 @@
             <v-card class="w-100 mb-6" color="transparent" elevation="0">
               <v-card-item class="pa-0">
                 <v-card-title>
-                  <p class="text-h3 fw-600">{{ category.menu_cat }}</p>
+                  <p class="text-h4 fw-600">{{ category.menu_cat }}</p>
                 </v-card-title>
               </v-card-item>
             </v-card>
             <v-row class="py-2">
               <v-col cols="12" sm="3" v-for="(item, i) in category.menu" :key="i">
-                <MenuCard :restaurant_name="restaurant.rst_name" :menu="item" />
+                <MenuCard :restaurant_name="restaurant.rst_name" :menu="item" actions="customer" />
               </v-col>
             </v-row>
           </v-col>
@@ -62,7 +62,9 @@ export default {
       });
     eventbus.on('updateCategory', category => {
       const targetDiv = document.getElementById(category);
-      targetDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      if (category != "แก้ไขเมนู") {
+        targetDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
     })
   },
 };
